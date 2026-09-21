@@ -1,5 +1,8 @@
 #import "_paper.typ": paper
 
+// Page view track dashboard: https://numcs26.goatcounter.com/ (registered free at goatcounter.com).
+#let _goatcounter = "https://numcs26.goatcounter.com/count"
+
 // Every helper below is dual-target: the same chapter source compiles to the
 // website (`--features html --format html`) and to a PDF (plain `typst
 // compile`). The shape is always `context { if target() == "html" { ... } else
@@ -531,6 +534,13 @@
     #html.link(rel: "stylesheet", href: "static/site.css")
     #html.script(defer: true, src: "static/site.js")
     #html.script(defer: true, src: "static/runner.js")
+    #if _goatcounter != "" {
+      html.elem("script", attrs: (
+        "data-goatcounter": _goatcounter,
+        async: "async",
+        src: "//gc.zgo.at/count.js",
+      ))
+    }
   ]
   #html.body[
     #html.header(class: "topbar")[
