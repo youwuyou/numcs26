@@ -181,14 +181,6 @@
       "source": "content/links.typ"
     },
     {
-      "id": "finite-differences",
-      "title": "Finite Differences",
-      "group": "Extra Materials",
-      "href": "finite-differences.html",
-      "source": "content/example-finite-differences.typ",
-      "excludeFromPager": true
-    },
-    {
       "id": "interpolation",
       "title": "Interpolation Preview",
       "group": "Extra Materials",
