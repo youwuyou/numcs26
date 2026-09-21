@@ -1,20 +1,11 @@
-# Typst Site Prototype
+# Tutorial Sessions (G04-B): Numerical Methods for Computer Science (HS2026)
 
-This is a small Typst-first migration experiment for the NumCS tutorial site. It
-keeps the site static, but adds browser-side Python execution through Pyodide.
-Typst remains the authoring layer for mathematical notes; a tiny build script
-adds the book-like chrome.
-
-Build:
-
-```bash
-make -C migrate html
-```
+The administrative page of the tutorial sessions (group G04-B). The page is supported with typst and Pyodide.
 
 Preview locally:
 
 ```bash
-make -C migrate serve
+make serve
 ```
 
 Then open <http://localhost:8001>.

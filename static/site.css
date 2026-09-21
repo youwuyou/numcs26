@@ -1625,6 +1625,18 @@ body.presenting {
 }
 
 .slide-footnotes .sidenote {
+  /* Undo the on-page hover-tooltip styling: in the strip the notes are plain,
+     always-visible lines rather than floating bubbles. */
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  z-index: auto;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
   display: block;
   float: none;
   width: auto;
@@ -2569,8 +2581,14 @@ body.notes-lightbox-open {
   --sidenote-offset: 3.15rem;
 }
 
+/* Inline anchor: the positioned container the tooltip hangs off of. */
+.sidenote-ref {
+  position: relative;
+}
+
 .sidenote-number {
   counter-increment: sidenote-counter;
+  cursor: help;
 }
 
 .sidenote-number::after {
@@ -2582,10 +2600,30 @@ body.notes-lightbox-open {
   padding-left: 0.1em;
 }
 
+/* Hidden by default; revealed as a floating tooltip on hover/focus of the
+   number, or on tap (the checkbox) for touch devices. No longer parked in the
+   right column. */
 .sidenote {
-  color: var(--muted);
+  position: absolute;
+  left: 0;
+  top: 1.6em;
+  z-index: 30;
+  width: var(--sidenote-width);
+  max-width: min(var(--sidenote-width), 80vw);
+  padding: 0.6rem 0.8rem;
+  background: var(--surface);
+  color: var(--ink);
   font-size: 0.85rem;
+  font-weight: normal;
   line-height: 1.5;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  /* Hidden but still hoverable-adjacent; visibility flips on hover/focus. */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s ease;
 }
 
 .sidenote::before {
@@ -2600,39 +2638,13 @@ body.notes-lightbox-open {
   color: var(--ink);
 }
 
-/* The checkbox only exists to drive the narrow-screen toggle below. */
-input.margin-toggle {
-  display: none;
-}
-
-/* Wide enough for both columns: the note is floated clean out of the text
-   column and lands in the contents column, lined up under the contents list.
-   The prose keeps its full measure -- no gutter is carved out of it. */
-@media (min-width: 1120px) {
-  .sidenote {
-    float: right;
-    clear: right;
-    width: var(--sidenote-width);
-    margin: 0.3rem 0 0.9rem;
-    margin-right: calc(-1 * (var(--sidenote-width) + var(--sidenote-offset)));
-  }
-}
-
-/* No margin to speak of: hide the note and let the number expand it in place,
-   the way Tufte's own stylesheet does. */
-@media (max-width: 1119px) {
-  .sidenote {
-    display: none;
-  }
-
-  .sidenote-number {
-    cursor: pointer;
-  }
-
-  .margin-toggle:checked + .sidenote {
-    display: block;
-    margin: 0.6rem 0;
-  }
+/* Show on hover/focus of the number, and keep it up while the pointer is over
+   the note itself so links inside stay reachable. */
+.sidenote-number:hover + .sidenote,
+.sidenote-number:focus + .sidenote,
+.sidenote:hover {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Numbered equations (see `anchor()` in content/_site.typ). The number sits

@@ -271,29 +271,25 @@
 
 // A footnote. On paper this is Typst's own `footnote`, so the PDF gets the
 // usual numbered note at the bottom of the page. On the website it becomes a
-// Tufte-style sidenote in the right margin: a superscript number, and the note
-// itself set alongside the paragraph rather than banished to the page foot.
+// superscript number that reveals the note as a floating tooltip on hover.
 //
 // Typst's `footnote` cannot be used directly for the web -- HTML export rejects
 // it outright ("footnotes are not currently supported in combination with a
 // custom `<html>` or `<body>` element"), and `site()` builds exactly such a
 // shell -- so the web branch emits the markup by hand.
 //
-// The three elements must stay adjacent and in this order: the CSS matches
-// `.margin-toggle:checked + .sidenote` to expand the note on narrow screens,
-// where there is no margin to put it in.
+// The note (`.sidenote`) is positioned absolutely; the wrapping `.sidenote-ref`
+// is the positioned container it anchors to, so the tooltip sits right at the
+// number rather than at some distant ancestor.
 #let sidenote(body) = context {
   if target() != "html" {
     return footnote(body)
   }
   _sidenote-counter.step()
-  context {
-    let id = "sn-" + str(_sidenote-counter.get().first())
-    // `for` is a Typst keyword, hence the string key and `html.elem`.
-    html.elem("label", attrs: ("for": id, class: "margin-toggle sidenote-number"))
-    html.elem("input", attrs: (type: "checkbox", id: id, class: "margin-toggle"))
+  html.elem("span", attrs: (class: "sidenote-ref"), {
+    html.elem("span", attrs: (class: "sidenote-number", tabindex: "0"))
     html.span(class: "sidenote")[#body]
-  }
+  })
 }
 
 // A reference to an anchored block on the same page:
