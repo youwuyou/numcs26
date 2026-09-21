@@ -587,6 +587,14 @@
           #html.p(class: "sidebar-meta-line")[
             Last updated #datetime.today().display("[day].[month].[year]")
           ]
+          #html.p(class: "sidebar-meta-line")[
+            // href is a placeholder; build.py rewrites it per page to that
+            // page's own source file on GitHub.
+            #html.a(class: "edit-page-link", href: "__EDIT_URL__")[
+              #html.i(class: "fa-brands fa-github", aria-hidden: true)
+              #html.span[Edit this page on GitHub]
+            ]
+          ]
         ]
       ]
 

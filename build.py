@@ -15,6 +15,11 @@ RELEASED_RE = re.compile(r"^\s*(\w+): (true|false),", re.MULTILINE)
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
 
+# Where the "Edit this page on GitHub" link points. Each page's shell carries the
+# `EDIT_URL_PLACEHOLDER` token, rewritten per page to that page's own source.
+REPO_EDIT_BASE = "https://github.com/youwuyou/numcs26/edit/main"
+EDIT_URL_PLACEHOLDER = "__EDIT_URL__"
+
 
 class TextExtractor(HTMLParser):
     def __init__(self):
@@ -199,6 +204,14 @@ def main():
         source = ROOT / page["source"]
         source_name = Path(page["href"]).with_suffix(".typ").name
         shutil.copy2(source, DIST / "_sources" / source_name)
+
+        # Point "Edit this page" at this page's own source file on GitHub.
+        built = DIST / page["href"]
+        edit_url = f"{REPO_EDIT_BASE}/{page['source']}"
+        built.write_text(
+            built.read_text(encoding="utf-8").replace(EDIT_URL_PLACEHOLDER, edit_url),
+            encoding="utf-8",
+        )
 
     # Everything in migrate/static/ is published as-is: to add an image (or any
     # asset), just drop the file in there and reference it as `static/<name>`.

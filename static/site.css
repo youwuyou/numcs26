@@ -546,6 +546,12 @@ body.secondary-sidebar-hidden .page-toc {
   text-decoration: underline;
 }
 
+.edit-page-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
 nav {
   display: grid;
   gap: 0.15rem;
