@@ -1,0 +1,2665 @@
+:root {
+  color-scheme: light;
+  --pst-color-background: #ffffff;
+  --pst-color-on-background: #ffffff;
+  --pst-color-surface: #f7f8fa;
+  --pst-color-text-base: #2f3642;
+  --pst-color-text-muted: #5f6f86;
+  --pst-color-border: #dfe3ea;
+  --pst-color-primary: #1f77ff;
+  --pst-color-primary-bg: #eef5ff;
+  --pst-color-link: #147d91;
+  --pst-color-link-hover: #0f6374;
+  --pst-color-success: #16835b;
+  --pst-color-secondary: #7b5ea7;
+  --pst-color-muted: #4f5663;
+  --pst-color-shadow: rgba(31, 35, 40, 0.14);
+  --bg: var(--pst-color-background);
+  --surface: var(--pst-color-on-background);
+  --ink: var(--pst-color-text-base);
+  --muted: var(--pst-color-text-muted);
+  --line: var(--pst-color-border);
+  --accent: var(--pst-color-primary);
+  --accent-soft: var(--pst-color-primary-bg);
+  --code: #1f2328;
+  --code-bg: #faf8f0;
+  --table-stripe: #f1f3f6;
+  --table-head-bg: #f5f6f8;
+  --table-row-bg: #ffffff;
+  --table-hover-bg: #f7fbff;
+  --table-cell-border: #e5e8ee;
+  --ticket-bg: #f8fbff;
+  --ticket-border: #d2d9e4;
+  --pst-color-warning-bg: #fdf3d9;
+  --tok-keyword: #a626a4;
+  --tok-string: #1a56db;
+  --tok-number: #1a56db;
+  --tok-bool: #1a56db;
+  --tok-function: var(--ink);
+  --tok-comment: var(--muted);
+  --gap: #c0243c;
+  /* Filled-admonition accents and their light background tints. Kept pale on
+     purpose so equations and code stay readable over the fill. */
+  --code-expert-pink: #c04788;
+  --axiom-accent: #16835b;
+  --axiom-bg: #e9f6ef;
+  --lemma-accent: #c07a1a;
+  --lemma-bg: #fbf1de;
+  --example-accent: #7b5ea7;
+  --example-bg: #f3eefa;
+  --note-accent: #4a5568;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --pst-color-background: #111318;
+  --pst-color-on-background: #171a21;
+  --pst-color-surface: #1d222b;
+  --pst-color-text-base: #e8ecf3;
+  --pst-color-text-muted: #a8b1c0;
+  --pst-color-border: #303746;
+  --pst-color-primary: #7fb2ff;
+  --pst-color-primary-bg: #172a45;
+  --pst-color-link: #9bc2ff;
+  --pst-color-link-hover: #c3dcff;
+  --pst-color-success: #60d394;
+  --pst-color-secondary: #bea8eb;
+  --pst-color-muted: #d6dce7;
+  --pst-color-shadow: rgba(0, 0, 0, 0.28);
+  --gap: #ff8592;
+  --code-expert-pink: #e07bb0;
+  --axiom-accent: #60d394;
+  --axiom-bg: #15271e;
+  --lemma-accent: #e0a458;
+  --lemma-bg: #2c2213;
+  --example-accent: #bea8eb;
+  --example-bg: #221a31;
+  --note-accent: #9aa6b8;
+  --code: #f8f8f2;
+  --code-bg: #272822;
+  --table-stripe: #1a1f28;
+  --table-head-bg: #1d2531;
+  --table-row-bg: transparent;
+  --table-hover-bg: #182235;
+  --table-cell-border: #303746;
+  --ticket-bg: #172a45;
+  --ticket-border: #3a4e6d;
+  --pst-color-warning-bg: #3a331a;
+  --tok-keyword: #f92672;
+  --tok-string: #e6db74;
+  --tok-number: #ae81ff;
+  --tok-bool: #ae81ff;
+  --tok-function: #66d9ef;
+  --tok-comment: #75715e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+a {
+  color: var(--pst-color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns:
+    max(1rem, calc((100vw - 86rem) / 2))
+    auto
+    minmax(0, 1fr)
+    auto
+    max(1rem, calc((100vw - 86rem) / 2));
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 4rem;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  box-shadow: 0 0.08rem 0.26rem rgba(31, 35, 40, 0.12);
+}
+
+.search-box {
+  grid-column: 2;
+}
+
+.topbar-title {
+  grid-column: 3;
+}
+
+.topbar-tools {
+  grid-column: 4;
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.topbar-title {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--pst-color-muted);
+  font: inherit;
+  font-size: 1.22rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.icon-button i {
+  font-size: 1em;
+  line-height: 1;
+}
+
+#download-toggle {
+  font-size: 0.976rem;
+}
+
+/* The chalkboard glyph reads heavier than the neighbouring icons; drop it to
+   80% so it sits visually level with them. */
+#present-toggle i {
+  font-size: 0.8em;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+  display: none;
+  padding: 0.38rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 0.35rem 1rem var(--pst-color-shadow);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.back-to-top.is-visible {
+  display: inline-flex;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  color: var(--accent);
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.search-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.15rem;
+  padding: 0 0.45rem 0 0.62rem;
+  border: 2px solid var(--line);
+  border-radius: 0.62rem;
+  background: #ffffff;
+  color: var(--muted);
+}
+
+.search-box::before {
+  content: "⌕";
+  color: #374151;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.search-box input {
+  width: 5.4rem;
+  min-height: 1.8rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.search-box input::placeholder,
+.search-dialog-form input::placeholder {
+  color: #7b8494;
+  opacity: 1;
+}
+
+.search-box input:focus {
+  outline: 0;
+}
+
+.shortcut-badge {
+  display: inline-flex;
+  gap: 0.2rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.shortcut-badge kbd {
+  min-width: 1.35rem;
+  padding: 0.08rem 0.34rem;
+  border: 1px solid #d5d9e2;
+  border-radius: 0.28rem;
+  background: #f8fafc;
+  color: #4b5563;
+  box-shadow: inset 0 -1px 0 rgba(31, 35, 40, 0.08);
+  font: 0.74rem/1.25 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  text-align: center;
+}
+
+.shortcut-plus {
+  color: #9aa3b2;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 20;
+  display: grid;
+  width: min(22rem, calc(100vw - 2rem));
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--surface);
+  box-shadow: 0 0.6rem 1.8rem var(--pst-color-shadow);
+}
+
+.search-results:empty {
+  display: none;
+}
+
+.search-results a {
+  padding: 0.65rem 0.8rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.search-results a:hover,
+.search-results a:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.search-dialog {
+  width: min(42rem, calc(100vw - 2rem));
+  margin: 5.5rem auto auto;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: 0.65rem;
+  background: var(--surface);
+  box-shadow: 0 0.6rem 1.8rem var(--pst-color-shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-dialog:has(#search-dialog-input:not(:placeholder-shown)) {
+  border-color: #d946ef;
+  box-shadow: 0 1rem 3rem rgba(217, 70, 239, 0.22);
+}
+
+.search-dialog::backdrop {
+  background: rgba(31, 35, 40, 0.28);
+}
+
+.search-dialog-form {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.72rem 0.9rem;
+  background: #ffffff;
+}
+
+.search-dialog-form > span[style] {
+  display: none;
+}
+
+.search-dialog-form i {
+  color: #374151;
+  font-size: 1.05rem;
+}
+
+.search-dialog-form input {
+  min-height: 2.65rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.1rem;
+}
+
+.search-dialog-form input:focus {
+  outline: 0;
+}
+
+.search-page {
+  margin-top: 1.4rem;
+}
+
+.search-status {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.search-result-list {
+  display: grid;
+  gap: 1.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-result-item {
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.search-result-item a {
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.search-result-item a:hover,
+.search-result-item a:focus-visible {
+  text-decoration: underline;
+}
+
+.search-result-snippet {
+  margin: 0.35rem 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+mark {
+  padding: 0 0.08em;
+  background: #fff176;
+  color: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-shell {
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr) 18rem;
+  width: min(100%, 86rem);
+  margin: 0 auto;
+  min-height: calc(100vh - 4rem);
+}
+
+body.primary-sidebar-hidden .site-shell {
+  grid-template-columns: minmax(0, 1fr) 18rem;
+}
+
+body.secondary-sidebar-hidden .site-shell {
+  grid-template-columns: 17rem minmax(0, 1fr);
+}
+
+body.primary-sidebar-hidden.secondary-sidebar-hidden .site-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.primary-sidebar-hidden .sidebar,
+body.secondary-sidebar-hidden .page-toc {
+  display: none;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4rem;
+  height: calc(100vh - 4rem);
+  overflow: auto;
+  padding: 2.25rem 1.45rem 1.25rem;
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.brand {
+  display: grid;
+  gap: 0.65rem;
+  align-items: center;
+  justify-items: center;
+  margin-bottom: 2.7rem;
+  color: var(--ink);
+  text-align: center;
+}
+
+.brand-title,
+.brand-logo-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 5.35rem;
+  height: 5.35rem;
+  object-fit: contain;
+}
+
+.brand-logo-link {
+  order: 2;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  max-width: 11rem;
+  color: var(--ink);
+  font-size: 1.08rem;
+  line-height: 1.12;
+  order: 1;
+}
+
+.brand small {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  order: 3;
+}
+
+.brand small a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand small a:hover,
+.brand small a:focus-visible {
+  text-decoration: underline;
+}
+
+.sidebar-meta {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.sidebar-meta-line {
+  margin: 0.15rem 0;
+}
+
+.sidebar-meta a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.sidebar-meta a:hover,
+.sidebar-meta a:focus-visible {
+  text-decoration: underline;
+}
+
+nav {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.nav-group {
+  margin-top: 0.4rem;
+}
+
+.nav-group + .nav-group {
+  margin-top: 0.15rem;
+}
+
+.nav-caption {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.4rem 0.3rem 0.4rem 0;
+  border-radius: 0.25rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 750;
+  letter-spacing: 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.nav-caption::-webkit-details-marker {
+  display: none;
+}
+
+.nav-caption::before {
+  content: "";
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+
+.nav-group[open] > .nav-caption::before {
+  transform: rotate(45deg);
+}
+
+.nav-caption:hover {
+  color: var(--accent);
+}
+
+.nav-caption:hover::before {
+  border-color: var(--accent);
+}
+
+.nav-caption-static {
+  cursor: default;
+  user-select: auto;
+}
+
+.nav-caption-static::before {
+  display: none;
+}
+
+.nav-caption-static:hover {
+  color: var(--ink);
+}
+
+/* An unreleased chapter (a `false` flag in content/_status.typ): the caption is
+   dimmed and the disclosure triangle is replaced by the 🚧 marker, so the course
+   outline stays visible without promising a page that is not there. */
+.nav-caption-wip,
+.nav-caption-wip:hover {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.nav-wip-marker {
+  margin-left: auto;
+  flex: none;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+/* A nav group that is a single page (an `href` group in site.json): styled as a
+   caption, but keeping the disclosure triangle's footprint so its label lines up
+   with the collapsible chapter captions around it. */
+.nav-caption-link::before {
+  visibility: hidden;
+}
+
+.nav-group-links {
+  display: grid;
+  gap: 0.1rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--line);
+  margin-left: 0.27rem;
+}
+
+nav a {
+  padding: 0.34rem 0 0.34rem 0.75rem;
+  border-radius: 0.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 450;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus-visible,
+nav a[aria-current="page"] {
+  color: var(--accent);
+  background: transparent;
+  font-weight: 700;
+}
+
+.main-column {
+  min-width: 0;
+}
+
+.content-toolbar {
+  position: sticky;
+  top: 4rem;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.15rem;
+  padding: 0 2rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+  background: var(--bg);
+}
+
+.content-toolbar-tools {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.download-menu {
+  position: relative;
+}
+
+.download-options {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 25;
+  display: none;
+  min-width: 7.5rem;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  background: #ffffff;
+  box-shadow: 0 0.45rem 1.2rem rgba(31, 35, 40, 0.16);
+}
+
+.download-options.is-open {
+  display: grid;
+  grid-auto-rows: minmax(2.15rem, auto);
+}
+
+.download-options a,
+.download-options button {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.58rem 0.8rem;
+  border: 0;
+  background: transparent;
+  color: #333333;
+  font: inherit;
+  font-size: 0.86rem;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.download-options > span,
+.download-options a > span[style],
+.download-options button > span[style] {
+  display: none;
+}
+
+.download-options i {
+  width: 1rem;
+  flex: 0 0 1rem;
+  color: #5f6f86;
+  text-align: center;
+}
+
+.download-options a:hover,
+.download-options a:focus-visible,
+.download-options button:hover,
+.download-options button:focus-visible {
+  background: #f5f7fb;
+  color: #1f77ff;
+}
+
+.download-options a:hover i,
+.download-options a:focus-visible i,
+.download-options button:hover i,
+.download-options button:focus-visible i {
+  color: #1f77ff;
+}
+
+.content {
+  width: min(100%, 64rem);
+  padding: 3.05rem 2rem 5rem;
+}
+
+.doc-title {
+  margin-bottom: 2.4rem;
+}
+
+.compact-hero {
+  margin-bottom: 2rem;
+}
+
+.eyebrow,
+.section-kicker {
+  margin: 0 0 0.55rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.15;
+}
+
+h1 {
+  color: var(--ink);
+  font-size: 2.7rem;
+  font-weight: 520;
+  letter-spacing: 0;
+}
+
+h2 {
+  color: var(--ink);
+  margin: 2.6rem 0 1rem;
+  font-size: 2.05rem;
+  font-weight: 520;
+  letter-spacing: 0;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+/* `===` sub-headings inside a chapter section (see `section()` in _site.typ). */
+h3.section-subheading {
+  color: var(--ink);
+  margin: 2.2rem 0 0.9rem;
+  font-size: 1.4rem;
+  font-weight: 560;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.panel {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Logistics page: the "Lecturer" panel is a plain fact list, not a titled
+   section, so its heading (kept only to group it into a panel) is hidden. */
+#lecturer > h2 {
+  display: none;
+}
+
+/* A short block at the top of the right-hand column, not a full-height rail:
+   `align-self: start` (grid items stretch to the row by default) sizes it to
+   the contents list, so its rule stops where the list stops. It is deliberately
+   *not* sticky -- the rest of that column is where the sidenotes land, and a
+   sticky aside carries an opaque background that would paint over them. */
+.page-toc {
+  align-self: start;
+  padding: 1.2rem 1.15rem;
+  border-left: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.toc-title {
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.toc-title::before {
+  content: "☷";
+  margin-right: 0.45rem;
+  color: var(--muted);
+}
+
+.page-toc a {
+  display: block;
+  padding: 0.42rem 0 0.42rem 0.95rem;
+  border-left: 2px solid transparent;
+  color: var(--muted);
+  font-size: 0.94rem;
+  text-decoration: none;
+}
+
+.page-toc a:hover,
+.page-toc a:focus-visible,
+.page-toc a.is-active {
+  border-left-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Bundled math font with an OpenType MATH table. Chromium browsers (Chrome,
+   Edge, Brave) do not ship a math font and will not stretch parentheses,
+   brackets or radicals unless the font in use carries a MATH table. Serving
+   Latin Modern Math ourselves guarantees correct matrices/roots everywhere,
+   independent of what the viewer happens to have installed. It also matches
+   the PDF build, which Typst renders in the same family. */
+@font-face {
+  font-family: "LM Math Web";
+  src: url("latinmodern-math.woff") format("woff");
+  font-display: swap;
+}
+
+math {
+  font-family: "LM Math Web", "Latin Modern Math", "STIX Two Math", "Cambria Math", math, serif;
+  font-size: 1.15em;
+}
+
+.course-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.05rem 0 0;
+}
+
+.course-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.05rem;
+  padding: 0.38rem 0.72rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.25rem;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 750;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.course-badge:hover,
+.course-badge:focus-visible {
+  border-color: var(--pst-color-link-hover);
+  background: var(--pst-color-link-hover);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.course-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.course-icon-link img {
+  width: 5.5rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.moodle-icon-link {
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--surface);
+}
+
+.video-portal-icon-link {
+  min-height: 2.7rem;
+  padding: 0.35rem 0.55rem;
+  gap: 0.15rem;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.video-portal-icon-link img {
+  width: 4.4rem;
+}
+
+/* Pure-black artwork on transparent background -- flip to white in dark
+   mode instead of shipping a second logo asset. */
+:root[data-theme="dark"] .ethz-logo {
+  filter: invert(1);
+}
+
+.course-icon-link:hover,
+.course-icon-link:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.15rem var(--accent-soft);
+}
+
+.schedule-table {
+  width: 100%;
+  margin: 1.25rem 0 2rem;
+  border-collapse: collapse;
+  background: var(--table-row-bg);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 0.72rem 0.68rem;
+  border-right: 1px solid var(--table-cell-border);
+  border-bottom: 1px solid var(--table-cell-border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.schedule-table th:last-child,
+.schedule-table td:last-child {
+  border-right: 0;
+}
+
+.schedule-table thead th {
+  border-bottom: 2px solid var(--accent);
+  background: var(--table-head-bg);
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.schedule-table tbody tr:nth-child(odd) {
+  background: var(--table-stripe);
+}
+
+.schedule-table tbody tr:hover {
+  background: var(--table-hover-bg);
+}
+
+/* General-purpose table for course prose (e.g. the numeric-types summary in
+   ch0). Reuses the shared --table-* theme vars so it reads in light and dark.
+   Sized to its content, not the full column, since these tend to be small. */
+.content-table {
+  margin: 1.1rem 0 1.5rem;
+  border-collapse: collapse;
+  background: var(--table-row-bg);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.content-table th,
+.content-table td {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--table-cell-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content-table thead th {
+  border-bottom: 2px solid var(--accent);
+  background: var(--table-head-bg);
+  font-weight: 700;
+}
+
+.content-table tbody tr:nth-child(odd) {
+  background: var(--table-stripe);
+}
+
+.content-table tbody tr:hover {
+  background: var(--table-hover-bg);
+}
+
+/* Tutorial Focus cell (see `serie()` in content/index.typ): the sheet and its
+   themes are always visible, the Skript section titles appear on hover or
+   keyboard focus. `cursor: help` is the only hint that there is something to
+   hover -- the Sections column next to it already spells out the same sections,
+   so nothing is lost on a device that cannot hover. */
+.serie-focus {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.serie-sections {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 5;
+  /* `max-content` capped rather than a fixed width: most of these lists are one
+     short line, and only the long ones need to wrap. */
+  width: max-content;
+  max-width: 22rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.14);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.4;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.serie-focus:hover .serie-sections,
+.serie-focus:focus-visible .serie-sections {
+  visibility: visible;
+  opacity: 1;
+}
+
+.schedule-ticket {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 6.1rem;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid var(--ticket-border);
+  border-radius: 0.25rem;
+  background: var(--ticket-bg);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.schedule-ticket:hover,
+.schedule-ticket:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+
+.schedule-ticket-muted {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.schedule-ticket-muted:hover,
+.schedule-ticket-muted:focus-visible {
+  border-color: var(--line);
+  color: var(--muted);
+  background: var(--surface);
+}
+
+/* FAQ on the index page (see `faq()` in content/index.typ): a stack of
+   <details>, closed by default, so the whole policy fits on one screen and only
+   the question the reader actually has gets opened. The emoji in the summary
+   replaces the usual disclosure triangle -- ❓ for exercise/exam questions,
+   ❔ for the GenAI ones. */
+/* Provenance line under the FAQ intro: this is somebody else's policy, so it
+   carries where it came from and when it was last checked against Moodle. */
+.faq-source {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* Verbatim quote from the lecturer inside an answer -- kept in German, since
+   paraphrasing a policy statement is exactly what one should not do. */
+.faq-quote {
+  margin: 0.7rem 0;
+  padding: 0.1rem 0 0.1rem 0.85rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+  font-style: italic;
+}
+
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  background: var(--surface);
+  margin: 0.5rem 0;
+}
+
+.faq-question {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.6rem 0.8rem;
+  font-weight: 650;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question:hover {
+  color: var(--accent);
+}
+
+.faq-icon {
+  flex: none;
+  font-size: 0.95rem;
+}
+
+/* Q1, Q2, ... numbered by CSS rather than written out in content/index.typ, so
+   inserting a question in the middle does not mean renumbering the rest. */
+body {
+  counter-reset: faq;
+}
+
+.faq-icon::after {
+  counter-increment: faq;
+  content: " Q" counter(faq);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.faq-answer {
+  padding: 0 0.8rem 0.75rem 2.1rem;
+  color: var(--muted);
+}
+
+.faq-answer p:first-child {
+  margin-top: 0;
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+/* Placeholder in a schedule row whose chapter is not released yet. */
+.schedule-tbd {
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+nav a.nav-highlight {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  border-radius: 0.25rem;
+}
+
+.useful-link-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.useful-link-heading img {
+  height: auto;
+}
+
+.polybox-heading img {
+  width: 3.1rem;
+  border-radius: 0.45rem;
+}
+
+.vis-heading img {
+  width: 3rem;
+}
+
+.headerlink {
+  opacity: 0;
+  color: var(--muted);
+  font-weight: 400;
+  text-decoration: none;
+  transition: opacity 0.1s ease;
+}
+
+.useful-link-heading:hover .headerlink,
+.headerlink:focus-visible {
+  opacity: 1;
+}
+
+.sec-ref {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sec-ref:hover,
+.sec-ref:focus-visible {
+  text-decoration: underline;
+}
+
+.sec-ref-missing {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: help;
+}
+
+.tutorial-badge {
+  margin: 1.15rem 0;
+  padding: 0.4rem 0.75rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0.3rem;
+  background: var(--accent-soft);
+}
+
+.tutorial-badge p {
+  margin: 0;
+}
+
+.tutorial-badge .admonition-title {
+  margin-bottom: 0.15rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.code-expert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.2rem 0.35rem 0.2rem 0;
+  padding: 0.28rem 0.75rem 0.28rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+  cursor: default;
+}
+
+/* Group of `code-expert-badge`s (see `code-expert-badges()` in
+   content/_site.typ), docked in the right margin at the same column as the
+   sidenotes -- same width/offset vars, so the two line up. */
+@media (min-width: 1120px) {
+  .code-expert-badges {
+    display: flex;
+    float: right;
+    clear: right;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    width: var(--sidenote-width);
+    margin: 0.3rem 0 0.9rem;
+    margin-right: calc(-1 * (var(--sidenote-width) + var(--sidenote-offset)));
+  }
+
+  .code-expert-badges .code-expert-badge {
+    margin: 0;
+  }
+}
+
+/* Small two-column table inside an FAQ answer (the bonus weights). Deliberately
+   lighter than .schedule-table: it is a two-row aside, not a page feature. */
+.weight-table {
+  margin: 0.7rem 0;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.weight-table th,
+.weight-table td {
+  padding: 0.35rem 0.9rem 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.weight-table th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.weight-table tbody td:last-child {
+  font-weight: 700;
+}
+
+/* An unnumbered chapter-level heading (see `page-heading()` in _site.typ): same
+   size as a section heading, with room for an inline icon before the text. */
+.plain-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+/* The same heading as a button out to the sheet on CodeExpert -- kept at
+   full h2 size/weight (no italic, no shrink) so it still reads as a heading. */
+.plain-heading-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.plain-heading-link:hover,
+.plain-heading-link:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.plain-heading-arrow {
+  font-size: 0.7em;
+  font-weight: 400;
+}
+
+/* The CodeExpert wordmark standing in for the word in running text. */
+.code-expert-inline {
+  height: 0.95em;
+  width: auto;
+  vertical-align: -0.1em;
+}
+
+.code-expert-logo {
+  height: 15px;
+  width: auto;
+  display: block;
+}
+
+.admonition {
+  margin: 1.15rem 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-left-width: 0.22rem;
+  border-radius: 0.25rem;
+  background: var(--surface);
+}
+
+.admonition.definition {
+  border-left-color: var(--accent);
+}
+
+.admonition.axiom {
+  border-left-color: var(--axiom-accent);
+  background: var(--axiom-bg);
+}
+
+.admonition.lemma {
+  border-left-color: var(--lemma-accent);
+  background: var(--lemma-bg);
+}
+
+.admonition.tip {
+  border-left-color: var(--pst-color-success);
+}
+
+.admonition.note {
+  border-left-color: var(--note-accent);
+}
+
+.admonition.warning {
+  border-left-color: #c9820c;
+  background: var(--pst-color-warning-bg);
+}
+
+.admonition .admonition-title {
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.admonition-body {
+  padding: 0.7rem;
+}
+
+.admonition-body > :first-child {
+  margin-top: 0;
+}
+
+.admonition-body > :last-child {
+  margin-bottom: 0;
+}
+
+.checklist {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.checklist li {
+  margin: 0.3rem 0;
+}
+
+.checklist-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  cursor: pointer;
+}
+
+.checklist-check {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+  transform: translateY(0.15rem);
+}
+
+.checklist-check:checked + .checklist-text {
+  color: var(--muted);
+}
+
+/* --- Present mode (slides) -------------------------------------------------
+   `#slidebreak()` emits an invisible marker; setupPresent() in site.js moves
+   the page's panel content into `.slide` sections shown one at a time. */
+.slide-break {
+  display: none;
+}
+
+body.presenting {
+  overflow: hidden;
+}
+
+.present-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+  background: radial-gradient(140% 120% at 50% -10%, var(--surface), var(--bg) 55%);
+}
+
+/* Top bar: deck title on the left, slide counter on the right. */
+.slide-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem clamp(1rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.78rem;
+}
+
+.slide-deck-title {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.slide-topbar .slide-counter {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.slide-deck {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* One slide fills the deck; a single centred column holds the content. */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  overflow: auto;
+  align-content: safe center;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: clamp(1.5rem, 5vh, 4rem) clamp(1.5rem, 7vw, 7rem);
+}
+
+.slide.is-active {
+  display: grid;
+}
+
+/* The opening slide carries the page hero (icon + <h1>). Pin its content to the
+   top-left rather than vertically centring it, blow the title up to title-slide
+   size, and leave a clear gap before the first section heading. */
+.slide.has-hero {
+  align-content: safe start;
+}
+
+.slide .hero {
+  margin: 0 0 clamp(1.75rem, 6vh, 3.5rem);
+  text-align: left;
+}
+
+.slide .hero .title-with-icon {
+  margin: 0;
+  gap: 0.4rem;
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  line-height: 1.1;
+}
+
+.slide .hero .title-with-icon .title-icon {
+  height: 1em;
+}
+
+.slide > * {
+  width: 100%;
+  max-width: 62rem;
+  margin: 0 auto;
+}
+
+/* Scale article typography up to slide sizes. */
+.slide > h2 {
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 3px solid var(--accent);
+  font-size: clamp(1.7rem, 3.4vw, 2.8rem);
+  line-height: 1.1;
+}
+
+.slide h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+}
+
+.slide p,
+.slide li {
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  line-height: 1.55;
+}
+
+/* Reserve room at the foot of the slide for the footnote strip. */
+.slide.has-footnotes {
+  padding-bottom: clamp(6rem, 16vh, 10rem);
+}
+
+/* Footnotes are collected here by setupPresent() and pinned to the slide's
+   bottom edge, centred to the same measure as the content column. */
+.slide-footnotes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 30vh;
+  overflow: auto;
+  margin: 0;
+  padding: 0.7rem clamp(1.5rem, 7vw, 7rem) 1rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.slide-footnotes .sidenote {
+  display: block;
+  float: none;
+  width: auto;
+  max-width: 62rem;
+  margin: 0 auto 0.35rem;
+  color: var(--muted);
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  line-height: 1.4;
+}
+
+.slide-footnotes .sidenote:last-child {
+  margin-bottom: 0;
+}
+
+/* Explicit per-slide numbers override the page's global CSS counter, which no
+   longer matches once notes are moved out of document order. */
+.slide .sidenote-number::after {
+  content: attr(data-sn-num);
+}
+
+.slide-footnotes .sidenote::before {
+  content: attr(data-sn-num) " ";
+}
+
+/* Keep media and code from overflowing a slide. */
+.slide img {
+  max-height: 52vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.slide .content-figure {
+  text-align: center;
+}
+
+.slide pre,
+.slide .code-editor,
+.slide .python-output {
+  max-height: 46vh;
+}
+
+.slide .python-example {
+  width: 100%;
+}
+
+/* Footer: navigation controls over a thin progress bar. */
+.slide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.slide-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.6rem;
+  height: 2.6rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+
+.slide-btn-ghost {
+  font-size: 0.95rem;
+}
+
+.slide-btn:hover,
+.slide-btn:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.slide-progress {
+  height: 4px;
+  background: var(--line);
+}
+
+.slide-progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.course-example {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--example-accent);
+  background: var(--example-bg);
+}
+
+.course-example-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.course-example-title::-webkit-details-marker {
+  display: none;
+}
+
+.course-example-title::before {
+  content: "▸";
+  display: inline-block;
+  flex: none;
+  color: var(--muted);
+  font-size: 0.8em;
+  transition: transform 0.15s ease;
+}
+
+.course-example[open] > .course-example-title::before {
+  transform: rotate(90deg);
+}
+
+.course-example-title:hover::before,
+.course-example-title:focus-visible::before {
+  color: var(--example-accent);
+}
+
+.course-example-body {
+  margin-top: 0.6rem;
+}
+
+.course-example-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Collapsible CodeExpert exercise bar (see `code-expert-exercise()` in
+   content/_site.typ). Same toggle mechanics as `.course-example`, but tagged
+   with the CodeExpert logo instead of a plain disclosure triangle. */
+.code-expert-exercise {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--code-expert-pink);
+  background: var(--surface);
+}
+
+.code-expert-exercise-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.code-expert-exercise-title::-webkit-details-marker {
+  display: none;
+}
+
+.code-expert-exercise-title::after {
+  content: "▸";
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8em;
+  transition: transform 0.15s ease;
+}
+
+.code-expert-exercise[open] > .code-expert-exercise-title::after {
+  transform: rotate(90deg);
+}
+
+.code-expert-exercise-title:hover::after,
+.code-expert-exercise-title:focus-visible::after {
+  color: var(--code-expert-pink);
+}
+
+.code-expert-exercise-body {
+  margin-top: 0.6rem;
+}
+
+.code-expert-exercise-body > :last-child {
+  margin-bottom: 0;
+}
+
+.notes-lightbox-trigger {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--pst-color-link);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notes-lightbox-trigger:hover,
+.notes-lightbox-trigger:focus-visible {
+  color: var(--pst-color-link-hover);
+}
+
+.notes-lightbox[hidden] {
+  display: none;
+}
+
+.notes-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.notes-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.notes-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.75rem;
+  width: min(70rem, 100%);
+  max-height: min(48rem, calc(100vh - 2rem));
+  margin: 0;
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  background: var(--surface);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+}
+
+.notes-lightbox-panel figcaption {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.content-figure {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.content-figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  /* Diagrams are dark-on-transparent, so they need a light plate to stay
+     legible when the site is in dark mode. */
+  background: #fff;
+  padding: 0.75rem;
+}
+
+.content-figure figcaption {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.figure-credit {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.notes-lightbox-panel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--line);
+}
+
+.notes-lightbox-disclaimer {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.notes-lightbox-disclaimer strong {
+  font-style: italic;
+}
+
+.notes-lightbox-close {
+  justify-self: end;
+  min-height: 2rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+body.notes-lightbox-open {
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .notes-lightbox {
+    padding: 0.5rem;
+  }
+
+  .notes-lightbox-panel {
+    max-height: calc(100vh - 1rem);
+    padding: 0.75rem;
+  }
+}
+
+.python-example {
+  margin: 1.25rem 0;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.example-head {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.example-actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.run-python,
+.copy-button {
+  min-width: 4.8rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.25rem;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.copy-button {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.run-python:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.code-editor-highlight,
+.python-code,
+.python-output {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  font: 1rem/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.code-editor {
+  position: relative;
+  height: 22rem;
+}
+
+.code-editor-highlight,
+.python-code {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 1.15rem 1.25rem;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  white-space: pre;
+  overflow: auto;
+}
+
+.code-editor-highlight {
+  z-index: 0;
+  background: var(--code-bg);
+  color: var(--code);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.python-code {
+  z-index: 1;
+  resize: none;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--code);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -moz-tab-size: 4;
+  word-spacing: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-rendering: auto;
+}
+
+.python-code::selection {
+  background: rgba(127, 178, 255, 0.35);
+}
+
+.python-output {
+  min-height: 6.5rem;
+  padding: 1.1rem 1.25rem;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  background: #202020;
+  color: #f7f7f2;
+  white-space: pre-wrap;
+}
+
+.python-plots {
+  display: grid;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  border-top: 1px solid var(--line);
+  background: var(--code-bg);
+}
+
+.python-plots:empty {
+  display: none;
+}
+
+.python-plot {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.3rem;
+  background: #fff;
+}
+
+/* Interactive REPL console */
+.python-console {
+  margin: 1.25rem 0;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.reset-console {
+  min-width: 4.8rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid var(--line);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.reset-console:hover,
+.reset-console:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.console-body {
+  background: #202020;
+  color: #f7f7f2;
+  font: 1rem/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  cursor: text;
+}
+
+.console-log {
+  display: block;
+  margin: 0;
+  padding: 1.1rem 1.25rem 0.35rem;
+  max-height: 24rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.console-log:empty {
+  display: none;
+}
+
+.console-echo {
+  color: #b8d8ff;
+}
+
+.console-err {
+  color: #ff9d9d;
+}
+
+.console-meta {
+  color: #9aa6b8;
+  font-style: italic;
+}
+
+.console-inputline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.35rem 1.25rem 1.1rem;
+}
+
+.console-prompt {
+  color: #8fd18f;
+  user-select: none;
+  flex: 0 0 auto;
+  padding-top: 0.02rem;
+}
+
+.console-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  color: #f7f7f2;
+  caret-color: #8fd18f;
+  font: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.console-input:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.code-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 -0.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.code-block-wrap {
+  position: relative;
+  margin: 0.65rem 0 1.25rem;
+}
+
+.code-block-wrap .code-block {
+  margin: 0;
+}
+
+.code-copy-inset {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  min-width: 0;
+  padding: 0.28rem 0.6rem;
+  font-size: 0.78rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.code-block-wrap:hover > .code-copy-inset,
+.code-block-wrap:focus-within > .code-copy-inset {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .code-copy-inset {
+    opacity: 1;
+  }
+}
+
+.code-block {
+  margin: 0.65rem 0 1.25rem;
+  padding: 1.1rem 1.25rem;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--code-bg);
+  color: var(--code);
+  font: 1rem/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.code-block code {
+  white-space: pre;
+}
+
+/* Inline code in prose. Typst's `raw` emits a bare <code>; the conversion only
+   styled block code (.code-block), so inline snippets like `F` rendered as
+   plain text. `:not(pre) > code` targets prose code while leaving block code,
+   the editor, and the console untouched. */
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--code-bg);
+  color: var(--code);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.88em;
+}
+
+.tok-keyword {
+  color: var(--tok-keyword);
+  font-weight: 700;
+}
+
+.tok-number,
+.tok-bool {
+  color: var(--tok-number);
+}
+
+.tok-string {
+  color: var(--tok-string);
+}
+
+.tok-function {
+  color: var(--tok-function);
+}
+
+.tok-comment {
+  color: var(--tok-comment);
+  font-style: italic;
+}
+
+.page-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.page-link {
+  min-height: 4.1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.page-link.next {
+  text-align: right;
+}
+
+.page-link small,
+.page-link strong {
+  display: block;
+}
+
+.page-link small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.page-link strong {
+  margin-top: 0.2rem;
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+.page-link:not(a) {
+  visibility: hidden;
+}
+
+.page-link:hover,
+.page-link:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+@media (max-width: 760px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+  }
+
+  body.primary-sidebar-hidden .site-shell,
+  body.secondary-sidebar-hidden .site-shell,
+  body.primary-sidebar-hidden.secondary-sidebar-hidden .site-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 0 1rem;
+  }
+
+  .search-box {
+    display: none;
+  }
+
+  .topbar-title {
+    grid-column: 1;
+  }
+
+  .topbar-tools {
+    grid-column: 2;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  nav a {
+    text-align: center;
+  }
+
+  .content {
+    padding: 2.25rem 1rem 4rem;
+  }
+
+  .page-toc {
+    display: none;
+  }
+
+  .schedule-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .example-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .example-actions,
+  .page-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .example-actions {
+    display: grid;
+  }
+
+  .run-python,
+  .copy-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1120px) {
+  .site-shell {
+    grid-template-columns: 17rem minmax(0, 1fr);
+  }
+
+  body.secondary-sidebar-hidden .site-shell,
+  body.primary-sidebar-hidden .site-shell,
+  body.primary-sidebar-hidden.secondary-sidebar-hidden .site-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-toc {
+    display: none;
+  }
+}
+
+@media print {
+  .topbar,
+  .sidebar,
+  .content-toolbar,
+  .page-toc,
+  .page-footer,
+  .back-to-top {
+    display: none !important;
+  }
+
+  .site-shell,
+  body.primary-sidebar-hidden .site-shell,
+  body.secondary-sidebar-hidden .site-shell {
+    display: block;
+    width: auto;
+  }
+
+  .content {
+    width: auto;
+    padding: 0;
+  }
+}
+
+/* Backlog of material still to be written, e.g. on the Python intro page. Red,
+   and sharing `--gap` with `.lecture-gap`, since both mark a hole. */
+.todo-list,
+.todo-list code {
+  color: var(--gap);
+}
+
+.todo-list li::marker {
+  color: var(--gap);
+}
+
+/* Marks material an exercise needs that the lecture/script does not cover.
+   See `gap()` in content/_site.typ. */
+.lecture-gap {
+  color: var(--gap);
+}
+
+.lecture-gap::before {
+  content: "Gap: ";
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+/* Heading with an icon before the text, e.g. the Python mark on ch0. Same
+   idiom as `.useful-link-heading`, but usable on any heading level. */
+.title-with-icon {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.title-with-icon .title-icon {
+  flex: none;
+  width: auto;
+  height: 1.15em;
+}
+
+/* Library wordmarks that stand in for a name inside a section heading
+   (see the "numpy"/"matplotlib" headings in content/ch0.typ). The logo is the
+   visible label; a `.visually-hidden` sibling keeps the real word in the
+   heading's text content, so the Contents TOC, the heading anchor slug and
+   screen readers all still read "numpy"/"matplotlib". */
+.heading-lib-link {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.heading-lib-logo {
+  height: 1.1875em;
+  width: auto;
+  vertical-align: -0.12em;
+  margin: 0 0.15em;
+}
+
+.heading-lib-logo--wide {
+  height: 1em;
+  vertical-align: -0.05em;
+}
+
+/* Both wordmarks carry dark ink that vanishes on a dark background, so give
+   them a small light chip in dark mode to keep them legible. */
+:root[data-theme="dark"] .heading-lib-logo {
+  background: #ffffff;
+  padding: 0.1em 0.28em;
+  border-radius: 0.28em;
+  box-decoration-break: clone;
+}
+
+/* "Open in Colab" call-to-action button (see the Aufwärmübungen solution in
+   content/ch0.typ). The Colab logo is a self-coloured glyph, so it needs no
+   dark-mode chip. */
+.colab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.6em 1em;
+  border: 1px solid var(--line);
+  border-radius: 0.6em;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95em;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.colab-badge:hover {
+  border-color: #e8710a;
+  color: var(--ink);
+  box-shadow: 0 2px 10px rgba(232, 113, 10, 0.2);
+}
+
+.colab-badge:active {
+  transform: translateY(1px);
+}
+
+.colab-badge-logo {
+  height: 1.4em;
+  width: auto;
+  flex: none;
+}
+
+/* Sidenotes (see `sidenote()` in content/_site.typ). Tufte-style: the note is
+   set in the right margin beside the paragraph it belongs to, rather than at
+   the foot of the page. The same source compiles to a normal Typst footnote in
+   the PDF.
+
+   The number is a CSS counter, not markup, so the `<label>` is deliberately
+   empty and notes renumber themselves when content moves. */
+.content {
+  counter-reset: sidenote-counter;
+  --sidenote-width: 15rem;
+  /* Distance from `.content`'s content-box edge to where the contents list's
+     text starts: this element's own right padding (2rem) plus `.page-toc`'s
+     left padding (1.15rem). Keeps the notes flush with the contents entries. */
+  --sidenote-offset: 3.15rem;
+}
+
+.sidenote-number {
+  counter-increment: sidenote-counter;
+}
+
+.sidenote-number::after {
+  content: counter(sidenote-counter);
+  color: var(--accent);
+  font-size: 0.72em;
+  vertical-align: super;
+  line-height: 0;
+  padding-left: 0.1em;
+}
+
+.sidenote {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.sidenote::before {
+  content: counter(sidenote-counter) " ";
+  color: var(--accent);
+  font-size: 0.85em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.sidenote strong {
+  color: var(--ink);
+}
+
+/* The checkbox only exists to drive the narrow-screen toggle below. */
+input.margin-toggle {
+  display: none;
+}
+
+/* Wide enough for both columns: the note is floated clean out of the text
+   column and lands in the contents column, lined up under the contents list.
+   The prose keeps its full measure -- no gutter is carved out of it. */
+@media (min-width: 1120px) {
+  .sidenote {
+    float: right;
+    clear: right;
+    width: var(--sidenote-width);
+    margin: 0.3rem 0 0.9rem;
+    margin-right: calc(-1 * (var(--sidenote-width) + var(--sidenote-offset)));
+  }
+}
+
+/* No margin to speak of: hide the note and let the number expand it in place,
+   the way Tufte's own stylesheet does. */
+@media (max-width: 1119px) {
+  .sidenote {
+    display: none;
+  }
+
+  .sidenote-number {
+    cursor: pointer;
+  }
+
+  .margin-toggle:checked + .sidenote {
+    display: block;
+    margin: 0.6rem 0;
+  }
+}
+
+/* Numbered equations (see `anchor()` in content/_site.typ). The number sits
+   flush right on the equation's own line and links to itself, so students can
+   copy a stable URL for "(3)". */
+.eq-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  scroll-margin-top: 5rem;
+}
+
+.eq-body {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.eq-number {
+  flex: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.eq-number:hover,
+.eq-number:focus-visible {
+  color: var(--accent);
+}
+
+/* Brief highlight when a reference jumps here, so the eye lands in the right
+   place on a page full of display math. */
+.eq-block:target {
+  background: var(--accent-soft);
+  border-radius: 4px;
+}

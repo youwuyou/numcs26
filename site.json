@@ -1,0 +1,208 @@
+{
+  "title": "NumCS Teaching Assistant Sessions",
+  "nav": [
+    {
+      "group": "0 Einführung in Python",
+      "href": "ch0.html"
+    },
+    {
+      "group": "1 Vor dem Start",
+      "page": "ch1"
+    },
+    {
+      "group": "2 Polynominterpolation",
+      "page": "ch2"
+    },
+    {
+      "group": "3 Trigonometrische Interpolation",
+      "page": "ch3"
+    },
+    {
+      "group": "4 Stückweise Polynomiale Interpolation",
+      "page": "ch4"
+    },
+    {
+      "group": "5 Numerische Quadratur",
+      "page": "ch5"
+    },
+    {
+      "group": "6 Nullstellensuche",
+      "page": "ch6"
+    },
+    {
+      "group": "7 Intermezzo über (numerische) lineare Algebra",
+      "page": "ch7"
+    },
+    {
+      "group": "8 Ausgleichsrechnung",
+      "page": "ch8"
+    },
+    {
+      "group": "Extra Materials",
+      "collapsible": false,
+      "links": [
+        {"title": "Useful Links", "href": "links.html"}
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "index",
+      "title": "Overview",
+      "group": "Logistics",
+      "href": "index.html",
+      "source": "content/index.typ"
+    },
+    {
+      "id": "ch0",
+      "title": "Einführung in Python",
+      "group": "0 Einführung in Python",
+      "href": "ch0.html",
+      "source": "content/ch0.typ"
+    },
+    {
+      "id": "ch1",
+      "title": "Chapter 1: Vor dem Start",
+      "group": "1 Vor dem Start",
+      "href": "ch1.html",
+      "source": "content/ch1.typ",
+      "pdf": true,
+      "sections": [
+        "content/ch1/section_1_1.typ",
+        "content/ch1/section_1_2.typ",
+        "content/ch1/section_1_3.typ"
+      ]
+    },
+    {
+      "id": "ch2",
+      "title": "Chapter 2: Polynominterpolation",
+      "group": "2 Polynominterpolation",
+      "href": "ch2.html",
+      "source": "content/ch2.typ",
+      "sections": [
+        "content/ch2/section_2_1.typ",
+        "content/ch2/section_2_2.typ",
+        "content/ch2/section_2_3.typ",
+        "content/ch2/section_2_4.typ"
+      ]
+    },
+    {
+      "id": "ch3",
+      "title": "Chapter 3: Trigonometrische Interpolation",
+      "group": "3 Trigonometrische Interpolation",
+      "href": "ch3.html",
+      "source": "content/ch3.typ",
+      "sections": [
+        "content/ch3/section_3_1.typ",
+        "content/ch3/section_3_2.typ",
+        "content/ch3/section_3_3.typ",
+        "content/ch3/section_3_4.typ",
+        "content/ch3/section_3_5.typ",
+        "content/ch3/section_3_6.typ"
+      ]
+    },
+    {
+      "id": "ch4",
+      "title": "Chapter 4: Stückweise Polynomiale Interpolation",
+      "group": "4 Stückweise Polynomiale Interpolation",
+      "href": "ch4.html",
+      "source": "content/ch4.typ",
+      "sections": [
+        "content/ch4/section_4_1.typ",
+        "content/ch4/section_4_2.typ",
+        "content/ch4/section_4_3.typ"
+      ]
+    },
+    {
+      "id": "ch5",
+      "title": "Chapter 5: Numerische Quadratur",
+      "group": "5 Numerische Quadratur",
+      "href": "ch5.html",
+      "source": "content/ch5.typ",
+      "sections": [
+        "content/ch5/section_5_1.typ",
+        "content/ch5/section_5_2.typ",
+        "content/ch5/section_5_3.typ",
+        "content/ch5/section_5_4.typ",
+        "content/ch5/section_5_5.typ",
+        "content/ch5/section_5_6.typ",
+        "content/ch5/section_5_7.typ",
+        "content/ch5/section_5_8.typ",
+        "content/ch5/section_5_9.typ"
+      ]
+    },
+    {
+      "id": "ch6",
+      "title": "Chapter 6: Nullstellensuche",
+      "group": "6 Nullstellensuche",
+      "href": "ch6.html",
+      "source": "content/ch6.typ",
+      "sections": [
+        "content/ch6/section_6_1.typ",
+        "content/ch6/section_6_2.typ",
+        "content/ch6/section_6_3.typ",
+        "content/ch6/section_6_4.typ",
+        "content/ch6/section_6_5.typ",
+        "content/ch6/section_6_6.typ",
+        "content/ch6/section_6_7.typ",
+        "content/ch6/section_6_8.typ",
+        "content/ch6/section_6_9.typ"
+      ]
+    },
+    {
+      "id": "ch7",
+      "title": "Chapter 7: Intermezzo über (numerische) lineare Algebra",
+      "group": "7 Intermezzo über (numerische) lineare Algebra",
+      "href": "ch7.html",
+      "source": "content/ch7.typ",
+      "sections": [
+        "content/ch7/section_7_1_1.typ",
+        "content/ch7/section_7_1_2.typ",
+        "content/ch7/section_7_1_3.typ"
+      ]
+    },
+    {
+      "id": "ch8",
+      "title": "Chapter 8: Ausgleichsrechnung",
+      "group": "8 Ausgleichsrechnung",
+      "href": "ch8.html",
+      "source": "content/ch8.typ",
+      "sections": [
+        "content/ch8/section_8_1.typ",
+        "content/ch8/section_8_2.typ",
+        "content/ch8/section_8_3.typ"
+      ]
+    },
+    {
+      "id": "links",
+      "title": "Useful Links",
+      "group": "Extra Materials",
+      "href": "links.html",
+      "source": "content/links.typ"
+    },
+    {
+      "id": "finite-differences",
+      "title": "Finite Differences",
+      "group": "Extra Materials",
+      "href": "finite-differences.html",
+      "source": "content/example-finite-differences.typ",
+      "excludeFromPager": true
+    },
+    {
+      "id": "interpolation",
+      "title": "Interpolation Preview",
+      "group": "Extra Materials",
+      "href": "interpolation.html",
+      "source": "content/example-interpolation.typ",
+      "excludeFromPager": true
+    },
+    {
+      "id": "search",
+      "title": "Search",
+      "group": "Search",
+      "href": "search.html",
+      "source": "content/search.typ",
+      "excludeFromPager": true
+    }
+  ]
+}
