@@ -411,7 +411,9 @@ function setupSearch() {
   const goToSearch = (query) => {
     const trimmed = query.trim();
     if (!trimmed) return;
-    window.location.href = `/search.html?q=${encodeURIComponent(trimmed)}`;
+    // Relative, not root-absolute: the site is served under a project-page base
+    // path (…/numcs26/), so `/search.html` would escape it.
+    window.location.href = `search.html?q=${encodeURIComponent(trimmed)}`;
   };
 
   const openSearch = (value = input.value) => {
