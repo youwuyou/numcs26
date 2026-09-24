@@ -74,7 +74,7 @@
 
     == B. Functions
 
-    In the paradigm of functional programming, functions are treating as *first-class citizens*. This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures.
+    In the paradigm of functional programming, functions are treated as *first-class citizens*. This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures.
     
     While not a purely functional language, Python supports many functional programming concepts, including the support of first-class functions. We will see what it means in practice by introducing the concept of a *lambda function* and a *decorator*.
 
@@ -108,7 +108,7 @@
 
     #slidebreak()
 
-    We may also keep Lambda functions anonymous, without explicitly assigning it a name:
+    We may also keep Lambda functions anonymous, without explicitly assigning them a name:
 
     #python("Applying an anonymous lambda function")[
     ```python
@@ -147,7 +147,7 @@
 
     == C. Linear Algebra with #html.a(href: "https://numpy.org/doc/2.4/", class: "heading-lib-link")[#html.img(class: "heading-lib-logo", src: "static/numpy-logo.svg", alt: "", aria-hidden: true)#html.span(class: "visually-hidden")[numpy]] in Python
 
-    Numpy allows us to efficiently perform array operations. Its array operations are often based on highly optimized library routines implemented in C (cf. use of #link("https://numpy.org/devdocs/building/blas_lapack.html")[BLAS and LAPACK in `numpy`])
+    Numpy allows us to efficiently perform array operations. Its array operations are often based on highly optimized library routines implemented in C or FORTRAN (cf. use of #link("https://numpy.org/devdocs/building/blas_lapack.html")[BLAS and LAPACK in `numpy`])
 
     To use `numpy`, we need to import the module. We commonly give it an alias of `np` for conciseness,
 
@@ -164,7 +164,7 @@
 
     === Data Storage
 
-    Although we are concerned with N-dimensional arrays, their actual memory layout is only one-dimensional as a flat 1D block of memory chunk. The rule that specifies the order how the entries of an N-dimensional array are stored in the computer memory is called the *storage order*.
+    Although we are concerned with N-dimensional arrays, their actual memory layout is only one-dimensional as a flat 1D block of memory. The rule that specifies the order how the entries of an N-dimensional array are stored in the computer memory is called the *storage order*.
     
     *Row-major order* is also known as *C order*, since the C language uses it, and new numpy arrays are row-major by default. Fortran and MATLAB instead use *column-major* order (*F order*)
 
@@ -200,7 +200,7 @@
 
     $ M = mat(1, 2, 3; 4, 5, 6; 7, 8, 9) in RR^(3 times 3), quad v = vec(1, 2, 3) in RR^(3 times 1), $
 
-    The initialization mirrors closely the mathematical notion,
+    The initialization mirrors closely the mathematical notation,
 
     #python("Initializing a matrix and a vector")[
       ```python
@@ -213,11 +213,11 @@
       # print(v.shape)   # what is the dimension of v?
 
       # u = np.array([1, 2, 3])
-      # print(u.shape)   # how does u differs from v?
+      # print(u.shape)   # how does u differ from v?
       ```
     ]
 
-    Here, the use of `.shape()` indicates their dimensions.
+    Here, the use of `.shape` indicates their dimensions.
 
     #slidebreak()
 
@@ -297,7 +297,7 @@
       ]
     ]
 
-    if we pass a matrix `A` to `norm()`, the Frobenius norm is used $norm(A)_F = sqrt(sum_(i, j) abs(a_(i j))^2)$.
+    If we pass a matrix `A` to `norm()`, the Frobenius norm is used $norm(A)_F = sqrt(sum_(i, j) abs(a_(i j))^2)$.
 
     #slidebreak()
 
@@ -387,7 +387,7 @@
 
     == D. Using #html.a(href: "https://matplotlib.org/stable/gallery/index.html", class: "heading-lib-link")[#html.img(class: "heading-lib-logo heading-lib-logo--wide", src: "static/matplotlib-logo.svg", alt: "", aria-hidden: true)#html.span(class: "visually-hidden")[matplotlib]] for Data Visualization
 
-    We use `matplotlib` for data visualization, as a freshman, it is useful to keep the following anatomy of a plot in mind. You do not need to keep it in mind, but knowing what they correspond to may be useful to not get confused with the plotting routines in exercises:
+    We use `matplotlib` for data visualization. For beginners, it is useful to keep the following anatomy of a plot in mind. You do not need to memorize it, but knowing what they correspond to may be useful to not get confused with the plotting routines in exercises:
 
     #figure-img(
       "static/matplotlib-anatomy.png",
@@ -481,7 +481,7 @@
     
     == Solution to "Aufwärmübungen"
 
-    A #link("https://jupyter.org")[Jupyter notebook] allows us to write a python script cell by cell and we can supply explainations to the code using Markdown cells. Providers such as #link("https://colab.research.google.com")[Google Colab] allows us to start working on such a notebook without local installation of Python and package environment etc..
+    A #link("https://jupyter.org")[Jupyter notebook] allows us to write a python script cell by cell and we can supply explanations to the code using Markdown cells. Providers such as #link("https://colab.research.google.com")[Google Colab] allow us to start working on such a notebook without local installation of Python and package environment etc..
 
     The full solutions to the Aufwärmübungen live in one such notebook, you can open it and run it cell by cell:
 
