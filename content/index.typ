@@ -15,6 +15,8 @@
   ))[#date]
 }
 
+#let extra-section-link(href, body) = html.a(class: "sec-ref", href: href)[#body]
+
 // Tutorial Focus cell: the exercise sheet and the two or three themes the
 // session actually drills, with the Skript section titles it draws on kept in a
 // tooltip. The titles are the right thing to have when picking revision
@@ -24,6 +26,22 @@
   tabindex: "0",
 ))[
   #html.span(class: "serie-label")[Serie #number: #topics]
+  #html.elem("span", attrs: (class: "serie-sections", role: "tooltip"))[#titles(..keys)]
+]
+
+#let mixed-serie-focus(prefix, number, topics, ..keys) = html.elem("span", attrs: (
+  class: "serie-focus",
+  tabindex: "0",
+))[
+  #html.span(class: "serie-label")[#prefix#text[; parts of Serie ]#number: #topics]
+  #html.elem("span", attrs: (class: "serie-sections", role: "tooltip"))[#titles(..keys)]
+]
+
+#let custom-focus(label, ..keys) = html.elem("span", attrs: (
+  class: "serie-focus",
+  tabindex: "0",
+))[
+  #html.span(class: "serie-label")[#label]
   #html.elem("span", attrs: (class: "serie-sections", role: "tooltip"))[#titles(..keys)]
 ]
 
@@ -46,14 +64,14 @@
 // it draws on, rendered only once every one of those chapters is released.
 // `extra`: nav hrefs outside the Skript to highlight alongside (e.g. the Python
 // warm-up page). `note`: trailing text for the Sections cell.
-#let week-row(week, lecture_1, lecture_2, number, topics, date, ..keys, extra: (), note: none) = {
+#let week-row(week, lecture_1, lecture_2, number, topics, date, ..keys, extra: (), extra-sections: (), note: none, focus: none) = {
   if all-released(..keys) {
     row(
       week,
       lecture_1,
       lecture_2,
-      serie(number, topics, ..keys),
-      [#secs(..keys)#note],
+      if focus == none { serie(number, topics, ..keys) } else { focus },
+      [#extra-sections.join[#text[, ]]#if extra-sections.len() > 0 and keys.pos().len() > 0 [, ]#secs(..keys)#note],
       session-ticket(date, ..keys, extra: extra),
     )
   } else {
@@ -117,18 +135,22 @@
           [-],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/E9GTIc9xr_J")[17.09.2026],
           "01",
-          [Auslöschung, Komplexität],
+          [Auslöschung],
           [21.09.2026],
-          "1.1", extra: ("ch0.html",),
+          "1.1",
+          extra: ("ch0.html",),
+          extra-sections: (extra-section-link("ch0.html", [0]),),
+          focus: mixed-serie-focus([Einführung in Python], "01", [Auslöschung], "1.1"),
         )
         #week-row(
           [2],
-          [21.09.2026],
-          [24.09.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/Fu4DWF0mWwT")[21.09.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/HiOlNUGSJkX")[24.09.2026],
           "02",
           [Polynomiale Interpolation],
           [28.09.2026],
-          "1.2", "1.3", "2.1", "2.2", "2.3", "2.4",
+          "1.2", "1.3", "2.1", "2.2", "2.3",
+          focus: custom-focus([parts of Serie 01: Komplexität; Serie 02: Polynomiale Interpolation], "1.2", "1.3", "2.1", "2.2", "2.3"),
         )
         #week-row(
           [3],
@@ -257,7 +279,7 @@
       The exam will take place using Moodle and with CodeExpert within it as the coding environment, provided aids are:
       - the lecture document “Numerische Methoden” by Dr. Gradinaru
       - the lecture notes, i.e. “Aufschriebe” by Dr. Gradinaru
-      - (tentatively) a Jupyter window as scratch paper may be allowed, but its outputs are ignored when grading
+      - #strike[(tentatively) a Jupyter window as scratch paper may be allowed, but its outputs are ignored when grading]#sidenote[This year's exam will not provide a Jupyter notebook window.]
     ])
 
     #faq([❓], [How important are the exercises and the Moodle quizzes?], [
@@ -307,6 +329,6 @@
       No. The lecture document, the lecture notes and the exercises must not be directly uploaded anywhere.
     ])
 
-    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 20.09.2026]
+    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 26.09.2026]
   ]
 ])
