@@ -154,8 +154,8 @@
         )
         #week-row(
           [3],
-          [28.09.2026],
-          [01.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/K-2T2sxGvqV")[28.09.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/FwfKyD4Eqsm")[01.10.2026],
           "03",
           [Trigonometrische Interpolation],
           [05.10.2026],
@@ -312,6 +312,7 @@
         ]
       ]
 
+      The grade bonus remains valid until the next time the course is offered in HS2027. This means that bonus points earned in the current autumn semester (HS2026) are valid for both the exam in the winter session (HS2026) and the exam in the summer session (FS2027).
     ])
 
     #faq([❓], [How are the #code-expert exercises graded?], [
@@ -329,6 +330,6 @@
       No. The lecture document, the lecture notes and the exercises must not be directly uploaded anywhere.
     ])
 
-    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 26.09.2026]
+    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 02.10.2026]
   ]
 ])
