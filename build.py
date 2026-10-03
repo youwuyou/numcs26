@@ -99,6 +99,78 @@ def compile_pdf(page):
     return f"_sources/{name}"
 
 
+def normalize_mathml_accents(path):
+    """Patch fragile MathML accents emitted by Typst's HTML exporter."""
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("<mo>̃</mo>", "<mo>~</mo>")
+    path.write_text(text, encoding="utf-8")
+
+
+# The `matlines` helper in content/_site.typ wraps a matrix equation in
+# <div class="matlines" data-columnlines="..." data-rowlines="..."> so we can
+# recover, from the flat MathML, which block dividers the author wanted. Typst's
+# own `augment` (vline/hline) draws those lines in the PDF but its MathML export
+# silently drops them, and the MathML `columnlines`/`rowlines` attributes are
+# gone from MathML Core (Chrome/Safari ignore them). So we translate the token
+# pattern into plain CSS borders on the individual <mtd> cells, which every
+# browser honors, then unwrap the marker div.
+_MATLINES_DIV_RE = re.compile(r'<div class="matlines"([^>]*)>(.*?)</div>', re.DOTALL)
+_MTABLE_RE = re.compile(r"<mtable>(.*?)</mtable>", re.DOTALL)
+_MTR_RE = re.compile(r"<mtr>(.*?)</mtr>", re.DOTALL)
+_MTD_RE = re.compile(r"<mtd>(.*?)</mtd>", re.DOTALL)
+_DATA_COLS_RE = re.compile(r'data-columnlines="([^"]*)"')
+_DATA_ROWS_RE = re.compile(r'data-rowlines="([^"]*)"')
+
+# MathML line tokens (one per inter-cell gap) -> CSS border shorthand. The
+# matching padding keeps the digits off the rule so it reads as a deliberate
+# divider rather than a glyph touching a border.
+_LINE_CSS = {"solid": "1px solid gray", "dashed": "1px dashed gray"}
+_LINE_PAD = {"right": "padding-right:0.35em", "bottom": "padding-bottom:0.2em"}
+
+
+def apply_matrix_lines(path):
+    """Render matrix block-dividers requested via the `matlines` helper.
+
+    `data-columnlines`/`data-rowlines` are space-separated MathML tokens, one
+    per gap: token c styles the gap after column c (border-right on the c-th
+    cell of every row), token r the gap after row r (border-bottom on every cell
+    of the r-th row). Only the first, outer <mtable> is treated as the matrix;
+    its cells are assumed to hold no nested table (true for the current usage).
+    """
+    text = path.read_text(encoding="utf-8")
+
+    def render(div):
+        attrs, inner = div.group(1), div.group(2)
+        cols_attr = _DATA_COLS_RE.search(attrs)
+        rows_attr = _DATA_ROWS_RE.search(attrs)
+        col_tokens = cols_attr.group(1).split() if cols_attr else []
+        row_tokens = rows_attr.group(1).split() if rows_attr else []
+
+        def style_table(mtable):
+            new_rows = []
+            for r, row in enumerate(_MTR_RE.findall(mtable.group(1))):
+                new_cells = []
+                for c, cell in enumerate(_MTD_RE.findall(row)):
+                    styles = []
+                    if c < len(col_tokens) and col_tokens[c] in _LINE_CSS:
+                        styles.append("border-right:" + _LINE_CSS[col_tokens[c]])
+                        styles.append(_LINE_PAD["right"])
+                    if r < len(row_tokens) and row_tokens[r] in _LINE_CSS:
+                        styles.append("border-bottom:" + _LINE_CSS[row_tokens[r]])
+                        styles.append(_LINE_PAD["bottom"])
+                    if styles:
+                        new_cells.append(f'<mtd style="{";".join(styles)}">{cell}</mtd>')
+                    else:
+                        new_cells.append(f"<mtd>{cell}</mtd>")
+                new_rows.append("<mtr>" + "".join(new_cells) + "</mtr>")
+            return "<mtable>" + "".join(new_rows) + "</mtable>"
+
+        return _MTABLE_RE.sub(style_table, inner, count=1)
+
+    text = _MATLINES_DIV_RE.sub(render, text)
+    path.write_text(text, encoding="utf-8")
+
+
 def bust_asset_caches():
     """Stamp `?v=<hash>` onto the stylesheet and scripts in every built page.
 
@@ -212,10 +284,24 @@ def main():
             built.read_text(encoding="utf-8").replace(EDIT_URL_PLACEHOLDER, edit_url),
             encoding="utf-8",
         )
+        normalize_mathml_accents(built)
+        apply_matrix_lines(built)
 
-    # Everything in migrate/static/ is published as-is: to add an image (or any
-    # asset), just drop the file in there and reference it as `static/<name>`.
+    # Everything in migrate/static/ is published as-is: to add a site asset
+    # (logo, icon, favicon), just drop the file in there and reference it as
+    # `static/<name>`.
     shutil.copytree(ROOT / "static", DIST / "static", dirs_exist_ok=True)
+
+    # Content figures live beside their chapter source, under content/<chapter>/,
+    # and are referenced as `content/<chapter>/<name>`. Publish every image found
+    # under content/ at the same relative path so those references resolve.
+    figure_exts = {".png", ".jpg", ".jpeg", ".webp", ".svg", ".gif"}
+    for asset in (ROOT / "content").rglob("*"):
+        if asset.suffix.lower() not in figure_exts:
+            continue
+        dest = DIST / asset.relative_to(ROOT)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(asset, dest)
 
     bust_asset_caches()
 

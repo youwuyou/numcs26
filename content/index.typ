@@ -157,9 +157,9 @@
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/K-2T2sxGvqV")[28.09.2026],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/FwfKyD4Eqsm")[01.10.2026],
           "03",
-          [Trigonometrische Interpolation],
+          [Chebyshev recap; Fourier series; start of DFT],
           [05.10.2026],
-          "3.1", "3.2", "3.3", "3.4", "3.5",
+          "3.1", "3.2",
         )
         #week-row(
           [4],

@@ -1,4 +1,4 @@
-#import "_site.typ": site, python, panels, python-console, figure-img, sidenote, slidebreak
+#import "_site.typ": site, python, panels, python-console, figure-img, sidenote, slidebreak, mat, vec
 
 #site("ch0", "Einführung in Python", [
   #html.header(class: "hero compact-hero")[
@@ -100,7 +100,7 @@
     A lambda has four parts: an (optional) name it is bound to, the `lambda` keyword, its arguments, and the single expression whose value it returns.
 
     #figure-img(
-      "static/lambda-anatomy.webp",
+      "content/ch0/lambda-anatomy.webp",
       "Anatomy of a Python lambda: f = lambda a: a * a, labelling the keyword, the argument, the one-line expression, and the resulting function object.",
       credit: [Source: #link("https://levelup.gitconnected.com/mastering-lambda-expressions-in-python-a-hands-on-guide-e6f380701e96")[Mastering Lambda Expressions in Python].],
       width: 80%,
@@ -169,7 +169,7 @@
     *Row-major order* is also known as *C order*, since the C language uses it, and new numpy arrays are row-major by default. Fortran and MATLAB instead use *column-major* order (*F order*)
 
     #figure-img(
-      "static/row-column-major.webp",
+      "content/ch0/row-column-major.webp",
       "A 3x3 matrix flattened in row-major order (row after row) versus column-major order (column after column).",
       credit: [Source: #link("https://commons.wikimedia.org/wiki/File:Row_and_column_major_order.svg")[Wikimedia Commons], CC BY-SA 3.0.],
       width: 35%,
@@ -390,7 +390,7 @@
     We use `matplotlib` for data visualization. For beginners, it is useful to keep the following anatomy of a plot in mind. You do not need to memorize it, but knowing what they correspond to may be useful to not get confused with the plotting routines in exercises:
 
     #figure-img(
-      "static/matplotlib-anatomy.png",
+      "content/ch0/matplotlib-anatomy.png",
       "Annotated anatomy of a matplotlib figure, labelling the Figure, Axes, Axis, title, legend, grid, line, markers, tick labels and spines, each with the method call that controls it.",
       credit: [Source: #link("https://matplotlib.org/stable/gallery/showcase/anatomy.html")[Anatomy of a figure], © The Matplotlib development team.],
       width: 70%,

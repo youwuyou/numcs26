@@ -3,6 +3,29 @@
 // Page view track dashboard: https://numcs26.goatcounter.com/ (registered free at goatcounter.com).
 #let _goatcounter = "https://numcs26.goatcounter.com/count"
 
+// Course-wide math aliases: keep source formulas terse while rendering
+// matrices and vectors with square brackets by default.
+#let mat = math.mat.with(delim: "[")
+#let vec = math.vec.with(delim: "[")
+
+// Inner product: `#ip(x, y)` renders as ⟨x, y⟩.
+#let ip = (x, y) => $chevron.l #x, #y chevron.r$
+
+// Course-wide math color helpers, e.g. `$cblue(bold(B))$`. Dual-target: the
+// paged build colors the text directly, while the MathML build wraps it in an
+// <mstyle mathcolor="..."> so the color survives HTML export.
+#let _mathcolor(hex) = (x) => context {
+  if target() == "html" {
+    html.elem("mstyle", attrs: (mathcolor: hex))[$#x$]
+  } else {
+    text(fill: rgb(hex), $#x$)
+  }
+}
+#let cblue = _mathcolor("#1f77ff")
+#let cred = _mathcolor("#e4272b")
+#let corange = _mathcolor("#e8710a")
+#let colive = _mathcolor("#808000")
+
 // Every helper below is dual-target: the same chapter source compiles to the
 // website (`--features html --format html`) and to a PDF (plain `typst
 // compile`). The shape is always `context { if target() == "html" { ... } else
@@ -14,8 +37,10 @@
   if class == "definition" { rgb("#2b6cb0") }
   else if class == "axiom" { rgb("#2f855a") }
   else if class == "lemma" { rgb("#c07a1a") }
+  else if class == "theorem" { rgb("#2f855a") }
   else if class == "tip" { rgb("#2f855a") }
   else if class == "note" { rgb("#4a5568") }
+  else if class == "thought" { rgb("#6b7bb5") }
   else if class == "warning" { rgb("#b7791f") }
   else { rgb("#718096") }
 }
@@ -94,9 +119,29 @@
   }
 }
 
+// Draw block-divider lines inside a matrix. Typst's `augment` (vline/hline)
+// only renders in the paged/PDF build; the MathML export silently drops those
+// lines. So on the website we wrap the equation in a marked <div> whose data-*
+// attributes name the line pattern, and build.py (`apply_matrix_lines`) copies
+// them onto the matrix's <mtable> as MathML `columnlines`/`rowlines`. On paper
+// the `augment` argument already draws the lines, so the body passes straight
+// through. `cols`/`rows` are space-separated MathML line tokens, one per gap
+// (none|solid|dashed), e.g. cols: "none solid none" for a 4-column matrix cut
+// after the 2nd column.
+#let matlines(cols: "", rows: "", body) = context {
+  if target() == "html" {
+    html.elem(
+      "div",
+      attrs: (class: "matlines", "data-columnlines": cols, "data-rowlines": rows),
+    )[#body]
+  } else {
+    body
+  }
+}
+
 // MyST-style admonition box, e.g. #admonition("tip", "Agenda")[...].
-// `class` picks the accent color: "definition"/"lemma" (blue), "tip"/"note"
-// (green), "warning" (amber), or the plain default otherwise.
+// `class` picks the accent color: "definition" (blue), "theorem"/"tip" (green),
+// "lemma" (amber), "warning" (amber), or the plain default otherwise.
 #let admonition(class, title, body) = context {
   if target() == "html" {
     html.div(class: "admonition " + class)[
@@ -105,6 +150,35 @@
     ]
   } else {
     _paged-box(_accent(class), title, body)
+  }
+}
+
+#let _labeled-title(label, title) = {
+  if title == "" { label + "." } else { label + ". " + title }
+}
+
+// A reflective "thought bubble" callout -- same API as `admonition`, styled on
+// the web as a puffy thought cloud (see `.admonition.thought` in site.css).
+#let thought(title, body) = admonition("thought", title, body)
+
+#let defbox(title, body) = admonition("definition", _labeled-title("Definition", title), body)
+#let definition(title, body) = admonition("definition", _labeled-title("Definition", title), body)
+#let axiom(title, body) = admonition("axiom", _labeled-title("Axiom", title), body)
+#let lemma(title, body) = admonition("lemma", _labeled-title("Lemma", title), body)
+#let theorem(title, body) = admonition("theorem", _labeled-title("Theorem", title), body)
+
+#let proof(body) = context {
+  if target() == "html" {
+    html.elem("details", attrs: (class: "proof"))[
+      #html.elem("summary", attrs: (class: "proof-title"))[Proof.]
+      #html.div(class: "proof-body")[#body]
+    ]
+  } else {
+    block(width: 100%, breakable: true)[
+      #text(weight: "bold")[Proof.]
+      #v(4pt, weak: true)
+      #body
+    ]
   }
 }
 
@@ -131,9 +205,11 @@
       #html.div(class: "course-example-body")[#body]
     ]
   } else {
-    _paged-box(rgb("#7b5ea7"), title, body)
+    _paged-box(rgb("#687385"), title, body)
   }
 }
+
+#let example(title, body) = course-example("Example: " + title, body)
 
 // Pill-shaped badge naming a CodeExpert exercise, e.g.
 // #code-expert-badge("Ex. 3 -- Multiplikation mit einer Diagonalmatrix").
@@ -309,10 +385,11 @@
   }
 }
 
-// A captioned figure. Drop the image file into `migrate/static/` (it is
-// published wholesale by build.py) and reference it as `static/<name>`:
+// A captioned figure. Drop the image file beside its chapter source, under
+// `content/<chapter>/`, and reference it with that same path (build.py
+// publishes every image under content/ at its matching path):
 //
-//   #figure-img("static/machine_numbers.png", "alt text")[Caption text.]
+//   #figure-img("content/ch1/machine-numbers.png", "alt text")[Caption text.]
 //
 // `credit` is optional and rendered smaller, after the caption. `width` is a
 // Typst ratio (e.g. `width: 80%`) sizing the image relative to the text column,
@@ -390,12 +467,28 @@
     // Paged: the `==`/`===` headings are left to the document template.
     return body
   }
+  // The section number is the leading token of the title (e.g. "1.1"). Sub-
+  // headings continue it ("1.1.1", "1.1.2", ...) via a per-section counter.
+  let sec-match = meta.title.match(regex("^[0-9]+(\.[0-9]+)*"))
+  let sec-number = if sec-match != none { sec-match.text } else { none }
+  let sub-counter = counter("subheading-" + meta.id)
   show heading.where(level: 2): h => {
     if kicker != none { html.p(class: "section-kicker")[#kicker] }
     html.h2[#h.body]
   }
   // Without this, Typst's default export emits <h4> and skips a level.
-  show heading.where(level: 3): h => html.h3(class: "section-subheading")[#h.body]
+  show heading.where(level: 3): h => {
+    sub-counter.step()
+    context {
+      let n = sub-counter.get().first()
+      let label = if sec-number != none {
+        html.span(class: "subheading-number")[#(sec-number + "." + str(n)) ]
+      }
+      html.h3(class: "section-subheading")[#label#h.body]
+    }
+  }
+  // Level 4 likewise: without a rule Typst's export emits <h5> and skips a level.
+  show heading.where(level: 4): h => html.h4(class: "section-subsubheading")[#h.body]
   html.section(id: meta.id, class: "panel")[#body]
 }
 
@@ -434,6 +527,28 @@
       if href == none { big } else { link(href)[#big] }
     }
     heading(level: 2, numbering: none)[#mark #emph(title)]
+  }
+}
+
+// An unnumbered chapter-level panel. Like `page-heading`, this belongs to the
+// page but not to the Skript numbering or left sidebar; unlike `page-heading`,
+// it wraps its body in `<section class="panel">`, so Present mode treats it as a
+// slide source.
+#let page-section(id, title, body, icon: none, href: none) = context {
+  if target() == "html" {
+    html.section(id: id, class: "panel")[
+      #html.h2(class: "plain-heading")[
+        #if href == none {
+          [#icon #title]
+        } else {
+          html.a(class: "plain-heading-link", href: href, target: "_blank", rel: "noopener")[#icon #title #html.span(class: "plain-heading-arrow")[↗]]
+        }
+      ]
+      #body
+    ]
+  } else {
+    page-heading(id, title, icon: icon, href: href)
+    body
   }
 }
 
@@ -530,6 +645,7 @@
     #html.meta(name: "viewport", content: "width=device-width, initial-scale=1")
     #html.meta(name: "site-page", content: page_id)
     #html.title[#page_title]
+    #html.link(rel: "icon", type: "image/png", href: "static/icon.png")
     #html.link(rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css")
     #html.link(rel: "stylesheet", href: "static/site.css")
     #html.script(defer: true, src: "static/site.js")

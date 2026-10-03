@@ -153,6 +153,68 @@ function setupScheduleTickets() {
   });
 }
 
+// Give every section heading a stable `id` and a hover-reveal `#` anchor so any
+// heading can be deep-linked (e.g. page.html#some-heading). Section <h2>s anchor
+// to their wrapping <section id>; <h3> subheadings get a slug from their text.
+function slugify(text) {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function setupHeadingAnchors() {
+  const headings = [...document.querySelectorAll("main h2, main h3, main h4")];
+  const used = new Set();
+
+  headings.forEach((heading) => {
+    // An <h2> may stand in for its wrapping <section id>; an <h3> subsection
+    // must get its own slug so it does not borrow the section's anchor.
+    let id = heading.id;
+    if (!id && heading.tagName === "H2") id = heading.closest("section[id]")?.id;
+    if (!id) {
+      const base = slugify(heading.textContent) || "section";
+      id = base;
+      let n = 2;
+      while (used.has(id) || document.getElementById(id)) id = `${base}-${n++}`;
+      heading.id = id;
+    }
+    used.add(id);
+
+    if (heading.querySelector(".heading-anchor")) return;
+    const anchor = document.createElement("a");
+    anchor.className = "heading-anchor";
+    anchor.href = `#${id}`;
+    anchor.setAttribute("aria-label", "Link to this heading");
+    heading.append(anchor);
+  });
+
+  // Ids are assigned after the browser's initial hash jump, so re-scroll to a
+  // heading the URL already points at.
+  const hashId = decodeURIComponent(location.hash.slice(1));
+  if (hashId) document.getElementById(hashId)?.scrollIntoView({ block: "start" });
+}
+
+function setupLocalReferenceLinks() {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a.sec-ref[href^="#"], a.eq-number[href^="#"], a.heading-anchor[href^="#"]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const id = decodeURIComponent(link.hash.slice(1));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    event.preventDefault();
+    history.pushState(null, "", link.hash);
+    // Heading permalinks pin the heading to the top; cross-references (equation
+    // numbers, section refs) read better centred in view.
+    const block = link.classList.contains("heading-anchor") ? "start" : "center";
+    target.scrollIntoView({ behavior: "smooth", block });
+  });
+}
+
 function renderPageToc() {
   const toc = document.querySelector("#page-toc");
   const headings = [...document.querySelectorAll("main h2[id], main section[id] > h2")];
@@ -775,6 +837,7 @@ function setupPresent() {
   let slides = [];
   let index = 0;
   let moved = []; // { node, parent, next } recorded so exit() can restore order
+  let openedDetails = []; // { node, open } recorded so exit() restores collapsed examples
 
   function show(i) {
     index = Math.max(0, Math.min(i, slides.length - 1));
@@ -844,6 +907,13 @@ function setupPresent() {
       slides[0].insertBefore(hero, slides[0].firstChild);
       slides[0].classList.add("has-hero");
     }
+
+    openedDetails = [];
+    deck.querySelectorAll("details.course-example").forEach((node) => {
+      openedDetails.push({ node, open: node.open });
+      node.open = true;
+    });
+
     return deck;
   }
 
@@ -944,6 +1014,10 @@ function setupPresent() {
     }
     moved = [];
     slides = [];
+    openedDetails.forEach(({ node, open }) => {
+      node.open = open;
+    });
+    openedDetails = [];
     if (overlay) overlay.remove();
     overlay = null;
     document.body.classList.remove("presenting");
@@ -964,6 +1038,8 @@ async function boot() {
   setupSidebarToggles();
   setupBackToTop();
   setupScheduleTickets();
+  setupHeadingAnchors();
+  setupLocalReferenceLinks();
   setupNotesLightbox();
   setupChecklists();
   setupPresent();
