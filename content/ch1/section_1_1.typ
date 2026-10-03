@@ -9,7 +9,7 @@
 #thought("From infinite to finite in numerical mathematics.")[
 Mathematical analysis often relies on the _ideal_ concept of *"infinity"*. For example, series may involve the addition of infinitely many terms, and limiting arguments underlie the basic theory of differentiation and integration. Real numbers also require infinitely many digits for an exact decimal representation.
 
-In numerical mathematics, however, we are constrained by the _realistic_ limitations of the *"finite"*. For example, since program must terminate, an infinite series used to compute a quantity has to be truncated and therefore becomes an approximation. Moreover, only finite precision representation of real numbers are possible in computers.
+In numerical mathematics, however, we are constrained by the _realistic_ limitations of the *"finite"*. For example, since a program must terminate, an infinite series used to compute a quantity has to be truncated and therefore becomes an approximation. Moreover, only finite precision representations of real numbers are possible in computers.
 ]
 
 #slidebreak()
@@ -17,7 +17,7 @@ In numerical mathematics, however, we are constrained by the _realistic_ limitat
 === Roundoff Errors
 
 The set of real numbers $RR$ is *closed under elementary arithmetic operations* $star in {+, -, times, \/}$, meaning that for
-$x, y in RR$, we obtain again a real number that is again in $RR$ by,
+$x, y in RR$, the result is again in $RR$,
 
 $
 x star y in RR
@@ -29,7 +29,7 @@ $
 x star y in.not cal(M)
 $
 
-For example, although both $1$ and $10$ are representable in $cal(M)$, their division $1 / 10 = 0.1 in.not cal(M)$#sidenote[Assume we use base $2$ for our machine number representation, to represent $0.1$ we would need infinite number of digits, which is impossible with finite memory. Readers may want to see cf. #link("https://www.exploringbinary.com/why-0-point-1-does-not-exist-in-floating-point/")["Why 0.1 Does Not Exist In Floating-Point"] for interests. ].
+For example, although both $1$ and $10$ are representable in $cal(M)$, their division $1 / 10 = 0.1 in.not cal(M)$#sidenote[Assume we use base $2$ for our machine number representation. To represent $0.1$ we would need infinitely many digits, which is impossible with finite memory. See #link("https://www.exploringbinary.com/why-0-point-1-does-not-exist-in-floating-point/")["Why 0.1 Does Not Exist In Floating-Point"] if interested.].
 As a result, a *rounding operation $"rd"(dot)$* is performed to approximate the result by mapping it to the closest representable machine number. The errors introduced in the rounding that are intrinsic to the finite precision of the machine-number set $cal(M)$ are called the *roundoff errors*.
 
 
@@ -112,17 +112,17 @@ x_(max) &= (1 - cblue(B)^(-corange(m))) dot cblue(B)^(e_(max))\
 x_(min) &= cblue(B)^(e_(min)-1)
 $
 
-In the illustration we see an example distribution of machine numbers, each $x in cal(M)$ is represented as a red dot. We shall notice there are only finitely machine numbers, and all other numbers in the "gap" must be rounded to the closest machine number to be represented in computer.
+In the illustration we see an example distribution of machine numbers, each $x in cal(M)$ is represented as a red dot. We shall notice there are only finitely many machine numbers, and all other numbers in the "gap" must be rounded to the closest machine number to be represented in a computer.
 
 #figure-img("content/ch1/non-normalized-near-zero.png", "Spacing of machine numbers near zero", width: 92%)[
-  The nonnegative half of the real line, with machine numbers as a discrete subset. #linebreak() For a fixed exponent, the machine numbers of the same exponent are equidistant.
+  The nonnegative half of the real line, with machine numbers as a discrete subset. #linebreak() Within a fixed exponent the numbers are equidistant.
 ]
 
 #slidebreak()
 
 === Error Propagation
 
-The errors in number representation are typically very small in magnitudes, and thus for most of our investigation they are negligible, unless they accumulate or get magnified. We will focus on understanding a special case called the *cancellation* to see how *relative errors* may propagate in simple arithmetic operations.
+The errors in number representation are typically very small in magnitude, and thus for most of our investigation they are negligible, unless they accumulate or get magnified. We will focus on understanding a special case called the *cancellation* to see how *relative errors* may propagate in simple arithmetic operations.
 
 #slidebreak()
 
@@ -154,7 +154,7 @@ The *cancellation* is the phenomenon that relative errors are amplified when two
 
 #slidebreak()
 
-Therefore, we want to be able to *identify whether an analytic formula is affected* and if possible, use some tricks to *avoid cancellations* before implementing the formula numerically. In the following, we examine important examples mentioned in the class.
+Therefore, we want to be able to *identify whether an analytic formula is affected* and if possible, use some tricks to *avoid cancellations* before implementing the formula numerically. In the following, we examine important examples mentioned in class.
 
 
 #slidebreak()
@@ -176,7 +176,7 @@ x_1 = cases(
   (-b + sqrt(b^2 - 4 a c)) / (2 a) & "if " b < 0\,,
 )
 $
-then recover the other root from *Vieta's formula*#sidenote[Vieta for $a x^2 + b x + c$: $x_1 x_2 = c \/ a$.]  $x_1 x_2 = c \/ a$,
+then recover the other root from *Vieta's formula* $x_1 x_2 = c \/ a$,
 $
 x_2 = c / (a x_1).
 $
@@ -225,6 +225,6 @@ $
 f'(x) = (op("Im") f(x + i h)) / h + O(h^2) .
 $
 
-However, this method is applicable only to real analytic functions $f$ that is locally represented by a convergent power series. #sidenote[The derivation is shown completely in script, leveraging the fact that the power of the imaginary number $i^(2) = -1$ to have some terms cancelled.].
+However, this method is applicable only to real-analytic functions $f$ that are locally represented by a convergent power series.#sidenote[The full derivation is given in the lecture script, where taking the imaginary part makes the real terms drop out thanks to $i^(2) = -1$.]
 
 ]
