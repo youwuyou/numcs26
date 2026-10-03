@@ -41,6 +41,7 @@
   else if class == "tip" { rgb("#2f855a") }
   else if class == "note" { rgb("#4a5568") }
   else if class == "thought" { rgb("#6b7bb5") }
+  else if class == "idea" { rgb("#c99700") }
   else if class == "warning" { rgb("#b7791f") }
   else { rgb("#718096") }
 }
@@ -160,6 +161,10 @@
 // A reflective "thought bubble" callout -- same API as `admonition`, styled on
 // the web as a puffy thought cloud (see `.admonition.thought` in site.css).
 #let thought(title, body) = admonition("thought", title, body)
+
+// An insight / "aha" callout -- same API as `admonition`, marked with a 💡 on
+// the web (see `.admonition.idea` in site.css).
+#let idea(title, body) = admonition("idea", title, body)
 
 #let defbox(title, body) = admonition("definition", _labeled-title("Definition", title), body)
 #let definition(title, body) = admonition("definition", _labeled-title("Definition", title), body)

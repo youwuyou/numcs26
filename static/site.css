@@ -52,6 +52,8 @@
   --note-accent: #4a5568;
   --thought-accent: #6b7bb5;
   --thought-bg: #f3f4fb;
+  --idea-accent: #c99700;
+  --idea-bg: #fef8df;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
@@ -84,6 +86,8 @@
   --note-accent: #9aa6b8;
   --thought-accent: #9fa9d6;
   --thought-bg: #1b1e2b;
+  --idea-accent: #e5c04b;
+  --idea-bg: #2a241080;
   --code: #f8f8f2;
   --code-bg: #272822;
   --table-stripe: #1a1f28;
@@ -1512,8 +1516,27 @@ nav a.nav-highlight {
 }
 
 .admonition.warning {
+  position: relative;
+  overflow: hidden;
   border-left-color: #c9820c;
   background: var(--pst-color-warning-bg);
+}
+
+.admonition.warning .admonition-title {
+  color: #c9820c;
+  padding-left: 2.8rem;
+}
+
+/* ⚠️ in the title gutter, mirroring the thought cloud's corner but shown at
+   full strength so it reads as a real caution sign rather than a watermark. */
+.admonition.warning .admonition-title::after {
+  content: "⚠️";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.55rem;
+  font-size: 1.15rem;
+  line-height: 1;
+  pointer-events: none;
 }
 
 /* Reflective aside. Keeps the shared admonition frame (left accent + titled
@@ -1540,6 +1563,31 @@ nav a.nav-highlight {
   font-size: 1.4rem;
   line-height: 1;
   opacity: 0.22;
+  pointer-events: none;
+}
+
+/* Insight / "aha" callout: same framed header as the others, tinted teal and
+   marked with a 💡 in the title gutter, like the thought cloud but at full
+   strength so the bulb reads as a highlighted takeaway. */
+.admonition.idea {
+  position: relative;
+  overflow: hidden;
+  border-left-color: var(--idea-accent);
+  background: var(--idea-bg);
+}
+
+.admonition.idea .admonition-title {
+  color: var(--idea-accent);
+  padding-left: 2.8rem;
+}
+
+.admonition.idea .admonition-title::after {
+  content: "💡";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.6rem;
+  font-size: 1.15rem;
+  line-height: 1;
   pointer-events: none;
 }
 
