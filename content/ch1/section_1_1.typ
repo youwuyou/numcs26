@@ -124,8 +124,6 @@ In the illustration we see an example distribution of machine numbers, each $x i
 
 The errors in number representation are typically very small in magnitude, and thus for most of our investigation they are negligible, unless they accumulate or get magnified. We will focus on understanding a special case called the *cancellation* to see how *relative errors* may propagate in simple arithmetic operations.
 
-#slidebreak()
-
 Let us first formally define two different types of errors.
 
 #defbox("Relative and absolute error.")[Let $tilde(bold(x)) in RR^n$ be an approximation of $bold(x) in RR^n$, and let $norm(dot): RR^(n) -> RR_(>=0)$ be a norm on $RR^n$. We introduce:
@@ -151,8 +149,6 @@ The *cancellation* is the phenomenon that relative errors are amplified when two
 #figure-img("content/ch1/cancellation-illustration.png", "Cancellation when subtracting two nearly equal numbers", width: 38%)[
   Here the parts colored in red denote absolute errors in the representation of two positive numbers. #linebreak() We see extreme amplification of relative errors in the result of subtraction.
 ]
-
-#slidebreak()
 
 Therefore, we want to be able to *identify whether an analytic formula is affected* and if possible, use some tricks to *avoid cancellations* before implementing the formula numerically. In the following, we examine important examples mentioned in class.
 

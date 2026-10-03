@@ -19,6 +19,8 @@ $
 O(g) := {f : NN -> RR | exists C >0, exists n_(0) in NN, forall n >= n_(0), f(n) <= C dot g(n) }
 $
 
+#slidebreak()
+
 Intuitively, a function $f in O(g)$ can be characterized by another function $g$ if after scaling, for all $n in NN$ parameters after a fixed threshold $n_(0)$, its function values lie below $C dot g(n)$.
 
 
@@ -48,12 +50,15 @@ F(n) <= C dot G(n) quad forall n >= n_(0)
 $
 ]
 
+#slidebreak()
 
 === Sharpness
 
 Note that the above definition leaves a lot of freedom. In particular, one may choose an extremely bad benchmark function $g$ for stating meaningless bounds. For example, an algorithm that runs with linear complexity $O(n)$ can be correctly labelled as possessing $O(n!)$ complexity.
 
 To avoid this, we will always use the tightest bound possible. This is what we meant with the *sharpness* of a complexity bound. #sidenote[In fact, we could have introduced the notation of $Omega(g)$, which characterizes the *lower-bound* instead. And then express sharpness by the class $Theta(g) = O(g) inter Omega(g)$. This is a widely used notation in theoretical computer science.]
+
+#slidebreak()
 
 === Little-$o$ Notation
 

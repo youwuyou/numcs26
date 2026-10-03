@@ -1811,6 +1811,13 @@ body.presenting {
   line-height: 1.55;
 }
 
+/* The collapsible example/exercise titles are <summary> elements, so the h*
+   rules above miss them -- scale them to slide size explicitly. */
+.slide .course-example-title,
+.slide .code-expert-exercise-title {
+  font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+}
+
 /* Scale every block equation up to slide size, wherever it sits -- including
    math nested inside a course-example or admonition, which the old child-only
    selectors missed (leaving those equations at tiny article size). */
