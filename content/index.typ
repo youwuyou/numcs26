@@ -159,16 +159,15 @@
           "03",
           [Chebyshev recap; Fourier series; start of DFT],
           [05.10.2026],
-          "3.1", "3.2",
+          "2.4", "3.1", "3.2",
         )
-        #week-row(
+        #row(
           [4],
           [05.10.2026],
           [08.10.2026],
-          "04",
-          [Chebyshev-Interpolation],
-          [12.10.2026],
-          "2.4", "3.5", "3.6",
+          tbd,
+          tbd,
+          muted-ticket([12.10.2026]),
         )
         #week-row(
           [5],

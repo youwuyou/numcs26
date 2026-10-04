@@ -92,6 +92,7 @@
       "group": "3 Trigonometrische Interpolation",
       "href": "ch3.html",
       "source": "content/ch3.typ",
+      "pdf": true,
       "sections": [
         "content/ch3/section_3_1.typ",
         "content/ch3/section_3_2.typ",

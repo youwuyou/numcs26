@@ -1,10 +1,7 @@
-#import "_site.typ": site
+#import "_site.typ": site, admonition, checklist, chapter-hero, web-only
 
 #site("ch3", "Chapter 3 - Trigonometrische Interpolation", [
-  #html.header(class: "hero compact-hero")[
-    #html.p(class: "eyebrow")[Chapter 3]
-    #html.h1[Trigonometrische Interpolation]
-  ]
+  #chapter-hero("Chapter 3", "Trigonometrische Interpolation")
 
   #include "ch3/section_3_1.typ"
   #include "ch3/section_3_2.typ"
