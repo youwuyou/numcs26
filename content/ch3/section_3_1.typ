@@ -8,7 +8,7 @@
 
 #thought("A Formal Introduction to " + $L^(2)$ +"-Function Space.")[ In this section, we start with a rather formal approach toward understanding the Fourier series by first setting up the set of the $L^(2)(0,1)$ function space. Intuitively, we are restricting ourselves to consider only functions of certain "nice properties", in order to rule out #link("https://en.wikipedia.org/wiki/Pathological_(mathematics)")[*pathological*] examples, for which our to-be-developed methodology *cannot* be applied.
 
-The function space $L^(2)$ is an infinite-dimensional vector space, where each function $f in L^(2)(0,1)$ is a vector.#sidenote[Although this might be a new few to some of our readers, it is in close analogue to how we did it for the Euclidean vector space.] We will introduce the notion of an inner product and norm, and see how they are exactly tailored to help us in investigating such functions.
+The function space $L^(2)$ is an infinite-dimensional vector space, where each function $f in L^(2)(0,1)$ is a vector.#sidenote[Although this might be a new view to some of our readers, it is closely analogous to how we did it for the Euclidean vector space.] We will introduce the notion of an inner product and norm, and see how they are exactly tailored to help us in investigating such functions.
 ]
 
 #slidebreak()
@@ -46,18 +46,18 @@ where $conj(g(x))$ is the complex conjugate of $g(x)$.
 
 === Limit & Convergence in $L^(2)$
 
-In a normed space, we are particularly interested in understanding the limiting behaviors. Note that the $L^(2)$-inner product can be used to define the $L^(2)$-norm as follows,
+In a normed space, we are particularly interested in understanding the limiting behaviors. Note that the $L^(2)$-inner product can be used to define the $L^(2)$-norm#sidenote[Strictly, this is only a *seminorm* on the set of square-integrable functions, since $norm(f)_(L^(2)) = 0$ merely forces $f = 0$ _almost everywhere_.] as follows,
 
 $
 norm(v)_(L^(2)(0,1)) := sqrt(ip(v, v)_(L^(2)(0,1)))
 $
 
-With the norm defined, we say a sequence of function approximations $(p_(m))_(m in NN)$ converges to some $f$ in $L^(2)(0,1)$ if the approximation error in $L^(2)$-norm converges $0$,
+With the norm defined, we say a sequence of function approximations $(p_(m))_(m in NN)$ converges to some $f$ in $L^(2)(0,1)$ if the approximation error in $L^(2)$-norm converges to zero,
 
 $
-lim_(m -> infinity) norm(p_(m) - f)_(L^(2)(0,1)) 
-&= lim_(m -> infinity) sqrt(ip(p_(m), f)_(L^(2)(0,1))) \
-&= lim_(m -> infinity) sqrt(integral_(0)^(1) abs(p_(m) - f(x))^(2) d x)  \
+lim_(m -> infinity) norm(p_(m) - f)_(L^(2)(0,1))
+&= lim_(m -> infinity) sqrt(ip(p_(m) - f, p_(m) - f)_(L^(2)(0,1))) \
+&= lim_(m -> infinity) sqrt(integral_(0)^(1) abs(p_(m)(x) - f(x))^(2) d x)  \
 &= 0
 $
 
@@ -71,7 +71,7 @@ Convergence in $L^(2)$ does not require the error to be small at every point. In
   width: 90%,
 )[
   Comparison of approximants $p_(n)$ of different degree $n$. \
-  With increasing degree, the overall error in $L^(2)$-norm is reduced and the functions $p_(n)$ in green seems to converge to the function $f$ in blue. However, we also observe overshoots of errors at jump points.
+  With increasing degree, the overall error in $L^(2)$-norm is reduced and the functions $p_(n)$ in green seem to converge to the function $f$ in blue. However, we also observe overshoots of errors at jump points.
 ]
 
 #slidebreak()
@@ -89,9 +89,9 @@ $
 
 #slidebreak()
 
-The completeness guarantees that every $f in L^(2)(0,1)$ can be expanded in the $phi_(k)$ as an infinite sum over $k in ZZ$.
+The completeness guarantees that every $f in L^(2)(0,1)$ is the $L^(2)$-limit of its finite Fourier sums $s_(N) = sum_(k = -N)^(N) hat(f)(k) phi_(k)$ as $N -> infinity$.#sidenote[That is, $norm(f - s_(N))_(L^(2)) -> 0$. The equality in the expansion below is therefore to be understood in the $L^(2)$-sense, and does *not* in general imply pointwise or uniform convergence of the series.]
 
-#theorem("Fourier series representation of " + $L^(2)$ +"-functions (Gradinaru, p.66, 3.1.9)")[ Let $f in L^(2)(0,1)$, its expression is the $L^(2)$-limit of its *Fourier series*,
+#theorem("Fourier series representation of " + $L^(2)$ +"-functions (Gradinaru, p.66, 3.1.9)")[ Let $f in L^(2)(0,1)$, its expression equals the $L^(2)$-limit of its *Fourier series*,
 
 $
 f(t) 
@@ -129,7 +129,7 @@ $
 t mapsto f(t)
 $
 
-The alternative *frequency domain* definition is described by its Fourier coefficients. Such coefficients determine the contributions of a fixed oscillation mode, represented by the basis $phi_(k)(t) =exp(2 pi i k x)$ of our choice,
+The alternative *frequency domain* definition is described by its Fourier coefficients. Such coefficients determine the contributions of a fixed oscillation mode, represented by the basis $phi_(k)(t) = exp(2 pi i k x)$ of our choice,
 
 $
 k mapsto hat(f)(k), quad k in ZZ
