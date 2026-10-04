@@ -522,14 +522,29 @@
 // `kicker` is an optional eyebrow label above the <h2> (e.g. `kicker: "Example"`).
 // It is off by default: a label that reads the same on every section is noise.
 #let section(meta, kicker: none, body) = context {
-  if target() != "html" {
-    // Paged: the `==`/`===` headings are left to the document template.
-    return body
-  }
   // The section number is the leading token of the title (e.g. "1.1"). Sub-
-  // headings continue it ("1.1.1", "1.1.2", ...) via a per-section counter.
+  // headings continue it ("1.1.1", "1.1.2", ...); both targets derive it here.
   let sec-match = meta.title.match(regex("^[0-9]+(\.[0-9]+)*"))
   let sec-number = if sec-match != none { sec-match.text } else { none }
+
+  if target() != "html" {
+    // Paged: the `==` title keeps its baked-in number (e.g. "3.2 ..."), but the
+    // `===` sub-headings get no number of their own from the template, so on
+    // paper the depth is ambiguous. Number them "3.2.1" to match the HTML build:
+    // prepend the section number (the leading token of the title) and read the
+    // level-3 index off the heading counter. Only level 3 is numbered -- level 2
+    // already carries its number in the title text, and `====` level-4 headings
+    // are set apart by an underline instead (see `_paper.typ`).
+    if sec-number == none { return body }
+    return {
+      set heading(numbering: (..n) => {
+        let nums = n.pos()
+        if nums.len() == 3 { sec-number + "." + str(nums.at(2)) } else { none }
+      })
+      body
+    }
+  }
+  // HTML: sub-headings continue the section number via a per-section counter.
   let sub-counter = counter("subheading-" + meta.id)
   show heading.where(level: 2): h => {
     if kicker != none { html.p(class: "section-kicker")[#kicker] }

@@ -34,5 +34,18 @@
     headings-font: ("New Computer Modern Sans",),
   )
 
+  // kunskap's own `===` rule renders `it.body` only, dropping the heading
+  // number we set in `_site.typ`. Re-render it with the number ("3.1.1 ...")
+  // restored, keeping kunskap's font/weight.
+  show heading.where(level: 3): it => context text(
+    font: ("New Computer Modern Sans",),
+    weight: "medium",
+  )[#if it.numbering != none [#counter(heading).display(it.numbering) ]#it.body#h(1em)]
+
+  // kunskap gives `====` sub-sub-headings no rule of their own, so on paper they
+  // read almost like bold body text. Underline them (number included) so the
+  // heading level stays visually unambiguous.
+  show heading.where(level: 4): it => underline(it)
+
   body
 }
