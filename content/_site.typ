@@ -13,10 +13,11 @@
 
 // Course-wide math color helpers, e.g. `$cblue(bold(B))$`. Dual-target: the
 // paged build colors the text directly, while the MathML build wraps it in an
-// <mstyle mathcolor="..."> so the color survives HTML export.
+// <mstyle>. We set both the legacy `mathcolor` attribute (honored by Firefox)
+// and the CSS `color` property (the only coloring MathML Core / Chrome obeys).
 #let _mathcolor(hex) = (x) => context {
   if target() == "html" {
-    html.elem("mstyle", attrs: (mathcolor: hex))[$#x$]
+    html.elem("mstyle", attrs: (mathcolor: hex, style: "color: " + hex))[$#x$]
   } else {
     text(fill: rgb(hex), $#x$)
   }
@@ -25,6 +26,25 @@
 #let cred = _mathcolor("#e4272b")
 #let corange = _mathcolor("#e8710a")
 #let colive = _mathcolor("#808000")
+
+// Complex conjugate `$conj(g(x))$`. Typst's math `overline()` is silently
+// dropped during MathML export, and `accent()` only ever emits a fixed-width
+// combining mark that will not span a wide base (and any char we place in an
+// <mo> gets wrapped in <mtext>, so operator stretching is unavailable). The
+// HTML branch draws a thin top border on the <mrow>: unlike `text-decoration:
+// overline`, the border has controllable spacing and does not cut into the
+// glyphs; unlike <mover> with a macron, it spans the full base width in
+// current browsers. The paged build uses native `overline`.
+#let conj = (x) => context {
+  if target() == "html" {
+    html.elem(
+      "mrow",
+      attrs: (style: "border-top: 0.055em solid currentColor; padding-top: 0.08em"),
+    )[$#x$]
+  } else {
+    math.overline(x)
+  }
+}
 
 // Every helper below is dual-target: the same chapter source compiles to the
 // website (`--features html --format html`) and to a PDF (plain `typst
@@ -172,18 +192,26 @@
 #let lemma(title, body) = admonition("lemma", _labeled-title("Lemma", title), body)
 #let theorem(title, body) = admonition("theorem", _labeled-title("Theorem", title), body)
 
-#let proof(body) = context {
+// `title` overrides the default "Proof." label, e.g.
+// `#proof(title: [Proof of the $n$th-root formula])[ ... ]`.
+// `boxed: true` draws a border around the whole proof.
+#let proof(body, title: [Proof.], boxed: false) = context {
   if target() == "html" {
-    html.elem("details", attrs: (class: "proof"))[
-      #html.elem("summary", attrs: (class: "proof-title"))[Proof.]
+    html.elem("details", attrs: (class: if boxed { "proof proof--boxed" } else { "proof" }))[
+      #html.elem("summary", attrs: (class: "proof-title"))[#title]
       #html.div(class: "proof-body")[#body]
     ]
   } else {
-    block(width: 100%, breakable: true)[
-      #text(weight: "bold")[Proof.]
+    let inner = block(width: 100%, breakable: true)[
+      #text(weight: "bold")[#title]
       #v(4pt, weak: true)
       #body
     ]
+    if boxed {
+      block(width: 100%, breakable: true, stroke: 0.5pt, inset: 10pt, radius: 4pt, inner)
+    } else {
+      inner
+    }
   }
 }
 
@@ -387,6 +415,32 @@
     html.a(class: "sec-ref", href: "#" + id)[#shown]
   } else {
     link(label(id))[#shown]
+  }
+}
+
+// A boxed/highlighted display equation, LaTeX `\boxed{...}` style. The HTML
+// target wraps the equation in a styled `.boxeq` div (see static/site.css),
+// since native `box`/`align` strokes are dropped during HTML export; the paged
+// target uses a real stroked box.
+#let boxeq(body) = context {
+  if target() == "html" {
+    html.div(class: "boxeq")[#body]
+  } else {
+    align(center, box(stroke: 0.5pt, inset: 10pt, radius: 4pt, body))
+  }
+}
+
+// A horizontal section divider. Use instead of a bare `---` (which Typst turns
+// into an em-dash) or a raw `line()` (dropped during HTML export). The HTML
+// target emits a styled `<hr class="divider">`; the paged target draws a real
+// rule.
+#let divider() = context {
+  if target() == "html" {
+    html.elem("hr", attrs: (class: "divider"))
+  } else {
+    v(0.6em)
+    line(length: 100%, stroke: 0.5pt + luma(180))
+    v(0.6em)
   }
 }
 

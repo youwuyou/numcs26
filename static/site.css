@@ -1615,6 +1615,16 @@ nav a.nav-highlight {
   margin: 0.85rem 0 1.1rem;
 }
 
+.proof--boxed {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border, var(--muted));
+  border-radius: 6px;
+}
+
+.proof--boxed > .proof-body {
+  padding-left: 0;
+}
+
 .proof-title {
   display: flex;
   align-items: center;
@@ -2914,6 +2924,30 @@ body.notes-lightbox-open {
   to {
     background: transparent;
   }
+}
+
+/* Boxed/highlighted display equation (see `boxeq()` in content/_site.typ). */
+.boxeq {
+  margin: 1rem auto;
+  padding: 0.6rem 1rem;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border, var(--muted));
+  border-radius: 6px;
+}
+
+.boxeq > * {
+  margin: 0;
+}
+
+/* Horizontal section divider (see `divider()` in content/_site.typ). */
+.divider {
+  margin: 2rem auto;
+  width: 100%;
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--border, var(--muted));
 }
 
 /* Match the equation flash for heading permalinks, so a deep link lands the

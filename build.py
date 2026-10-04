@@ -103,6 +103,7 @@ def normalize_mathml_accents(path):
     """Patch fragile MathML accents emitted by Typst's HTML exporter."""
     text = path.read_text(encoding="utf-8")
     text = text.replace("<mo>̃</mo>", "<mo>~</mo>")
+    text = text.replace("<mo>̂</mo>", "<mo>^</mo>")
     path.write_text(text, encoding="utf-8")
 
 
