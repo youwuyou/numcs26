@@ -169,4 +169,23 @@ The same functions viewed as $t mapsto f(t)$ and as $k mapsto hat(f)(k)$.#linebr
 
 === Trigonometric Polynomial
 
-🚧 Under construction.
+#definition("Trigonometric polynomial.")[ A trigonometric polynomial of degree at most $m in NN$ is a function $p_(m): RR -> CC$ of the form
+
+$
+p_(m)(t) := sum^(m)_(j = -m) gamma_(j) e^(2 pi i j t),
+$
+
+with coefficients $gamma_(j) in CC$.
+]
+
+Each basis function $e^(2 pi i j t) = phi_(j)(t)$ is $1$-periodic. Hence every trigonometric polynomial is $1$-periodic as well,
+
+$
+p_(m)(t + 1) = p_(m)(t), quad forall t in RR.
+$
+
+The coefficients $gamma_(j)$ are freely chosen. In the next section, we choose them as Fourier coefficients of a function $f in L^(2)(0,1)$. This gives the approximation
+
+$
+p_(m)(t) = sum_(k = -m)^(m) hat(f)(k) e^(2 pi i k t) approx f(t).
+$

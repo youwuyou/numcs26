@@ -93,12 +93,12 @@ hat(f)(k)
 &= integral^(1)_(0) f(t) e^(-2 pi i k t) d t \
 &approx frac(1, N) sum^(N-1)_(l = 0) f(cred(t_(l))) e^(-2  pi i k cred(t_(l))) \
 &=^(cred(t_(l)= l/N)) frac(1, N) sum^(N-1)_(l = 0) f(cred(frac(l, N))) e^(-2  pi i k cred(frac(l, N))) \
-&=^(colive(omega_(N)^(k l) := e^(- 2 pi i k frac(l, N)))) frac(1, N) sum^(N-1)_(l  = 0) f(cred(frac(l, N))) colive(omega^(k l)_(N))\
+&=^(colive(omega_(N)^(k l) := e^(2 pi i k frac(l, N)))) frac(1, N) sum^(N-1)_(l  = 0) f(cred(frac(l, N))) conj(colive(omega^(k l)_(N))) \
 &:= hat(f)_(N)(k)
 $
 
 
-In the last step, we introduce the term $omega_(N)^(k l) := e^(- 2 pi i k frac(l, N))$, which is related to a number-theoretic concept called the *nth root of unity*, that are complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
+In the last step, we introduce the notion $omega_(N)^(k l) := e^(2 pi i k frac(l, N))$ for the complex-valued term and summarize the term $e^(- 2 pi i k frac(l, N))$ using the complex conjugate. This notion is related to a number-theoretic concept called the *nth root of unity*, that are complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
 
 
 #slidebreak()
@@ -216,6 +216,53 @@ If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thu
 
 
 ==== Establishing Relation to Interpolation
-🚧 Under construction.
+
+Recall at the beginning of this section, we apply the composite trapezoidal rule and approximate the Fourier coefficient $hat(f)(k) = integral^(1)_(0) f(t) e^(-2 pi i k t) d t$ as
+
+$
+cblue(hat(f)(k) approx frac(1, N) sum^(N-1)_(j = 0) f(frac(j,N)) e^(-2 pi i k frac(j, N)))
+$
+
+Now, if we use this *approximate Fourier coefficient* $hat(f)(k)$ in the expression of a *trigonometric polynomial* of degree $N-1$#sidenote[Since we have $N$ equidistant nodes.]. Recall its expression in general is,
+
+$
+p_(n)(t) = sum^(m)_(k = - m) hat(f)_(n)(k) e^(2 pi i k t)
+$
+
+
+Let us evaluate the polynomial at the nodes, which we previously introduced as $t_(l) = frac(l, N)$,
+
+$
+p_(N-1)(t_(l)) 
+&= p_(N-1)(frac(l, N)) \
+&= sum^(frac(N, 2) - 1)_(k = - frac(N, 2)) cblue(hat(f)_(N)(k)) e^(2 pi i k frac(l, N))\
+&= sum^(frac(N, 2) - 1)_(k = - frac(N, 2)) cblue(( frac(1, N) sum^(N-1)_(j = 0) f(frac(j,N)) e^(-2 pi i k frac(j, N)) )) e^(2 pi i k frac(l, N))\
+&= cblue(frac(1, N)sum^(N-1)_(j = 0) f(frac(j, N))) sum^(N/2 - 1)_(k = -N/2) cblue(e^(-2 pi i k frac(j, N)))e^(2 pi i k frac(l, N)) \
+&= cblue(frac(1, N)sum^(N-1)_(j = 0) f(frac(j, N))) sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(l - j))
+$
+
+In the last step we swapped the summations and collected the two exponentials back into $omega_(N)^(k(l - j))$. Now, we apply  the *orthogonality* property (3.2.15) of $n$th root of unity to the summation term, since $omega_(N)^(k(l - j))$ is $N$-periodic in $k$, summing it over the $N$ indices $k = -N/2, dots, N/2 - 1$ gives
+
+$
+sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(l - j)) = cases(
+N quad &"if" (l - j) equiv 0 space (mod N),
+0 quad &"else."
+)
+$
+
+For $l, j in {0, dots, N-1}$ the condition $(l - j) equiv 0 space (mod N)$ holds only when $j = l$, so only that single term survives,
+
+$
+p_(N-1)(t_(l)) = cblue(frac(1, N)) dot cblue(f(frac(l, N))) dot N = f(t_(l))
+$
+
+Overall, we proved that
+
+#boxeq[
+$
+p_(N-1)(t_(l)) = f(t_(l)), quad forall t_(l) = frac(l, N), l = 0, 1, dots, N-1
+$
+]
+
 === - 3.2.4 
 🚧 Under construction.
