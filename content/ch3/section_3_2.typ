@@ -43,16 +43,16 @@ $
 
 For $n = 1$ the only solution is $z = 1$, which satisfies the formula. We may therefore consider $n in NN, n >= 2$.
 
-Recall that a complex number in polar coordinates is written as $z = r e^(i cblue(theta))$. Here, $r = abs(1) = 1$, since $z^(n) =^(!) 1$ requires the root to lie on the unit circle. Hence $z = e^(i cblue(theta))$.
+Recall that a complex number in polar coordinates is written as $z = r e^(i cblue(theta))$. Since $abs(z)^(n) = abs(z^(n)) = 1$ and $abs(z) >= 0$, we have $r = abs(z) = 1$, so the root lies on the unit circle and $z = e^(i cblue(theta))$.
 
 $
 z^n &= 1\
 <=> (e^(i cblue(theta)))^(n) &= 1 \
 <=> e^(i cblue(theta) n) &= 1 \
-<=> cos(cblue(theta)n) + cancel(i sin(cblue(theta)n)) &= 1.
+<=> cos(cblue(theta)n) + i sin(cblue(theta)n) &= 1.
 $
 
-For the left-hand-side to equal to $1$, we conclude by matching real and imaginary part respectively that it must hold $cos(cblue(theta)n) = 1$ and $sin(cblue(theta)n) = 0$, which is the case when the angle $cblue(theta)n$ is a full multiple of $2 pi$. Thus, by periodicity it holds for all $k in ZZ$
+For the left-hand-side to equal to $1$, we conclude by matching real and imaginary part respectively that it must hold $cos(cblue(theta)n) = 1$ and $sin(cblue(theta)n) = 0$, which is the case when the angle $cblue(theta)n$ is a full multiple of $2 pi$. This holds if and only if, for some $k in ZZ$,
 
 $
 cblue(theta) n = 2 pi k <=>
@@ -79,7 +79,7 @@ $
 omega_(2)^(k) = exp(frac(2 k pi i, 2)) = exp(k pi i)
 $
 
-plugging in index of the *$2$th roots of unity*, for $k = 0, 1$ the two roots are $omega_(2)^(0) = 1, quad omega_(2)^(1) = e^(pi i) = -1$.
+For $k = 0, 1$ the two roots are $omega_(2)^(0) = 1, quad omega_(2)^(1) = e^(pi i) = -1$.
 
 #divider()
 - *$n = 3$*, for $z^(3) = 1$, the formula gives
@@ -105,16 +105,16 @@ $
 #example("Properties of nth root of unity")[
 The following properties of roots of unity are of our interest, whose proofs we omit here but can be found in the script#sidenote[See "Bemerkung 3.3.2".]:
 
-1. *$n$-periodicity* (3.2.11). For a fixed degree $n in NN$, there are only $n$ distinct roots, thus the $(k + n)$-th root is identical as the $k$-th root.#sidenote[This lets us reindex a DFT sum freely modulo $n$ -- the key step behind `fftshift`, which relabels the upper half of the spectrum as negative frequencies.]
+1. *$n$-periodicity* (3.2.11). For a fixed degree $n in NN$, there are only $n$ distinct roots, thus the $(k + n)$-th root is identical to the $k$-th root.//#sidenote[This lets us reindex a DFT sum freely modulo $n$ -- the key step behind `fftshift`, which relabels the upper half of the spectrum as negative frequencies.]
    #boxeq[$ omega_(n)^(k + n) = omega_(n)^(k), quad forall k in ZZ. $]
 
-2. *Special values* (3.2.13), (3.2.14). By its definition, the $n$th power of a root returns to $1$. In addition, if $n in NN$ is an even number, the symmetry in roots distribution guarantees us the $z^(n/2) = -1$.
+2. *Special values* (3.2.13), (3.2.14). By its definition, the $n$th power of a root returns to $1$. In addition, if $n in NN$ is even, then $omega_(n)^(n slash 2) = -1$.
    #boxeq[$ omega_(n)^(n) = 1, quad omega_(n)^(n slash 2) = -1 quad (n "even"). $]
 
-3. *Orthogonality* (3.2.15). If we interpret $omega_(n)^(k j)$ as $(omega_(n)^(k))^(j)$, in which we further raise a nth root of unity to some power $j in NN$.
+3. *Orthogonality* (3.2.15). For $j in ZZ$, summing the powers $omega_(n)^(k j) = (omega_(n)^(k))^(j)$ over $k = 0, dots, n-1$ cancels to $0$ unless $j equiv 0 space (mod n)$:
    #boxeq[$ sum^(n-1)_(k = 0) omega_(n)^(k j) = cases(n quad &"if" j equiv 0 space (mod n), 0 quad &"else.") $]
 
-If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thus they sum to $n$. Otherwise, the geometry on the unit circle intuitively shows such powers cancel out and the sum is $0$.#sidenote[Algebraically a geometric series: $sum_(k=0)^(n-1) (omega_(n)^(j))^(k) = frac(1 - omega_(n)^(j n), 1 - omega_(n)^(j)) = 0$ for $omega_(n)^(j) != 1$, since $omega_(n)^(j n) = 1$. This is the heart of the DFT: it gives $bold(F)_(N)^(H) bold(F)_(N) = N bold(I)$ and hence the inversion formula.]
+If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thus they sum to $n$. Otherwise, the geometry on the unit circle intuitively shows such powers cancel out and the sum is $0$.#sidenote[Or algebraically derive the formula by using a geometric series, as shown in the lecture note.]
 
 ]
 
