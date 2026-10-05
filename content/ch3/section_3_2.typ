@@ -1,4 +1,4 @@
-#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, conj, boxeq, divider, anchor, anchor-ref
+#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, conj, boxeq, divider, anchor, anchor-ref, colive
 
 #let meta = (id: "diskrete-fouriertransformation", title: "3.2 Diskrete Fouriertransformation")
 
@@ -8,9 +8,105 @@
 
 === Motivation: From Approximation to Interpolation#sidenote[Gradinaru, 3.2.1 "Motivation: von der Approximation zur Interpolation"]
 
-🚧 Under construction.
+// 🚧 Under construction.
+
+// #thought("Relating approximation and interpolation")[
+
+// ]
+
+The Fourier coefficients of a given function $f in L^(2)(0,1)$ can be computed by,
+
+$
+hat(f)(k) = integral^(1)_(0) f(t) e^(-2 pi i k t) d t
+$
+
+
+#example("A first example of approximating smooth integral by the trapezoidal rule")[
+To evaluate such an integral numerically we replace it by a finite sum, i.e. a *quadrature rule*. The simplest is the trapezoidal rule, approximating one interval by a single trapezoid:
+
+$
+integral^(b)_(a) f(t) d t approx frac(b - a, 2) (f(a) + f(b))
+$
+
+#figure-img(
+  "content/ch3/Trapezoidal_rule_illustration.svg.webp",
+  "The trapezoidal rule approximates the integral by the area of a trapezoid",
+  width: 40%,
+  credit: [Image Source: #link("https://en.wikipedia.org/wiki/Trapezoidal_rule")[Wikipedia, "Trapezoidal rule"].],
+)[
+  The integral is approximated by the area under the straight line connecting the endpoints $(a, f(a))$ and $(b, f(b))$.
+]
+
+]
+
+
+#example("Composite trapezoidal rule over an equidistant interval")[
+
+Let us take a step further and split the interval $I = [a, b]$ into $N$ equal subintervals of width $h = (b - a) slash N$, with equidistant nodes $x_(0), dots, x_(N)$.
+
+#figure-img(
+  "content/ch3/Composite_trapezoidal_rule_illustration.png",
+  "The composite trapezoidal rule approximates the integral by a chain of trapezoids over equidistant nodes",
+  width: 50%,
+  credit: [Image Source: #link("https://commons.wikimedia.org/wiki/File:Composite_trapezoidal_rule_illustration.png")[Wikimedia Commons, "Composite trapezoidal rule illustration"].],
+)[
+  Composite trapezoidal rule.
+]
+
+Then the integral over $I = [a,b]$ can be equivalently written as a sum of integrals over the small subintervals $[x_(j-1), x_(j)]$,
+
+$
+integral^(b)_(a) f(t) d t = sum^(N)_(j = 1) underbrace(integral^(x_(j))_(x_(j-1)) f(t) d t, (star))
+$
+
+Now we apply the *trapezoidal rule* to each small term $(star)$ -- every subinterval has the same width $h$ -- and sum them up,
+
+$
+integral^(b)_(a) f(t) d t
+&approx sum^(N)_(j = 1) frac(h, 2) (f(x_(j-1)) + f(x_(j))) \
+&= frac(h, 2) (f(x_(0)) + 2 f(x_(1)) + 2 f(x_(2)) + dots.c + 2 f(x_(N-1)) + f(x_(N))).
+$
+
+Each interior node $x_(1), dots, x_(N-1)$ is shared by two neighbouring trapezoids and is therefore counted twice, while the two endpoints $x_(0)$ and $x_(N)$ appear only once. Factoring out $h$ gives the *composite trapezoidal rule*,
+
+$
+integral^(b)_(a) f(t) d t approx h (frac(1, 2) f(x_(0)) + f(x_(1)) + dots.c + f(x_(N-1)) + frac(1, 2) f(x_(N))), quad h = frac(b - a, N).
+$
+
+]
+
+
+If we assume the interval $I = [0,1]$ is discretized into $N$ distinct equidistant nodes, denoted as $cred(t_(l)) = l / N$ with $l = 0, 1, dots, N -1$, and the funtion $f$ to integrate over is $1$-periodic, the following composite trapezoidal rule can be used to approximate the smooth integral by a finite sum,
+
+
+#anchor("eq-trap")[#boxeq[
+$
+integral^(1)_(0) g(t) d t approx frac(1, N) sum^(N-1)_(ell = 0) g(t_(ell)), quad t_(ell) = frac(ell, N)
+$
+]]
+
+
+By applying the trapezoidal rule with $g(t) := f(t) e^(-2 pi i k t)$ substituted, we obtain#sidenote[This is equation $(3.2.16)$ in script p.71.]
+
+$
+hat(f)(k) 
+&= integral^(1)_(0) f(t) e^(-2 pi i k t) d t \
+&approx frac(1, N) sum^(N-1)_(l = 0) f(cred(t_(l))) e^(-2  pi i k cred(t_(l))) \
+&=^(cred(t_(l)= l/N)) frac(1, N) sum^(N-1)_(l = 0) f(cred(frac(l, N))) e^(-2  pi i k cred(frac(l, N))) \
+&=^(colive(omega_(N)^(k l) := e^(- 2 pi i k frac(l, N)))) frac(1, N) sum^(N-1)_(l  = 0) f(cred(frac(l, N))) colive(omega^(k l)_(N))\
+&:= hat(f)_(N)(k)
+$
+
+
+In the last step, we introduce the term $omega_(N)^(k l) := e^(- 2 pi i k frac(l, N))$, which is related to a number-theoretic concept called the *nth root of unity*, that are complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
+
+
+#slidebreak()
 
 ==== nth Root of Unity
+
+By the end of this section, we will leverage properties of $omega_(N)^(k l)$ to refactor expressions involving $hat(f)_(N)(k)$ into a recognizable formulation to establish its connection to the trigonometric polynomial.
+
 
 #definition("nth Root of Unity.")[ For a positive integer $n in NN$, a complex number $z in CC$ is called an $n$th root of unity if and only if
 $
@@ -121,7 +217,5 @@ If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thu
 
 ==== Establishing Relation to Interpolation
 🚧 Under construction.
-
-
 === - 3.2.4 
 🚧 Under construction.
