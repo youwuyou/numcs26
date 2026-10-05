@@ -6,16 +6,15 @@
 
 == #meta.title
 
-#thought("A Formal Introduction to " + $L^(2)$ +"-Function Space.")[ In this section, we start with a rather formal approach toward understanding the Fourier series by first setting up the set of the $L^(2)(0,1)$ function space. Intuitively, we are restricting ourselves to consider only functions of certain "nice properties", in order to rule out #link("https://en.wikipedia.org/wiki/Pathological_(mathematics)")[*pathological*] examples, for which our to-be-developed methodology *cannot* be applied.
+#thought("A Formal Introduction to the Space " + $L^(2)$)[ In this section, we take a formal approach to the Fourier series by first introducing the function space $L^(2)(0,1)$. It is an infinite-dimensional vector space, where each function $f in L^(2)(0,1)$ is a vector. In particular, it is also an inner product space. To see this, we will introduce a suitable definition of the inner product and see how it introduces an induced norm, that further allows us to "measure distances" between functions.#sidenote[Although this might be a new view to some of our readers, it is closely analogous to the familiar Euclidean space $RR^(n)$.] We then will develop an alternative notion of convergence that is particularly suited to the study of Fourier series.
 
-The function space $L^(2)$ is an infinite-dimensional vector space, where each function $f in L^(2)(0,1)$ is a vector.#sidenote[Although this might be a new view to some of our readers, it is closely analogous to how we did it for the Euclidean vector space.] We will introduce the notion of an inner product and norm, and see how they are exactly tailored to help us in investigating such functions.
 ]
 
 #slidebreak()
 
-=== Function Space $L^(2)$ as Normed Vector Space
+=== Function Space $L^(2)$ as an Inner Product Space
 
-We study complex-valued functions $f: (0, 1) -> CC$ on a bounded interval $(0, 1) subset RR$#sidenote[We may also consider $(a, b)$ for $a<=b$; working on $(0,1)$ costs no generality, as any such interval reparametrizes to $(0,1)$, see "Bemerkung 3.1.4".]. We restrict to those that are *square-integrable*, meaning $abs(f)^(2)$ is Lebesgue-integrable:
+We study complex-valued functions $f: (0, 1) -> CC$ on a bounded interval $(0, 1) subset RR$#sidenote[We may also consider $(a, b)$ for $a<b$; working on $(0,1)$ costs no generality, as any such interval reparametrizes to $(0,1)$, see "Bemerkung 3.1.4".]. We restrict to those that are *square-integrable*, meaning $abs(f)^(2)$ is Lebesgue-integrable:
 
 $
 integral_(0)^(1) abs(f(x))^(2) d x < infinity.
@@ -34,31 +33,32 @@ $
 
 #slidebreak()
 
-The $L^(2)(0,1)$ space as defined above is a vector space. We equip it with the $L^(2)$-inner product#sidenote[In analogue to the dot product $ip(dot, dot): RR^(n) times RR^(n) -> RR$ on $RR^(n)$, where $ip(bold(x),bold(y)) = bold(x)^(T)bold(y)$.]
+The $L^(2)(0,1)$ space as defined above is a *vector space*. Moreover, it is an *inner product space* w.r.t. the following definition of an $L^(2)$-inner product.#sidenote[Its definition is analogous to the inner product $ip(dot, dot): CC^(n) times CC^(n) -> CC$ on $CC^(n)$, where $ip(bold(x),bold(y)) = bold(x)^(H)bold(y)$ conjugates the first argument.]
 
 $
 ip(g, f)_(L^(2)(0,1)) := integral_(0)^(1) conj(g(x))f(x) d x,
 $
 
-where $conj(g(x))$ is the complex conjugate of $g(x)$.
+where $conj(g(x))$ is the complex conjugate of $g(x)$. The inner product induces the $L^(2)$-norm#sidenote[On the square-integrable functions this is strictly only a *seminorm*, since $norm(f)_(L^(2)) = 0$ merely forces $f = 0$ _almost everywhere_.]
+
+$
+norm(f)_(L^(2)(0,1)) := sqrt(ip(f, f)_(L^(2)(0,1))).
+$
 
 #slidebreak()
 
-=== Limit & Convergence in $L^(2)$
+=== Convergence in $L^(2)$
 
-In a normed space, we are particularly interested in understanding the limiting behaviors. Note that the $L^(2)$-inner product can be used to define the $L^(2)$-norm#sidenote[Strictly, this is only a *seminorm* on the set of square-integrable functions, since $norm(f)_(L^(2)) = 0$ merely forces $f = 0$ _almost everywhere_.] as follows,
-
-$
-norm(v)_(L^(2)(0,1)) := sqrt(ip(v, v)_(L^(2)(0,1)))
-$
-
-With the norm defined, we say a sequence of function approximations $(p_(m))_(m in NN)$ converges to some $f$ in $L^(2)(0,1)$ if the approximation error in $L^(2)$-norm converges to zero,
+In a normed space, we are particularly interested in understanding limiting behaviour. With the norm defined above, we say a sequence of approximations $(p_(N))_(N in NN)$ converges to some $f$ in $L^(2)(0,1)$ if
 
 $
-lim_(m -> infinity) norm(p_(m) - f)_(L^(2)(0,1))
-&= lim_(m -> infinity) sqrt(ip(p_(m) - f, p_(m) - f)_(L^(2)(0,1))) \
-&= lim_(m -> infinity) sqrt(integral_(0)^(1) abs(p_(m)(x) - f(x))^(2) d x)  \
-&= 0
+norm(p_(N) - f)_(L^(2)(0,1)) -> 0 quad "as" N -> infinity.
+$
+
+Writing out the norm, this means the total squared error vanishes,
+
+$
+norm(p_(N) - f)_(L^(2)(0,1)) = sqrt(integral_(0)^(1) abs(p_(N)(x) - f(x))^(2) d x) -> 0.
 $
 
 #slidebreak()
@@ -70,8 +70,8 @@ Convergence in $L^(2)$ does not require the error to be small at every point. In
   "Partial Fourier sums (green) of a box function (blue) for n = 10 and n = 70 (Gibbs phenomenon).",
   width: 90%,
 )[
-  Comparison of approximants $p_(n)$ of different degree $n$. \
-  With increasing degree, the overall error in $L^(2)$-norm is reduced and the functions $p_(n)$ in green seem to converge to the function $f$ in blue. However, we also observe overshoots of errors at jump points.
+  Comparison of the partial Fourier sums $s_(N)$ (green) approximating the box function $f$ (blue). \
+ Note that there is overshoot particularly near the jump points, this is the *Gibbs phenomenon*.
 ]
 
 #slidebreak()
@@ -123,7 +123,7 @@ $
 
 #slidebreak()
 
-Intuitively, the identity permits us to use two equivalent ways to describe the same function $f$. We may either examine the *time domain* definition, which represents the common view of functions we are used to. For example, it is what we usually measure or sample directly from trajectories of a physical process.
+Intuitively, the identity lets us use two equivalent representations of the same function $f$. We can describe $f$ either in the *time domain*,
 
 $
 t mapsto f(t)
@@ -145,7 +145,7 @@ width: 78%,
 
 )[
 
-The same functions viewed as $t mapsto f(t)$ and as $k mapsto hat(f)(k)$.#linebreak() Smooth functions have rapidly decaying Fourier coefficients.
+The same functions viewed as $t mapsto f(t)$ and as $k mapsto hat(f)(k)$.#linebreak() Smooth periodic functions have rapidly decaying Fourier coefficients.
 
 ]
 
