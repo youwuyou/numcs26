@@ -27,5 +27,4 @@
     href: "https://expert.ethz.ch/print/NumINFK/AS26/pTf4WZM5ScRE6JRWD",
   )
 
-  // #include "ch1/serie01.typ"
 ])
