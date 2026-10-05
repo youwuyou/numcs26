@@ -1,4 +1,4 @@
-#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, colive, corange, conj, boxeq, divider
+#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, colive, corange, conj, boxeq, divider, proof
 
 #let meta = (id: "trigonometrische-polynome-und-fourier-reihen", title: "3.1 Trigonometrische Polynome und Fourier-Reihen")
 
@@ -78,7 +78,7 @@ Convergence in $L^(2)$ does not require the error to be small at every point. In
 
 === Orthonormal Fourier Basis, Fourier Series and Coefficients
 
-The functions $phi_(k)(x) = exp(2 pi i k x)$, $k in ZZ$, form a *complete orthonormal basis* of the $L^(2)$-space. Orthonormality can be checked directly by computing the inner product for indices $k, j in ZZ$,
+The functions $phi_(k)(t) = exp(2 pi i k t)$, $k in ZZ$, form a *complete orthonormal basis* of the $L^(2)$-space. Orthonormality can be checked directly by computing the inner product for indices $k, j in ZZ$,
 
 $
 ip(phi_(k), phi_(j))_(L^(2)(0,1)) = cases(
@@ -87,24 +87,39 @@ ip(phi_(k), phi_(j))_(L^(2)(0,1)) = cases(
 )
 $
 
+#proof(title: "Proof of the Orthonormality")[
+By definition, the inner product conjugates its first argument. Since $phi_(k)(t) = exp(2 pi i k t)$, we have $conj(phi_(k)(t)) = exp(-2 pi i k t)$, so for indices $k, j in ZZ$,
+
+$
+ip(phi_(k), phi_(j))_(L^(2)(0,1))
+&= integral_(0)^(1) conj(phi_(k)(t)) phi_(j)(t) d t \
+&= integral_(0)^(1) e^(-2 pi i k t) e^(2 pi i j t) d t \
+&= integral_(0)^(1) e^(2 pi i (j - k) t) d t = delta_(k j) = cases(
+1 quad &"if" k = j,
+0 quad &"if" k != j.
+)
+$
+]
+
 #slidebreak()
 
-The completeness guarantees that every $f in L^(2)(0,1)$ is the $L^(2)$-limit of its finite Fourier sums $s_(N) = sum_(k = -N)^(N) hat(f)(k) phi_(k)$ as $N -> infinity$.#sidenote[That is, $norm(f - s_(N))_(L^(2)) -> 0$. The equality in the expansion below is therefore to be understood in the $L^(2)$-sense, and does *not* in general imply pointwise or uniform convergence of the series.]
+The choice of this basis leads to very desirable properties of convergence when approximating a function $f in L^(2)(0,1)$ with its Fourier series,
 
-#theorem("Fourier series representation of " + $L^(2)$ +"-functions (Gradinaru, p.66, 3.1.9)")[ Let $f in L^(2)(0,1)$, its expression equals the $L^(2)$-limit of its *Fourier series*,
+#theorem("Fourier series representation of " + $L^(2)$ +"-functions (Gradinaru, p.66, 3.1.9)")[ Let $f in L^(2)(0,1)$, then $f$ equals the $L^(2)$-limit of its *Fourier series*,
 
 $
-f(t) 
+f(t)
 &= sum^(infinity)_(k = - infinity) hat(f)(k) phi_(k)(t)  \
-&= sum^(infinity)_(k = - infinity) hat(f)(k) exp(2 pi i k t)
+&= sum^(infinity)_(k = - infinity) hat(f)(k) exp(2 pi i k t),
 $
 
-where $hat(f)(k)$ are called the *Fourier coefficients*, and are defined as,
-
+with the *Fourier coefficients*
 
 $
-hat(f)(k) = integral^(1)_(0) f(t) e^(-2 pi i k t) d t, quad k in ZZ
+hat(f)(k) = ip(phi_(k), f)_(L^(2)(0,1)) = integral^(1)_(0) f(t) e^(-2 pi i k t) d t, quad k in ZZ.
 $
+
+These are the coordinates of $f$ along $phi_(k)$.
 
 ]
 
