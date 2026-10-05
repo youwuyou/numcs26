@@ -8,12 +8,6 @@
 
 === Motivation: From Approximation to Interpolation#sidenote[Gradinaru, 3.2.1 "Motivation: von der Approximation zur Interpolation"]
 
-// 🚧 Under construction.
-
-// #thought("Relating approximation and interpolation")[
-
-// ]
-
 The Fourier coefficients of a given function $f in L^(2)(0,1)$ can be computed by,
 
 $
@@ -39,6 +33,7 @@ $
 
 ]
 
+#slidebreak()
 
 #example("Composite trapezoidal rule over an equidistant interval")[
 
@@ -75,6 +70,7 @@ $
 
 ]
 
+#slidebreak()
 
 If we assume the interval $I = [0,1]$ is discretized into $N$ distinct equidistant nodes, denoted as $cred(t_(l)) = l / N$ with $l = 0, 1, dots, N -1$, and the funtion $f$ to integrate over is $1$-periodic, the following composite trapezoidal rule can be used to approximate the smooth integral by a finite sum,
 
@@ -85,6 +81,7 @@ integral^(1)_(0) g(t) d t approx frac(1, N) sum^(N-1)_(ell = 0) g(t_(ell)), quad
 $
 ]]
 
+#slidebreak()
 
 By applying the trapezoidal rule with $g(t) := f(t) e^(-2 pi i k t)$ substituted, we obtain#sidenote[This is equation $(3.2.16)$ in script p.71.]
 
@@ -114,6 +111,8 @@ z^(n) = 1
 $
 ]
 
+#slidebreak()
+
 We may see the above equation as a complex-valued polynomial $p(z) := z^(n) - 1 in CC[z]$. For a fixed degree $n in NN$, we expect exactly $n$ complex roots, counted with multiplicity#sidenote[The *fundamental theorem of algebra* guarantees $n$ roots counted with multiplicity; that these roots are in fact *distinct* is shown in the proof below.]. An important property is that such roots are equidistant on the unit circle, as shown below in the animation with an increasing degree $n$:
 
 #figure-img(
@@ -125,6 +124,7 @@ We may see the above equation as a complex-valued polynomial $p(z) := z^(n) - 1 
   The $n$th roots of unity, denoted as $omega_(n)^(k), quad k = 0, dots, n-1$ are equally spaced on the unit circle. #linebreak() Summing them over a full cycle cancels to zero unless $j equiv 0 space (mod n)$.
 ]
 
+#slidebreak()
 
 To distinguish from the real-valued roots, let us use $omega_(n)^(k) in CC$ to denote the complex-valued roots. The following formula allows us to directly compute the *nth root(s) of unity* by,
 
@@ -134,6 +134,7 @@ omega_(n)^(k) = e^(i frac(2 pi k, n)) = exp(i frac(2 pi k, n)), quad k = 0, 1, d
 $
 ]
 
+#slidebreak()
 
 #proof(title: [Proof of the $n$th-root formula.], boxed: true)[
 
@@ -164,6 +165,8 @@ omega_(n)^(k) = e^(i cblue(theta)) = e^(i cblue(frac(2 pi k, n)) ) = exp(i cblue
 $
 ]
 ]
+
+#slidebreak()
 
 #example("nth roots of unity for " + $n = 1, 2, 3, 4$)[
 
@@ -198,6 +201,8 @@ omega_(4)^(0) = 1, quad omega_(4)^(1) = e^(pi i slash 2) = i, quad omega_(4)^(2)
 $
 ]
 
+#slidebreak()
+
 #example("Properties of nth root of unity")[
 The following properties of roots of unity are of our interest, whose proofs we omit here but can be found in the script#sidenote[See "Bemerkung 3.3.2".]:
 
@@ -214,6 +219,7 @@ If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thu
 
 ]
 
+#slidebreak()
 
 ==== Establishing Relation to Interpolation
 
@@ -229,6 +235,7 @@ $
 p_(n)(t) = sum^(m)_(k = - m) hat(f)_(n)(k) e^(2 pi i k t)
 $
 
+#slidebreak()
 
 Let us evaluate the polynomial at the nodes, which we previously introduced as $t_(l) = frac(l, N)$,
 
@@ -250,6 +257,8 @@ N quad &"if" (l - j) equiv 0 space (mod N),
 )
 $
 
+#slidebreak()
+
 For $l, j in {0, dots, N-1}$ the condition $(l - j) equiv 0 space (mod N)$ holds only when $j = l$, so only that single term survives,
 
 $
@@ -264,5 +273,7 @@ p_(N-1)(t_(l)) = f(t_(l)), quad forall t_(l) = frac(l, N), l = 0, 1, dots, N-1
 $
 ]
 
+#slidebreak()
+
 === - 3.2.4 
-🚧 Under construction.
+🚧 Next week! D
