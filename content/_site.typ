@@ -393,15 +393,26 @@
 // The note (`.sidenote`) is positioned absolutely; the wrapping `.sidenote-ref`
 // is the positioned container it anchors to, so the tooltip sits right at the
 // number rather than at some distant ancestor.
-#let sidenote(body) = context {
+// `marker` overrides the auto-number with a fixed symbol (e.g. "*"). A marked
+// note does not step the counter, so it stays outside the numbered sequence --
+// handy for a standing caveat like "tentative" that should not renumber the
+// real footnotes.
+#let sidenote(body, marker: none) = context {
   if target() != "html" {
     return footnote(body)
   }
-  _sidenote-counter.step()
-  html.elem("span", attrs: (class: "sidenote-ref"), {
-    html.elem("span", attrs: (class: "sidenote-number", tabindex: "0"))
-    html.span(class: "sidenote")[#body]
-  })
+  if marker == none {
+    _sidenote-counter.step()
+    html.elem("span", attrs: (class: "sidenote-ref"), {
+      html.elem("span", attrs: (class: "sidenote-number", tabindex: "0"))
+      html.span(class: "sidenote")[#body]
+    })
+  } else {
+    html.elem("span", attrs: (class: "sidenote-ref"), {
+      html.elem("span", attrs: (class: "sidenote-number sidenote-marker", tabindex: "0", "data-marker": marker))
+      html.elem("span", attrs: (class: "sidenote sidenote-marked", "data-marker": marker))[#body]
+    })
+  }
 }
 
 // A reference to an anchored block on the same page:

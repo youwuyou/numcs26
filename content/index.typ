@@ -149,25 +149,27 @@
           "02",
           [Polynomiale Interpolation],
           [28.09.2026],
-          "1.2", "1.3", "2.1", "2.2", "2.3",
-          focus: custom-focus([parts of Serie 01: Komplexität; Serie 02: Polynomiale Interpolation], "1.2", "1.3", "2.1", "2.2", "2.3"),
+          "2.1", "2.2", "2.3",
+          note: [#sidenote(marker: "*")[Planned content.]],
+          focus: custom-focus([Serie 02: Polynomiale Interpolation], "2.1", "2.2", "2.3"),
         )
         #week-row(
           [3],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/K-2T2sxGvqV")[28.09.2026],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/FwfKyD4Eqsm")[01.10.2026],
           "03",
-          [Chebyshev recap; Fourier series; start of DFT],
+          [Trigonometrische Interpolation],
           [05.10.2026],
-          "2.4", "3.1", "3.2",
+          "3.1", "3.2",
         )
-        #row(
+        #week-row(
           [4],
-          [05.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/CBcbED8OWp8")[05.10.2026],
           [08.10.2026],
-          tbd,
-          tbd,
-          muted-ticket([12.10.2026]),
+          "04",
+          [Chebyshev-Interpolation],
+          [12.10.2026],
+          "2.4", "3.3", "3.4", "3.5", "3.6",
         )
         #week-row(
           [5],

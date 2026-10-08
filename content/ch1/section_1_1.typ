@@ -17,7 +17,7 @@ In numerical mathematics, however, we are constrained by the _realistic_ limitat
 === Roundoff Errors
 
 The set of real numbers $RR$ is *closed under elementary arithmetic operations* $star in {+, -, times, \/}$, meaning that for
-$x, y in RR$, the result is again in $RR$,
+$x, y in RR$#sidenote[In the case of division we require $y != 0$, since the multiplicative inverse only exists for nonzero elements.], the result is again in $RR$,
 
 $
 x star y in RR

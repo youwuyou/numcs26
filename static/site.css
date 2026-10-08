@@ -2869,6 +2869,20 @@ body.notes-lightbox-open {
   line-height: 0;
 }
 
+/* A marked sidenote (see `sidenote(.., marker: "*")`): a fixed symbol instead
+   of a number, and no counter step so it stays out of the numbered sequence. */
+.sidenote-marker {
+  counter-increment: none;
+}
+
+.sidenote-marker::after {
+  content: attr(data-marker);
+}
+
+.sidenote-marked::before {
+  content: attr(data-marker) " ";
+}
+
 .sidenote strong {
   color: var(--ink);
 }
