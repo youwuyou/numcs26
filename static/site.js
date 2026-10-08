@@ -752,19 +752,31 @@ function setupSidebarToggles() {
     }
   };
 
-  const bind = (button, className, storageKey) => {
+  // Below this width the layout follows CSS media queries (the device-agnostic,
+  // best-practice responsive signal): the right contents column has no room, so
+  // the `secondary-sidebar-hidden` flag is reused to *reveal* the contents as a
+  // full-screen overlay instead of hiding it. The flag therefore means opposite
+  // things in the two regimes, so aria-expanded must track the real visible state.
+  const overlayQuery = window.matchMedia("(max-width: 1120px)");
+
+  const bind = (button, className, storageKey, flagRevealsWhenNarrow) => {
     if (!button) return;
     const apply = (hidden) => {
       document.body.classList.toggle(className, hidden);
-      button.setAttribute("aria-expanded", String(!hidden));
+      const expanded = flagRevealsWhenNarrow && overlayQuery.matches ? hidden : !hidden;
+      button.setAttribute("aria-expanded", String(expanded));
       writeSession(storageKey, hidden ? "true" : "false");
     };
+    const current = () => document.body.classList.contains(className);
     apply(readSession(storageKey) === "true");
-    button.addEventListener("click", () => apply(!document.body.classList.contains(className)));
+    button.addEventListener("click", () => apply(!current()));
+    // Crossing the breakpoint (e.g. rotating a tablet) flips the flag's meaning;
+    // re-sync aria-expanded without changing the stored open/closed state.
+    if (flagRevealsWhenNarrow) overlayQuery.addEventListener("change", () => apply(current()));
   };
 
-  bind(primary, "primary-sidebar-hidden", "numcs-primary-sidebar-hidden");
-  bind(secondary, "secondary-sidebar-hidden", "numcs-secondary-sidebar-hidden");
+  bind(primary, "primary-sidebar-hidden", "numcs-primary-sidebar-hidden", false);
+  bind(secondary, "secondary-sidebar-hidden", "numcs-secondary-sidebar-hidden", true);
 }
 
 function setupBackToTop() {

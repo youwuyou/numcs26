@@ -2580,6 +2580,48 @@ body.notes-lightbox-open {
   background: var(--accent-soft);
 }
 
+/* Tablet/narrow: drop the right contents column, keep the left nav. Listed
+   before the 760px block so the smaller breakpoint's rules win where both
+   match (equal specificity -> later source wins). */
+@media (max-width: 1120px) {
+  .site-shell {
+    grid-template-columns: 17rem minmax(0, 1fr);
+  }
+
+  body.secondary-sidebar-hidden .site-shell,
+  body.primary-sidebar-hidden .site-shell,
+  body.primary-sidebar-hidden.secondary-sidebar-hidden .site-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The right contents column has no room here, so it is hidden by default.
+     Tapping the contents button (#toc-toggle) sets `secondary-sidebar-hidden`
+     on <body> -- on desktop that *hides* the column, but on these narrow
+     widths we reuse the same flag to *reveal* the contents as a full-screen
+     overlay below the sticky topbar. Default (no flag) = hidden, so there is
+     no flash and content comes first. */
+  .page-toc {
+    display: none;
+  }
+
+  body.secondary-sidebar-hidden .page-toc {
+    display: block;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    /* Explicit height (not top+bottom) so the panel reliably fills the screen
+       below the sticky topbar; dvh accounts for mobile browser chrome. */
+    height: calc(100dvh - 4rem);
+    z-index: 40;
+    overflow-y: auto;
+    padding: 1.2rem 1.15rem;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+}
+
 @media (max-width: 760px) {
   .site-shell {
     grid-template-columns: 1fr;
@@ -2610,17 +2652,21 @@ body.notes-lightbox-open {
 
   .sidebar {
     position: static;
+    /* Cap the stacked nav so it doesn't push the page content far down the
+       screen; it scrolls internally and the content starts just below it. */
     height: auto;
+    max-height: 45vh;
+    overflow-y: auto;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 
   nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   nav a {
-    text-align: center;
+    text-align: left;
   }
 
   .content {
@@ -2654,22 +2700,6 @@ body.notes-lightbox-open {
   .run-python,
   .copy-button {
     width: 100%;
-  }
-}
-
-@media (max-width: 1120px) {
-  .site-shell {
-    grid-template-columns: 17rem minmax(0, 1fr);
-  }
-
-  body.secondary-sidebar-hidden .site-shell,
-  body.primary-sidebar-hidden .site-shell,
-  body.primary-sidebar-hidden.secondary-sidebar-hidden .site-shell {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .page-toc {
-    display: none;
   }
 }
 
