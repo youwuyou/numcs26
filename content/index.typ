@@ -165,7 +165,7 @@
         #week-row(
           [4],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/CBcbED8OWp8")[05.10.2026],
-          [08.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/KnOUeCpbpGf")[08.10.2026],
           "04",
           [Chebyshev-Interpolation],
           [12.10.2026],
