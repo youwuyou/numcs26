@@ -1517,7 +1517,6 @@ nav a.nav-highlight {
 
 .admonition.warning {
   position: relative;
-  overflow: hidden;
   border-left-color: #c9820c;
   background: var(--pst-color-warning-bg);
 }
@@ -1544,7 +1543,6 @@ nav a.nav-highlight {
    faint thought-cloud watermark to read as a musing rather than a rule. */
 .admonition.thought {
   position: relative;
-  overflow: hidden;
   border-left-color: var(--thought-accent);
   background: var(--thought-bg);
 }
@@ -1571,7 +1569,6 @@ nav a.nav-highlight {
    strength so the bulb reads as a highlighted takeaway. */
 .admonition.idea {
   position: relative;
-  overflow: hidden;
   border-left-color: var(--idea-accent);
   background: var(--idea-bg);
 }
