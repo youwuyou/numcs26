@@ -2,10 +2,10 @@
 
 The administrative page of the tutorial sessions (group G04-B). The page is supported with typst and Pyodide.
 
-Preview locally:
+Preview locally with `make serve` (builds once, then serves at <http://localhost:8001>). Or with live-reloading during development/editing by,
 
 ```bash
-make serve
+make watch
 ```
 
 Then open <http://localhost:8001>.
