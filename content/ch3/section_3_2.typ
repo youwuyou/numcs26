@@ -72,7 +72,7 @@ $
 
 #slidebreak()
 
-If we assume the interval $I = [0,1]$ is discretized into $N$ distinct equidistant nodes, denoted as $cred(t_(l)) = l / N$ with $l = 0, 1, dots, N -1$, and the funtion $f$ to integrate over is $1$-periodic, the following composite trapezoidal rule can be used to approximate the smooth integral by a finite sum,
+If we assume the interval $I = [0,1]$ is discretized into $N$ distinct equidistant nodes, denoted as $cred(t_(l)) = l / N$ with $l = 0, 1, dots, N -1$, and the function $f$ to integrate over is $1$-periodic, the following composite trapezoidal rule can be used to approximate the smooth integral by a finite sum,
 
 
 #anchor("eq-trap")[#boxeq[
@@ -95,7 +95,7 @@ hat(f)(k)
 $
 
 
-In the last step, we introduce the notion $omega_(N)^(k l) := e^(-2 pi i k frac(l, N))$ for the complex-valued term. This notion is related to a number-theoretic concept called the *nth root of unity*, which are the complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
+In the last step, we introduce the notation $omega_(N)^(k l) := e^(-2 pi i k frac(l, N))$ for the complex-valued term. This notation is related to a number-theoretic concept called the *nth root of unity*, which are the complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
 
 
 #slidebreak()
@@ -230,7 +230,7 @@ The following properties of roots of unity are of our interest, whose proofs we 
 3. *Orthogonality* (3.2.15). For $j in ZZ$, summing the powers $omega_(n)^(k j) = (omega_(n)^(k))^(j)$ over $k = 0, dots, n-1$ cancels to $0$ unless $j equiv 0 space (mod n)$:
    #boxeq[$ sum^(n-1)_(k = 0) omega_(n)^(k j) = cases(n quad &"if" j equiv 0 space (mod n), 0 quad &"else.") $]
 
-If $j equiv 0$, each term within the summation is $(omega_(n)^(k))^(0) = 1$, thus they sum to $n$. Otherwise, the geometry on the unit circle intuitively shows such powers cancel out and the sum is $0$.#sidenote[Or algebraically derive the formula by using a geometric series, as shown in the lecture note.]
+If $j equiv 0 space (mod n)$, then $j = q n$ for some $q in ZZ$, so each term within the summation is $omega_(n)^(k q n) = (omega_(n)^n)^(k q) = 1$, thus they sum to $n$. Otherwise, the geometry on the unit circle intuitively shows such powers cancel out and the sum is $0$.#sidenote[Or algebraically derive the formula by using a geometric series, as shown in the lecture note.]
 
 ]
 
