@@ -90,12 +90,12 @@ hat(f)(k)
 &= integral^(1)_(0) f(t) e^(-2 pi i k t) d t \
 &approx frac(1, N) sum^(N-1)_(l = 0) f(cred(t_(l))) e^(-2  pi i k cred(t_(l))) \
 &=^(cred(t_(l)= l/N)) frac(1, N) sum^(N-1)_(l = 0) f(cred(frac(l, N))) e^(-2  pi i k cred(frac(l, N))) \
-&=^(colive(omega_(N)^(k l) := e^(2 pi i k frac(l, N)))) frac(1, N) sum^(N-1)_(l  = 0) f(cred(frac(l, N))) conj(colive(omega^(k l)_(N))) \
+&=^(colive(omega_(N)^(k l) := e^(-2 pi i k frac(l, N)))) frac(1, N) sum^(N-1)_(l  = 0) f(cred(frac(l, N))) colive(omega^(k l)_(N)) \
 &:= hat(f)_(N)(k)
 $
 
 
-In the last step, we introduce the notion $omega_(N)^(k l) := e^(2 pi i k frac(l, N))$ for the complex-valued term and summarize the term $e^(- 2 pi i k frac(l, N))$ using the complex conjugate. This notion is related to a number-theoretic concept called the *nth root of unity*, that are complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
+In the last step, we introduce the notion $omega_(N)^(k l) := e^(-2 pi i k frac(l, N))$ for the complex-valued term. This notion is related to a number-theoretic concept called the *nth root of unity*, which are the complex-valued solutions to the equality $z^(n) = 1$ for a fixed degree $n$.
 
 
 #slidebreak()
@@ -121,22 +121,37 @@ We may see the above equation as a complex-valued polynomial $p(z) := z^(n) - 1 
   width: 35%,
   credit: [Image Source: #link("https://mathworld.wolfram.com/RootofUnity.html")[Wolfram MathWorld, "Root of Unity"].],
 )[
-  The $n$th roots of unity, denoted as $omega_(n)^(k), quad k = 0, dots, n-1$ are equally spaced on the unit circle. #linebreak() Summing them over a full cycle cancels to zero unless $j equiv 0 space (mod n)$.
+  The $n$th roots of unity are equally spaced on the unit circle.
 ]
 
 #slidebreak()
 
-To distinguish from the real-valued roots, let us use $omega_(n)^(k) in CC$ to denote the complex-valued roots. The following formula allows us to directly compute the *nth root(s) of unity* by,
+Next, we fix $n in NN$ and consider $z^(n) = 1$. Among its $n$ distinct roots there is a special one $omega_(n)$ whose integer powers $k = 0, dots, n - 1$ generate all the roots:
+
+#definition("(Primitive) nth Root of Unity (Gradinaru, p.71, 3.2.1).")[
+  
+The primitive $n$th root of unity is given as
+#sidenote[In the script, it is referred to as "Die $N$-te Einheitswurzel", $omega_(N) := exp(-2 pi i slash N)$. To be more precise, we use the terminology of "nth root of unity" to refer to *all the roots* that satisfy $z^(n) = 1$, and here, this particular root is a "primitive nth root of unity" taking $k = 1$.]
+
+$
+omega_(n) := exp(-i frac(2 pi, n))
+$
+
+The negative sign orients the powers of $omega_(n)$ *clockwise* around the unit circle.#sidenote[Conventions differ in the literature. Wikipedia's #link("https://en.wikipedia.org/wiki/Root_of_unity#General_definition")["root of unity"] uses the positive sign, indexing the roots counterclockwise; our lecture script uses the negative sign, indexing them clockwise, as does Wikipedia's #link("https://en.wikipedia.org/wiki/DFT_matrix")["DFT matrix"].]
+]
+
+
+As motivated above, taking $omega_(n)$ to its $k$-th power recovers the $k$-th root, with the roots indexed clockwise.
 
 #boxeq[
 $
-omega_(n)^(k) = e^(i frac(2 pi k, n)) = exp(i frac(2 pi k, n)), quad k = 0, 1, dots, n-1
+(omega_(n))^(k) = omega_(n)^(k) = e^(-i frac(2 pi k, n)), quad k = 0, 1, dots, n-1.
 $
 ]
 
 #slidebreak()
 
-#proof(title: [Proof of the $n$th-root formula.], boxed: true)[
+#proof(title: [Proof that the powers of $omega_(n)$ give all $n$ roots.], boxed: true)[
 
 For $n = 1$ the only solution is $z = 1$, which satisfies the formula. We may therefore consider $n in NN, n >= 2$.
 
@@ -157,11 +172,11 @@ cblue(theta) = cblue(frac(2 pi k, n)).
 $
 
 
-For $k = 0, 1, dots, n - 1$ the angles $cblue(theta) = cblue(frac(2 pi k, n))in [0, 2 pi)$ and are all distinct, this concludes that the formula below indeed gives $n$ distinct roots
+For $k = 0, 1, dots, n - 1$ the angles $cblue(theta) = cblue(frac(2 pi k, n)) in [0, 2 pi)$ are all distinct, so these are exactly the $n$ roots,
 
 #boxeq[
 $
-omega_(n)^(k) = e^(i cblue(theta)) = e^(i cblue(frac(2 pi k, n)) ) = exp(i cblue(frac(2 pi k, n))) = cos(cblue(frac(2 pi k, n))) + i sin(cblue(frac(2 pi k, n))).
+omega_(n)^(k) = e^(-i cblue(frac(2 pi k, n)) ) = exp(-i cblue(frac(2 pi k, n))) = cos(cblue(frac(2 pi k, n))) - i sin(cblue(frac(2 pi k, n))).
 $
 ]
 ]
@@ -175,29 +190,29 @@ $
 - *$n = 2$*, for $z^(2) = 1$, there are two distinct roots given by the formula
 
 $
-omega_(2)^(k) = exp(frac(2 k pi i, 2)) = exp(k pi i)
+omega_(2)^(k) = exp(frac(-2 k pi i, 2)) = exp(-k pi i)
 $
 
-For $k = 0, 1$ the two roots are $omega_(2)^(0) = 1, quad omega_(2)^(1) = e^(pi i) = -1$.
+For $k = 0, 1$ the two roots are $omega_(2)^(0) = 1, quad omega_(2)^(1) = e^(-pi i) = -1$.
 
 #divider()
 - *$n = 3$*, for $z^(3) = 1$, the formula gives
 
 $
-omega_(3)^(k) = exp(frac(2 k pi i, 3))
-$ 
+omega_(3)^(k) = exp(frac(-2 k pi i, 3))
+$
 
 For $k = 0, 1, 2$, we have the three distinct roots
 
 $
 omega_(3)^(0) &= 1 \
-omega_(3)^(1) &= cos(frac(2 pi, 3)) + i sin(frac(2 pi, 3)) = -frac(1, 2) + frac(sqrt(3), 2) i \
-omega_(3)^(2) &= cos(frac(4 pi, 3)) + i sin(frac(4 pi, 3)) = -frac(1, 2) - frac(sqrt(3), 2) i
+omega_(3)^(1) &= cos(frac(2 pi, 3)) - i sin(frac(2 pi, 3)) = -frac(1, 2) - frac(sqrt(3), 2) i \
+omega_(3)^(2) &= cos(frac(4 pi, 3)) - i sin(frac(4 pi, 3)) = -frac(1, 2) + frac(sqrt(3), 2) i
 $
 #divider()
-- *$n = 4$*, for $z^(4) = 1$, $omega_(4)^(k) = exp(frac(2 k pi i, 4)) = exp(frac(k pi i, 2))$ for $k = 0, 1, 2, 3$:
+- *$n = 4$*, for $z^(4) = 1$, $omega_(4)^(k) = exp(frac(-2 k pi i, 4)) = exp(frac(-k pi i, 2))$ for $k = 0, 1, 2, 3$:
 $
-omega_(4)^(0) = 1, quad omega_(4)^(1) = e^(pi i slash 2) = i, quad omega_(4)^(2) = e^(pi i) = -1, quad omega_(4)^(3) = e^(3 pi i slash 2) = -i.
+omega_(4)^(0) = 1, quad omega_(4)^(1) = e^(-pi i slash 2) = -i, quad omega_(4)^(2) = e^(-pi i) = -1, quad omega_(4)^(3) = e^(-3 pi i slash 2) = i.
 $
 ]
 
@@ -245,21 +260,21 @@ p_(N-1)(t_(l))
 &= sum^(frac(N, 2) - 1)_(k = - frac(N, 2)) cblue(hat(f)_(N)(k)) e^(2 pi i k frac(l, N))\
 &= sum^(frac(N, 2) - 1)_(k = - frac(N, 2)) cblue(( frac(1, N) sum^(N-1)_(j = 0) f(frac(j,N)) e^(-2 pi i k frac(j, N)) )) e^(2 pi i k frac(l, N))\
 &= cblue(frac(1, N)sum^(N-1)_(j = 0) f(frac(j, N))) sum^(N/2 - 1)_(k = -N/2) cblue(e^(-2 pi i k frac(j, N)))e^(2 pi i k frac(l, N)) \
-&= cblue(frac(1, N)sum^(N-1)_(j = 0) f(frac(j, N))) sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(l - j))
+&= cblue(frac(1, N)sum^(N-1)_(j = 0) f(frac(j, N))) sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(j - l))
 $
 
-In the last step we swapped the summations and collected the two exponentials back into $omega_(N)^(k(l - j))$. Now, we apply  the *orthogonality* property (3.2.15) of $n$th root of unity to the summation term, since $omega_(N)^(k(l - j))$ is $N$-periodic in $k$, summing it over the $N$ indices $k = -N/2, dots, N/2 - 1$ gives
+In the last step we swapped the summations and collected the two exponentials back into $omega_(N)^(k(j - l))$. Now, we apply  the *orthogonality* property (3.2.15) of $n$th root of unity to the summation term, since $omega_(N)^(k(j - l))$ is $N$-periodic in $k$, summing it over the $N$ indices $k = -N/2, dots, N/2 - 1$ gives
 
 $
-sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(l - j)) = cases(
-N quad &"if" (l - j) equiv 0 space (mod N),
+sum^(N/2 - 1)_(k = -N/2) omega_(N)^(k(j - l)) = cases(
+N quad &"if" (j - l) equiv 0 space (mod N),
 0 quad &"else."
 )
 $
 
 #slidebreak()
 
-For $l, j in {0, dots, N-1}$ the condition $(l - j) equiv 0 space (mod N)$ holds only when $j = l$, so only that single term survives,
+For $l, j in {0, dots, N-1}$ the condition $(j - l) equiv 0 space (mod N)$ holds only when $j = l$, so only that single term survives,
 
 $
 p_(N-1)(t_(l)) = cblue(frac(1, N)) dot cblue(f(frac(l, N))) dot N = f(t_(l))
