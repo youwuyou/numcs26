@@ -80,4 +80,87 @@ On lin-log axes the data points $(n_(i), log epsilon_(i))$ lie on a line of slop
 
 #divider()
 
-🚧 Under construction.
+=== Asymptotic Behaviors of Approximation Errors in Trigonometric Approximation
+
+With the classification on types of error convergence as introduced in the section above, we now study how the trigonometric interpolation error behaves as $n -> infinity$ for three functions $f, g, h$ of different smoothness#sidenote[Examples from Gradinaru, p. 101, 3.5.25 - 3.5.27.].
+
+The following three functions are ordered by increasing smoothness: a discontinuous step function $f$, a continuous hat function $g$ with one corner, and a smooth periodic function $h$.
+
+#import "section_3_5_functions.typ": fig-functions
+#fig-functions
+
+
+Here $n$ denotes the number of interpolation nodes. We use equidistant nodes $t_(k) := frac(k, n)$, $k = 0, dots, n-1$. For all three plots below, the lin-log plot is used, however, we shall notice only the $h in C^(infinity)$ function has a broad span of decrease in error magnitude, from about $10^0$ to $10^(-15)$ with increasing $n$.
+
+#example("(Left) — " + $f$ + " Step function (Algebraic convergence)")[
+  The first function we consider converges the worst, it is a discontinuous *step function* with jumps at $t = 1 / 4$ and $t = 3 / 4$.
+
+  $
+  f : [0,1] -> RR, quad
+  f(t) = cases(
+  0 quad "for" abs(t - frac(1,2)) > frac(1, 4),
+  1 quad "else"
+  )
+  $
+
+  In fact, at its jump points, we see the "Gibbs phenomenon", i.e. the oscillatory behavior of the Fourier series of a piecewise continuously differentiable periodic function around a jump discontinuity.
+
+  #figure-img(
+    "content/ch3/trig_interp_step_f.png",
+    "Trigonometric interpolation of the step function for increasing n, and its error",
+    width: 100%,
+    credit: [Image Source: Gradinaru, p. 101, 3.5.25.],
+  )[
+    Trigonometric interpolation of the step function.
+  ]
+]
+
+#example("(Middle) — " + $g$ + " Hat function (Algebraic convergence)")[
+  A continuous hat function#sidenote[Note that the script states $g(t) = abs(t - frac(1, 2))$, it is a typo.] with one corner at $t = 1 / 2$.
+
+  $
+  g : [0, 1] -> RR, quad g(t) = frac(1, 2) - abs(t - frac(1, 2))
+  $
+
+  Here, we already see some improvements and the absence of the Gibbs phenomenon. However, the errors still only improve by a few magnitudes in exponents.
+
+  #figure-img(
+    "content/ch3/trig_interp_wedge_g.png",
+    "Trigonometric interpolation of the hat function for increasing n, and its error",
+    width: 100%,
+    credit: [Image Source: Gradinaru, p. 101, 3.5.26.],
+  )[
+    Trigonometric interpolation of the hat function.
+  ]
+]
+
+#example("(Right) — " + $h in C^(infinity)$ + " periodic function (Exponential convergence)")[
+  This is the smoothest function and is $1$-periodic,
+
+  $
+  h : RR -> RR, quad h(t) = frac(1, sqrt(1 + frac(1, 2) sin(2 pi t)))
+  $
+
+  Here, we see a drastic decrease in errors. On a lin-log plot, this demonstrates the exponential convergence of errors, which is highly desirable.
+
+  #figure-img(
+    "content/ch3/trig_interp_smooth_h.png",
+    "Trigonometric interpolation of the smooth function for increasing n, and its error",
+    width: 100%,
+    credit: [Image Source: Gradinaru, p. 101, 3.5.27.],
+  )[
+    Trigonometric interpolation of the smooth periodic function.
+  ]
+]
+
+
+Now we collect the errors of all three functions in a single plot. The colors encode the functions directly: $cblue(f)$, $cred(g)$, and $colive(h)$. The non-smooth functions $cblue(f)$ and $cred(g)$ improve slowly, while the smooth function $colive(h)$ drops rapidly to machine precision and shows highly desirable exponential convergence of approximation errors.
+
+#figure-img(
+  "content/ch3/trig_interp_error_convergence.png",
+  "Maximum-norm trigonometric interpolation error against the node count for the step, hat, and smooth functions",
+  width: 70%,
+  credit: [Image Source: Gradinaru, p. 96, Fig. 247.],
+)[
+  Maximum-norm error against the node count.
+]

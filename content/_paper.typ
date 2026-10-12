@@ -30,7 +30,10 @@
     date: none,
     paper-size: "a4",
     body-font: ("New Computer Modern Sans",),
-    raw-font: ("New Computer Modern Mono", "DejaVu Sans Mono"),
+    // "New Computer Modern Mono" is not installed in this environment and Typst
+    // warns for any unresolved family in the list (not just the primary), so we
+    // use the available DejaVu Sans Mono outright to keep the build clean.
+    raw-font: ("DejaVu Sans Mono",),
     headings-font: ("New Computer Modern Sans",),
   )
 

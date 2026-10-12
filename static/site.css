@@ -974,6 +974,16 @@ math {
   color: inherit;
 }
 
+/* Matrices render as a bare `<mtable>`: Typst's HTML math export emits no
+   `columnspacing`, and the browser-default cell padding packs the columns so
+   tightly that multi-character entries (e.g. the `c_(N-1)` of a circulant) run
+   straight into their neighbours and the ellipsis fillers. Give every cell
+   horizontal breathing room. The aligned multi-line equation table carries a
+   class, so `:not([class])` leaves its alignment spacing untouched. */
+.content math mtable:not([class]) mtd {
+  padding-inline: 0.45em;
+}
+
 .course-link-row {
   display: flex;
   flex-wrap: wrap;
