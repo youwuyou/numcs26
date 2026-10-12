@@ -52,6 +52,15 @@
 // { ... } }` -- only the taken branch is evaluated, so the paged branch never
 // constructs an html.* element and vice versa.
 
+// Embed layout content (CeTZ canvas, grid, table, ...) in the page. HTML export
+// emits only HTML/MathML and silently drops such content, so the HTML branch
+// wraps it in html.frame, which rasterizes it to inline SVG; the paged build
+// renders it natively. Use for any diagram or drawing, e.g.
+// `#figure(framed(canvas(...)), caption: [...])`.
+#let framed(body) = context {
+  if target() == "html" { html.frame(body) } else { body }
+}
+
 // Accent colors for the paged admonition boxes, keyed like the CSS classes.
 #let _accent(class) = {
   if class == "definition" { rgb("#2b6cb0") }
