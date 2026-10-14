@@ -26,6 +26,7 @@
 #let cred = _mathcolor("#e4272b")
 #let corange = _mathcolor("#e8710a")
 #let colive = _mathcolor("#808000")
+#let cteal = _mathcolor("#009688")
 
 // Complex conjugate `$conj(g(x))$`. Typst's math `overline()` is silently
 // dropped during MathML export, and `accent()` only ever emits a fixed-width
