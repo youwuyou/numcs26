@@ -473,12 +473,14 @@
 // `credit` is optional and rendered smaller, after the caption. `width` is a
 // Typst ratio (e.g. `width: 80%`) sizing the image relative to the text column,
 // the same way `image(width: ..)` works in the paged build.
-#let figure-img(src, alt, credit: none, width: 88%, body) = context {
+#let figure-img(src, alt, credit: none, width: 88%, paged-src: none, body) = context {
   if target() != "html" {
     // `src` is written relative to the site root; on disk the assets sit one
-    // level up from this file, in migrate/static/.
+    // level up from this file, in migrate/static/. `paged-src`, when given, is
+    // used only for the paged/PDF build -- e.g. a static PDF frame standing in
+    // for an animated GIF that cannot play on paper.
     return figure(
-      image("../" + src, width: width),
+      image("../" + (if paged-src != none { paged-src } else { src }), width: width),
       caption: {
         body
         if credit != none [ #text(size: 0.85em, fill: rgb("#718096"))[#credit] ]

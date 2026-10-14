@@ -467,6 +467,13 @@ body.secondary-sidebar-hidden .page-toc {
   display: none;
 }
 
+/* With the Contents sidebar hidden there is no right column, so let the article
+   body grow into the freed space instead of leaving an empty band on the right
+   (it is otherwise capped to a 64rem reading measure, see `.content`). */
+body.secondary-sidebar-hidden .content {
+  width: 100%;
+}
+
 .sidebar {
   position: sticky;
   top: 4rem;
@@ -982,6 +989,13 @@ math {
    class, so `:not([class])` leaves its alignment spacing untouched. */
 .content math mtable:not([class]) mtd {
   padding-inline: 0.45em;
+}
+
+/* Matrix ellipsis fillers (⋮ ⋯ ⋱) are emitted as their own `<mtd>` holding a
+   single `<mi>`. Keep those dot cells tight even while ordinary matrix entries
+   get extra horizontal breathing room. */
+.content math mtable:not([class]) mtd:has(> mi:only-child) {
+  padding: 0;
 }
 
 .course-link-row {
@@ -2158,6 +2172,29 @@ body.presenting {
   text-align: center;
 }
 
+/* Typst `html.frame` emits an inline SVG sized to its natural point width
+   (often far wider than the text column). Constrain it to the column and let
+   the height follow the viewBox so the aspect ratio is preserved. The `height`
+   override needs `!important` to beat Typst's inline `style` attribute. */
+figure svg {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* A wide `html.frame` figure (e.g. a row of panels) that would be unreadable
+   if squeezed into the text column: render it at a fixed, legible height and
+   let it scroll horizontally inside its own box. */
+.frame-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.frame-scroll svg {
+  height: 17em !important;
+  width: auto !important;
+  max-width: none;
+}
+
 .figure-credit {
   display: block;
   margin-top: 0.3rem;
@@ -2853,9 +2890,12 @@ body.notes-lightbox-open {
   --sidenote-offset: 3.15rem;
 }
 
-/* Inline anchor: the positioned container the tooltip hangs off of. */
+/* Inline anchor: the positioned container the tooltip hangs off of.
+   `inline-block` makes it a reliable containing block and hover target in
+   Firefox as well as Chromium/WebKit. */
 .sidenote-ref {
   position: relative;
+  display: inline-block;
 }
 
 .sidenote-number {
@@ -2924,10 +2964,10 @@ body.notes-lightbox-open {
   color: var(--ink);
 }
 
-/* Show on hover/focus of the number, and keep it up while the pointer is over
-   the note itself so links inside stay reachable. */
-.sidenote-number:hover + .sidenote,
-.sidenote-number:focus + .sidenote,
+/* Show while the pointer/focus is anywhere in the ref, and keep it up while the
+   pointer is over the note itself so links inside stay reachable. */
+.sidenote-ref:hover .sidenote,
+.sidenote-ref:focus-within .sidenote,
 .sidenote:hover {
   opacity: 1;
   visibility: visible;
