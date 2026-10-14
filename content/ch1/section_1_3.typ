@@ -1,4 +1,4 @@
-#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, sidenote, slidebreak, thought, divider
+#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, cteal, sidenote, slidebreak, thought, divider
 
 #let meta = (id: "rechnen-mit-matrizen", title: "1.3 Rechnen mit Matrizen")
 
@@ -44,7 +44,7 @@ The following table#sidenote[It is taken from p.36. Since we consider real vecto
 
 #slidebreak()
 
-Let us now examine the first two examples of the *scalar product* and *tensor product* between two vectors. It is important to understand them clearly, as this will allow us to directly apply the same pattern to analyze the complexity of #underline([matrix-vector multiplication]) and #underline[matrix-matrix multiplication].#sidenote[If we have the right mental image of a matrix for the particular case of complexity analysis that it is a collection of vectors, namely its rows and columns stacked side by side.]
+Let us now examine the first two examples of the *scalar product* and *tensor product* between two vectors. It is important to understand them clearly, as this will allow us to directly apply the same pattern to analyze the complexity of #underline([matrix-vector multiplication]) and #underline[matrix-matrix multiplication].#sidenote[We should consider the scalar product and tensor product as special cases of the general matrix product.]
 
 Here, we use a simplified notion to consider just real vectors and matrices but mirrored the complex-valued cases as in script p. 26-27.
 
@@ -91,10 +91,184 @@ Note that each of the entry in the resulting matrix is a single multiplication o
 
 ==== Sparse Matrices
 
-🚧 Under construction.
+In this section, we review two types of sparse matrices. First, we define what is a *diagonal matrix*, and see how addition and multiplication of two diagonal matrices preserve the sparsity. Second, we introduce a *arrow matrix*, and will show the sparsity is only #underline[conditionally] preserved.
 
-1. Diagonal matrix
+A #underline([diagonal matrix]) is a matrix in which the entries outside the main diagonal are all zero; the term usually refers to square matrices. The elements of the main diagonal can either be zero or nonzero.
+
+#defbox("Diagonal matrix.")[
+A square matrix $bold(D) = (d_(i j)) in RR^(n, n)$ is #underline([diagonal]) if all of its off-diagonal entries are zero. We write such a matrix compactly as $bold(D) = "diag"(d_(1 1), dots, d_(n n))$,
+
+$
+bold(D) =
+mat(
+  d_(1 1), 0, dots, 0;
+  0, d_(2 2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, d_(n n);
+).
+$
+]
+
+#example("Left multiplication by a diagonal matrix scales the rows.")[
+
+For $bold(D) in RR^(n, n)$ diagonal and $bold(A) in RR^(n, m)$, left-multiplication scales the #underline([rows]) of $bold(A)$,
+
+$
+bold(D) bold(A)
+&=
+mat(
+  cred(d_(1)), 0, dots, 0;
+  0, cblue(d_(2)), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, cteal(d_(n));
+)
+mat(
+  a_(1 1), a_(1 2), dots, a_(1 m);
+  a_(2 1), a_(2 2), dots, a_(2 m);
+  dots.v, dots.v, dots.down, dots.v;
+  a_(n 1), a_(n 2), dots, a_(n m);
+) \
+&=
+mat(
+  cred(d_(1)) a_(1 1), cred(d_(1)) a_(1 2), dots, cred(d_(1)) a_(1 m);
+  cblue(d_(2)) a_(2 1), cblue(d_(2)) a_(2 2), dots, cblue(d_(2)) a_(2 m);
+  dots.v, dots.v, dots.down, dots.v;
+  cteal(d_(n)) a_(n 1), cteal(d_(n)) a_(n 2), dots, cteal(d_(n)) a_(n m);
+)\
+&=
+mat(
+  cred(d_(1)) bold(A)_(1 comma :);
+  cblue(d_(2)) bold(A)_(2 comma :);
+  dots.v;
+  cteal(d_(n)) bold(A)_(n comma :);
+) in RR^(n, m),
+$
+
+where $bold(A)_(i comma :)$ denotes the $i$-th row of $bold(A)$.
+
+]
+
+#example("Right multiplication by a diagonal matrix scales the columns.")[
+
+For $bold(A) in RR^(n, m)$ and $bold(D) in RR^(m, m)$ diagonal, right-multiplication scales the #underline([columns]) of $bold(A)$,
+
+$
+bold(A) bold(D)
+&=
+mat(
+  a_(1 1), a_(1 2), dots, a_(1 m);
+  a_(2 1), a_(2 2), dots, a_(2 m);
+  dots.v, dots.v, dots.down, dots.v;
+  a_(n 1), a_(n 2), dots, a_(n m);
+)
+mat(
+  cred(d_(1)), 0, dots, 0;
+  0, cblue(d_(2)), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, cteal(d_(m));
+) \
+&=
+mat(
+  cred(d_(1)) a_(1 1), cblue(d_(2)) a_(1 2), dots, cteal(d_(m)) a_(1 m);
+  cred(d_(1)) a_(2 1), cblue(d_(2)) a_(2 2), dots, cteal(d_(m)) a_(2 m);
+  dots.v, dots.v, dots.down, dots.v;
+  cred(d_(1)) a_(n 1), cblue(d_(2)) a_(n 2), dots, cteal(d_(m)) a_(n m);
+)\
+&=
+mat(
+  cred(d_(1)) bold(A)_(: comma 1),
+  cblue(d_(2)) bold(A)_(: comma 2),
+  dots,
+  cteal(d_(m)) bold(A)_(: comma m);
+) in RR^(n, m),
+$
+
+where $bold(A)_(: comma j)$ denotes the $j$-th column of $bold(A)$.
+
+]
+
+#example("Matrix operations with diagonal matrices.")[
+
+In the following, we denote $bold(A) := "diag"(a_(1), dots, a_(n)) in RR^(n, n)$ and $bold(B) := "diag"(b_(1), dots, b_(n)) in RR^(n, n)$ two diagonal matrices of the same dimension, then under addition and multiplication of both matrices, the result is again a diagonal matrix,
+
+*1. Addition.* The corresponding diagonal entries are added,
+
+$
+mat(
+  a_(1), 0, dots, 0;
+  0, a_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n);
+)
++
+mat(
+  b_(1), 0, dots, 0;
+  0, b_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, b_(n);
+)
+=
+mat(
+  a_(1) + b_(1), 0, dots, 0;
+  0, a_(2) + b_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n) + b_(n);
+),
+$
+
+*2. Multiplication.* The corresponding diagonal entries are multiplied,
+
+$
+mat(
+  a_(1), 0, dots, 0;
+  0, a_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n);
+)
+mat(
+  b_(1), 0, dots, 0;
+  0, b_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, b_(n);
+)
+=
+mat(
+  a_(1) b_(1), 0, dots, 0;
+  0, a_(2) b_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n) b_(n);
+).
+$
+
+
+*3. Inverse.* The diagonal matrix $"diag"(a_(1), dots, a_(n))$ is invertible if and only if the entries $a_(1), dots, a_(n)$ are all nonzero.
+
+
+$
+mat(
+  a_(1), 0, dots, 0;
+  0, a_(2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n);
+)^(-1)
+=
+mat(
+  a_(1)^(-1), 0, dots, 0;
+  0, a_(2)^(-1), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, a_(n)^(-1);
+).
+$
+
+]
+
 2. Arrowhead matrix
+
+#divider()
+
+
+==== Upper & Lower Triangular Matrix
+
 3. Upper/Lower triangular matrix
 
 #divider()
