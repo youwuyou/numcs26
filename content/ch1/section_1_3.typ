@@ -1,4 +1,4 @@
-#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, sidenote, slidebreak, thought
+#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, sidenote, slidebreak, thought, divider
 
 #let meta = (id: "rechnen-mit-matrizen", title: "1.3 Rechnen mit Matrizen")
 
@@ -154,6 +154,7 @@ $
 ]
 ]
 
+#divider()
 
 #underline([*Operations on Block Matrices*])
 
