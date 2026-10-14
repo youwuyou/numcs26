@@ -166,19 +166,21 @@
           [4],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/CBcbED8OWp8")[05.10.2026],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/KnOUeCpbpGf")[08.10.2026],
-          "04",
-          [Chebyshev-Interpolation],
+          "03",
+          [Trigonometrische Interpolation],
           [12.10.2026],
-          "2.4", "3.3", "3.4", "3.5", "3.6",
+          "3.2", "3.3", "3.4", "3.5",
+          focus: custom-focus([parts of Serie 03: Trigonometrische Interpolation], "3.2", "3.3", "3.4", "3.5"),
         )
         #week-row(
           [5],
-          [12.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/LcozqFYaYvP")[12.10.2026],
           [15.10.2026],
           "05",
           [Stückweise Polynomiale Interpolation],
           [19.10.2026],
-          "4.1", "4.2", "4.3",
+          "2.4", "3.6", "4.1", "4.2", "4.3",
+          focus: mixed-serie-focus([Serie 05: Stückweise Polynomiale Interpolation], "04", [Chebyshev-Interpolation], "2.4", "3.6"),
         )
         #week-row(
           [6],
