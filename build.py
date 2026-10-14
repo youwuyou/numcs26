@@ -135,8 +135,11 @@ def apply_matrix_lines(path):
     `data-columnlines`/`data-rowlines` are space-separated MathML tokens, one
     per gap: token c styles the gap after column c (border-right on the c-th
     cell of every row), token r the gap after row r (border-bottom on every cell
-    of the r-th row). Only the first, outer <mtable> is treated as the matrix;
-    its cells are assumed to hold no nested table (true for the current usage).
+    of the r-th row). When an equation holds several matrices (e.g. `A x = b`),
+    separate their patterns with `|`, one group per matrix in source order; a
+    group then applies to the correspondingly-positioned <mtable>. A single
+    group (no `|`) applies to the first <mtable> only, as before. Cells are
+    assumed to hold no nested table (true for the current usage).
     """
     text = path.read_text(encoding="utf-8")
 
@@ -144,12 +147,17 @@ def apply_matrix_lines(path):
         attrs, inner = div.group(1), div.group(2)
         cols_attr = _DATA_COLS_RE.search(attrs)
         rows_attr = _DATA_ROWS_RE.search(attrs)
-        col_tokens = cols_attr.group(1).split() if cols_attr else []
-        row_tokens = rows_attr.group(1).split() if rows_attr else []
+        col_groups = (cols_attr.group(1) if cols_attr else "").split("|")
+        row_groups = (rows_attr.group(1) if rows_attr else "").split("|")
+        # A lone group (no `|`) targets only the first matrix; otherwise each
+        # group lines up with the matrix at the same position.
+        per_matrix = len(col_groups) > 1 or len(row_groups) > 1
 
-        def style_table(mtable):
+        def style_table(mtable, idx):
+            col_tokens = col_groups[idx].split() if idx < len(col_groups) else []
+            row_tokens = row_groups[idx].split() if idx < len(row_groups) else []
             new_rows = []
-            for r, row in enumerate(_MTR_RE.findall(mtable.group(1))):
+            for r, row in enumerate(_MTR_RE.findall(mtable)):
                 new_cells = []
                 for c, cell in enumerate(_MTD_RE.findall(row)):
                     styles = []
@@ -166,7 +174,15 @@ def apply_matrix_lines(path):
                 new_rows.append("<mtr>" + "".join(new_cells) + "</mtr>")
             return "<mtable>" + "".join(new_rows) + "</mtable>"
 
-        return _MTABLE_RE.sub(style_table, inner, count=1)
+        counter = {"i": 0}
+
+        def sub_table(m):
+            idx = counter["i"]
+            counter["i"] += 1
+            return style_table(m.group(1), idx)
+
+        count = 0 if per_matrix else 1
+        return _MTABLE_RE.sub(sub_table, inner, count=count)
 
     text = _MATLINES_DIV_RE.sub(render, text)
     path.write_text(text, encoding="utf-8")
