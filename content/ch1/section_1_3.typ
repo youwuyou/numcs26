@@ -42,6 +42,8 @@ The following table#sidenote[It is taken from p.36. Since we consider real vecto
   }
 }
 
+#slidebreak()
+
 Let us now examine the first two examples of the *scalar product* and *tensor product* between two vectors. It is important to understand them clearly, as this will allow us to directly apply the same pattern to analyze the complexity of #underline([matrix-vector multiplication]) and #underline[matrix-matrix multiplication].#sidenote[If we have the right mental image of a matrix for the particular case of complexity analysis that it is a collection of vectors, namely its rows and columns stacked side by side.]
 
 Here, we use a simplified notion to consider just real vectors and matrices but mirrored the complex-valued cases as in script p. 26-27.
@@ -98,6 +100,9 @@ Note that each of the entry in the resulting matrix is a single multiplication o
 #divider()
 
 
+#slidebreak()
+
+
 ==== Dense Matrices#sidenote[Bemerkung 1.3.15 in the script (p. 36).]
 
 For a large dense matrix it is often convenient to regard it as a collection of smaller sub-matrices, or *matrix blocks*. Let us start with a matrix $bold(A) in RR^(M, N)$ and partition it into four blocks by splitting its rows into $M = a + c$ and its columns into $N = b + d$, where  $a, b, c, d in NN$.
@@ -112,6 +117,10 @@ bold(A) = mat(
 $
 ]
 
+
+#slidebreak()
+
+
 We can also partition a vector in the same manner, let $bold(x) in RR^(N)$, we can see it as a vertical stack its sub-vectors,
 
 #matlines(rows: "solid")[
@@ -122,6 +131,10 @@ $
 
 here we picked the split to make $bold(x)_(1) in RR^(b), bold(x)_(2) in RR^(d)$ compatible to perform blockwise matrix-vector multiplication, as we show in the example below.
 
+
+#slidebreak()
+
+
 #example("Dimensions of submatrices.")[
 
 Since each matrix block should inherit its dimensions from the split. For the above example, the dimension of each submatrix is given as,
@@ -131,6 +144,10 @@ bold(A)_(1 1) in RR^(a, b), & quad bold(A)_(1 2) in RR^(a, d), \
 bold(A)_(2 1) in RR^(c, b), & quad bold(A)_(2 2) in RR^(c, d).
 $
 ]
+
+
+#slidebreak()
+
 
 #example("Block matrix-vector multiplication.")[
 
@@ -156,6 +173,9 @@ $
 
 #divider()
 
+#slidebreak()
+
+
 #underline([*Operations on Block Matrices*])
 
 In the following, let us consider a concrete use case of the block matrices. In the lecture, we learned about the *Kronecker product* which is an operation on two matrices of arbitrary size resulting in a block matrix.
@@ -174,6 +194,9 @@ mat(
 $
 
 ]
+
+
+#slidebreak()
 
 
 #example("Kronecker product " + $bold(A) ⊗ bold(B)$ + " of two 2×2 matrices")[
@@ -211,6 +234,9 @@ $
 the resulting matrix lives in $RR^(4, 4)$.
 
 ]
+
+
+#slidebreak()
 
 
 #example("Kronecker matrix-vector product " + $(bold(A) ⊗ bold(B)) bold(x)$ + " with " + $bold(A) in RR^(2, 2), bold(B) in RR^(l, k), bold(x) in RR^(2 k)$)[
