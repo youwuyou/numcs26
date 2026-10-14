@@ -96,16 +96,15 @@ In this section, we review two types of sparse matrices. First, we define what i
 A #underline([diagonal matrix]) is a matrix in which the entries outside the main diagonal are all zero; the term usually refers to square matrices. The elements of the main diagonal can either be zero or nonzero.
 
 #defbox("Diagonal matrix.")[
-A square matrix $bold(D) = (d_(i j)) in RR^(n, n)$ is #underline([diagonal]) if all of its off-diagonal entries are zero. We write such a matrix compactly as $bold(D) = "diag"(d_(1 1), dots, d_(n n))$,
+A square matrix $bold(D) = (d_(i j)) in RR^(n, n)$ is #underline([diagonal]) if all of its off-diagonal entries are zero.
 
 $
-bold(D) =
+"diag"(d_(1), dots, d_(n)) :=
 mat(
-  d_(1 1), 0, dots, 0;
-  0, d_(2 2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, d_(n n);
-).
+  d_(1), , 0;
+  , dots.down, ;
+  0, , d_(n);
+) in RR^(n, n), quad d_(j) in RR, quad j = 1, dots, n.
 $
 ]
 
@@ -195,24 +194,21 @@ In the following, we denote $bold(A) := "diag"(a_(1), dots, a_(n)) in RR^(n, n)$
 
 $
 mat(
-  a_(1), 0, dots, 0;
-  0, a_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n);
+  a_(1), , 0;
+  , dots.down, ;
+  0, , a_(n);
 )
 +
 mat(
-  b_(1), 0, dots, 0;
-  0, b_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, b_(n);
+  b_(1), , 0;
+  , dots.down, ;
+  0, , b_(n);
 )
 =
 mat(
-  a_(1) + b_(1), 0, dots, 0;
-  0, a_(2) + b_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n) + b_(n);
+  a_(1) + b_(1), , 0;
+  , dots.down, ;
+  0, , a_(n) + b_(n);
 ),
 $
 
@@ -220,23 +216,20 @@ $
 
 $
 mat(
-  a_(1), 0, dots, 0;
-  0, a_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n);
+  a_(1), , 0;
+  , dots.down, ;
+  0, , a_(n);
 )
 mat(
-  b_(1), 0, dots, 0;
-  0, b_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, b_(n);
+  b_(1), , 0;
+  , dots.down, ;
+  0, , b_(n);
 )
 =
 mat(
-  a_(1) b_(1), 0, dots, 0;
-  0, a_(2) b_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n) b_(n);
+  a_(1) b_(1), , 0;
+  , dots.down, ;
+  0, , a_(n) b_(n);
 ).
 $
 
@@ -246,17 +239,15 @@ $
 
 $
 mat(
-  a_(1), 0, dots, 0;
-  0, a_(2), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n);
+  a_(1), , 0;
+  , dots.down, ;
+  0, , a_(n);
 )^(-1)
 =
 mat(
-  a_(1)^(-1), 0, dots, 0;
-  0, a_(2)^(-1), dots, 0;
-  dots.v, dots.v, dots.down, dots.v;
-  0, 0, dots, a_(n)^(-1);
+  a_(1)^(-1), , 0;
+  , dots.down, ;
+  0, , a_(n)^(-1);
 ).
 $
 
