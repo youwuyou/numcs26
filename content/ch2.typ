@@ -1,10 +1,7 @@
-#import "_site.typ": site, page-heading, code-expert
+#import "_site.typ": site, page-heading, code-expert, chapter-hero
 
 #site("ch2", "Chapter 2 - Polynominterpolation", [
-  #html.header(class: "hero compact-hero")[
-    #html.p(class: "eyebrow")[Chapter 2]
-    #html.h1[Polynominterpolation]
-  ]
+  #chapter-hero("Chapter 2", "Polynominterpolation")
 
   #include "ch2/section_2_1.typ"
   #include "ch2/section_2_2.typ"
