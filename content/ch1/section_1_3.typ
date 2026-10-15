@@ -91,9 +91,9 @@ Note that each of the entry in the resulting matrix is a single multiplication o
 
 ==== Sparse Matrices
 
-In this section, we review two types of sparse matrices. First, we define what is a *diagonal matrix*, and see how addition and multiplication of two diagonal matrices preserve the sparsity. Second, we introduce a *arrow matrix*, and will show the sparsity is only #underline[conditionally] preserved.
+In this section, we review two types of sparse matrices. First, we define what is a *diagonal matrix*, and see how addition and multiplication of two diagonal matrices preserve the sparsity. Second, we introduce a *arrowhead matrix*, and will show the sparsity is only #underline[conditionally] preserved.
 
-A #underline([diagonal matrix]) is a matrix in which the entries outside the main diagonal are all zero; the term usually refers to square matrices. The elements of the main diagonal can either be zero or nonzero.
+A *diagonal matrix* is a square matrix in which the entries outside the main diagonal are all zero. The elements of the main diagonal can either be zero or nonzero.
 
 #defbox("Diagonal matrix.")[
 A square matrix $bold(D) = (d_(i j)) in RR^(n, n)$ is #underline([diagonal]) if all of its off-diagonal entries are zero.
@@ -260,7 +260,52 @@ $
 
 ==== Upper & Lower Triangular Matrix
 
-3. Upper/Lower triangular matrix
+A *lower triangular matrix* $bold(L)$ or *upper triangular matrix* $bold(R)$ in $RR^(n, n)$ has the form,
+
+
+$
+bold(L) =
+mat(
+  l_(1 1), 0, dots, 0;
+  l_(2 1), l_(2 2), dots, 0;
+  dots.v, dots.v, dots.down, dots.v;
+  l_(n 1), l_(n 2), dots, l_(n n);
+), quad quad
+bold(U) =
+mat(
+  u_(1 1), u_(1 2), dots, u_(1 n);
+  0, u_(2 2), dots, u_(2 n);
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, dots, u_(n n);
+).
+$
+
+#example("Group of regular diagonal/triangular matrices. (Hiptmair, p. 74, 1.3.1.9)")[
+
+The following result is useful when dealing with matrix decompositions that often involve triangular matrices,
+
+$
+bold(A), bold(B) cases("diagonal", "upper triangular", "lower triangular") quad ==> quad bold(A) bold(B) " and " bold(A)^(-1) cases("diagonal", "upper triangular", "lower triangular"),
+$
+
+where $bold(A)^(-1)$ assumes that $bold(A)$ is regular.
+
+]
+
+#example("Determinant of triangular matrices.")[
+The determinant of a triangular matrix equal the product of the diagonal entries. This holds both for a lower triangular matrix,
+
+$
+det(bold(L)) = product^(n)_(i = 1) l_(i i)
+$
+
+and for an upper triangular matrix
+
+$
+det(bold(U)) = product^(n)_(i = 1) u_(i i)
+$
+
+]
 
 #divider()
 
