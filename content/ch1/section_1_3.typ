@@ -93,6 +93,8 @@ Note that each of the entry in the resulting matrix is a single multiplication o
 
 In this section, we review two types of sparse matrices. First, we define what is a *diagonal matrix*, and see how addition and multiplication of two diagonal matrices preserve the sparsity. Second, we introduce a *arrowhead matrix*, and will show the sparsity is only #underline[conditionally] preserved.
 
+#slidebreak()
+
 A *diagonal matrix* is a square matrix in which the entries outside the main diagonal are all zero. The elements of the main diagonal can either be zero or nonzero.
 
 #defbox("Diagonal matrix.")[
@@ -107,6 +109,8 @@ mat(
 ) in RR^(n, n), quad d_(j) in RR, quad j = 1, dots, n.
 $
 ]
+
+#slidebreak()
 
 #example("Left multiplication by a diagonal matrix scales the rows.")[
 
@@ -147,6 +151,8 @@ where $bold(A)_(i comma :)$ denotes the $i$-th row of $bold(A)$.
 
 ]
 
+#slidebreak()
+
 #example("Right multiplication by a diagonal matrix scales the columns.")[
 
 For $bold(A) in RR^(n, m)$ and $bold(D) in RR^(m, m)$ diagonal, right-multiplication scales the #underline([columns]) of $bold(A)$,
@@ -185,6 +191,8 @@ $
 where $bold(A)_(: comma j)$ denotes the $j$-th column of $bold(A)$.
 
 ]
+
+#slidebreak()
 
 #example("Matrix operations with diagonal matrices.")[
 
@@ -253,10 +261,45 @@ $
 
 ]
 
-2. Arrowhead matrix
+#slidebreak()
+
+As shown in the example above, the diagonal structure for two such matrices is preserved. 
+
+Let us know examine another kind of sparse matrices. We say a square matrix is an *arrowhead matrix*, 
+if it contains zeros in all entries except for the first row, first column, and main diagonal. We shall
+notice the sparsity of two arrowhead matrices $cblue(bold(A)), cred(bold(B))$ is *not preserved* under
+matrix-matrix multiplication.
+
+#slidebreak()
+
+$
+cblue(bold(A)) cred(bold(B)) &=cblue(mat(
+  ast_(11), ast_(12), ast_(13);
+  ast_(21), ast_(22), 0;
+  ast_(31), 0,        ast_(33);
+))
+cred(mat(
+  ast_(11), ast_(12), ast_(13);
+  ast_(21), ast_(22), 0;
+  ast_(31), 0,        ast_(33);
+))\
+&=
+mat(
+  cblue(ast_(11))cred(ast_(11)) + cblue(ast_(12))cred(ast_(21)) + cblue(ast_(13))cred(ast_(31)),
+    cblue(ast_(11))cred(ast_(12)) + cblue(ast_(12))cred(ast_(22)),
+    cblue(ast_(11))cred(ast_(13)) + cblue(ast_(13))cred(ast_(33));
+  cblue(ast_(21))cred(ast_(11)) + cblue(ast_(22))cred(ast_(21)),
+    cblue(ast_(21))cred(ast_(12)) + cblue(ast_(22))cred(ast_(22)),
+    cblue(ast_(21))cred(ast_(13));
+  cblue(ast_(31))cred(ast_(11)) + cblue(ast_(33))cred(ast_(31)),
+    cblue(ast_(31))cred(ast_(12)),
+    cblue(ast_(31))cred(ast_(13)) + cblue(ast_(33))cred(ast_(33));
+)
+$
 
 #divider()
 
+#slidebreak()
 
 ==== Upper & Lower Triangular Matrix
 
@@ -280,6 +323,8 @@ mat(
 ).
 $
 
+#slidebreak()
+
 #example("Group of regular diagonal/triangular matrices. (Hiptmair, p. 74, 1.3.1.9)")[
 
 The following result is useful when dealing with matrix decompositions that often involve triangular matrices,
@@ -291,6 +336,8 @@ $
 where $bold(A)^(-1)$ assumes that $bold(A)$ is regular.
 
 ]
+
+#slidebreak()
 
 #example("Determinant of triangular matrices.")[
 The determinant of a triangular matrix equal the product of the diagonal entries. This holds both for a lower triangular matrix,
