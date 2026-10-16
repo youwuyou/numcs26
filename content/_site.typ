@@ -47,6 +47,27 @@
   }
 }
 
+// Strike-through `$cancel(expr)$`. Typst's math `cancel()` draws a diagonal
+// line, but like `overline` it is silently dropped during MathML export.
+// `html.frame` would render crisp SVG but bakes a fixed color (invisible in
+// dark mode) and breaks the inline baseline, so the HTML branch paints the
+// diagonal with a `linear-gradient` background on the <mrow>: it spans the full
+// base width and follows `currentColor`. The color stops are feathered by
+// ~0.03em on each side so the browser anti-aliases the diagonal instead of
+// stair-stepping a hard edge. The paged build uses native `math.cancel`.
+#let cancel = (x) => context {
+  if target() == "html" {
+    html.elem(
+      "mrow",
+      attrs: (
+        style: "background: linear-gradient(to top right, transparent calc(50% - 0.06em), currentColor calc(50% - 0.025em), currentColor calc(50% + 0.025em), transparent calc(50% + 0.06em))",
+      ),
+    )[$#x$]
+  } else {
+    math.cancel(x)
+  }
+}
+
 // Every helper below is dual-target: the same chapter source compiles to the
 // website (`--features html --format html`) and to a PDF (plain `typst
 // compile`). The shape is always `context { if target() == "html" { ... } else
