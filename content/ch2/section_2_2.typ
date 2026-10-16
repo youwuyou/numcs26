@@ -15,7 +15,7 @@ $
 
 ]
 
-with Newton basis polynomials defined on $(n+1)$ distinct nodes $\{x_(0), dots, x_(n)\} subset RR$ as,
+with Newton basis polynomials $N_(0), dots, N_(n)$ defined on distinct nodes $\{x_(0), dots, x_(n)\} subset RR$ as
 
 $
 N_(n)(x) = product^(n-1)_(i = 0) (x - x_(i))
