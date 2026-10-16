@@ -96,7 +96,7 @@ $
 
 An important direct consequence of the #underline[Kronecker delta property] guarantees us that *Lagrange polynomials indeed form a basis of $cal(P)_(n)$*, which is stated as a theorem in the script#sidenote[Gradinaru, p. 51, theorem 2.3.3]. Here we provide a short proof on this statement.
 
-#proof(title: "Proof of Lagrange polynomials " + $l_(0)(x), dots, l_(n)(x)$ + " form a basis of " + $cal(P)_(n)$)[
+#proof(title: "Proof of Lagrange polynomials " + $l_(0)(x), dots, l_(n)(x)$ + " form a basis of " + $cal(P)_(n)$, boxed: true)[
 
 Assume by contradiction that $l_(i)(x)$ are linearly dependent#sidenote[To demonstrate that the Lagrange polynomials $l_(i)(x), quad i = 0, dots, n$ indeed form a basis of the vector space $cal(P)_(n)$, that is of dimension $dim cal(P)_(n) = n + 1$. We need to show $l_(i)(x)$ are linearly independent.], then there exists coefficients $y_(0), dots, y_(n) in RR$ with $sum^(n)_(i) abs(y_(i)) > 0$ such that
 
