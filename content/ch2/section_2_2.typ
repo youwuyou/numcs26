@@ -1,4 +1,4 @@
-#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, cteal, sidenote, slidebreak, thought, divider, figure-img, boxeq
+#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, cteal, sidenote, slidebreak, thought, divider, figure-img, boxeq, stage
 
 #let meta = (id: "newton-basis-und-dividierte-differenzen", title: "2.2 Newton-Basis und dividierte Differenzen")
 
@@ -79,9 +79,11 @@ here it is helpful to see $beta_(n)N_(n)(x)$ as the "correction" term to ensure 
   Iterative construction of a Newton's polynomial of degree $n = 3$.
 ]
 
-🚧 Under construction.
-- construction: divided difference
-- evaluation: horner's scheme for newton, error in relation with differentiability
+- [TODO]: construction: divided difference
+
+
+#stage[Evaluation]
+- [TODO]: evaluation: horner's scheme for newton, error in relation with differentiability
 
 
 #divider()

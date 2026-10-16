@@ -3041,6 +3041,31 @@ body.notes-lightbox-open {
   border-top: 1px solid var(--border, var(--muted));
 }
 
+/* Stage marker opening the "Evaluation" half of an interpolation section
+   (see `stage()` in content/_site.typ). The slot-machine glyph is dark ink on
+   a transparent ground; in dark mode we flip it to light with `invert`, the
+   same approach as `.ethz-logo`. */
+.stage-marker {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 2.2rem 0 0.9rem;
+  font-size: 1.4rem;
+}
+.stage-icon {
+  flex: none;
+  width: auto;
+  height: 1.45em;
+}
+:root[data-theme="dark"] .stage-icon {
+  filter: invert(1);
+}
+.stage-label {
+  font-weight: 560;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
 /* Match the equation flash for heading permalinks, so a deep link lands the
    eye on the heading rather than leaving it silently pinned to the top. */
 main h2:target,

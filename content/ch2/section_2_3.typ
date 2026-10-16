@@ -1,4 +1,4 @@
-#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, cteal, sidenote, slidebreak, thought, divider, figure-img, boxeq, proof, conj, cancel, theorem, _mathcolor
+#import "../_site.typ": section, defbox, example, mat, vec, matlines, ip, python, cblue, cred, cteal, sidenote, slidebreak, thought, divider, figure-img, boxeq, proof, conj, cancel, theorem, _mathcolor, stage
 
 #let meta = (id: "lagrange-und-baryzentrische-interpolationsformeln", title: "2.3 Lagrange- und baryzentrische Interpolationsformeln")
 
@@ -130,11 +130,8 @@ this contradicts our assumption. Thus, we know Lagrange polynomials are linearly
 
 ]
 
-
+#stage[Evaluation]
+- [TODO] derivatives of Lagrange polynomials
+- [TODO] error estimate, Lesbegue constant, Runge phenomenon
 
 #divider()
-
-
-🚧 Under construction.
-- derivatives of Lagrange polynomials
-- error estimate, Lesbegue constant, Runge phenomenon

@@ -486,6 +486,24 @@
   }
 }
 
+// A stage marker opening the *evaluation* half of an interpolation section.
+// The slot-machine glyph carries the metaphor: once the coefficients are
+// fixed, evaluating the interpolant is "pulling the lever" -- feed in a point
+// x and the machine returns p(x). Used symmetrically across the monomial,
+// Newton and Lagrange sections so the reader pattern-matches the same
+// construct/evaluate split from section 2.1.
+#let stage(title) = context {
+  if target() == "html" {
+    html.elem("div", attrs: (class: "stage-marker"))[#html.img(class: "stage-icon", src: "static/slot-machine.svg", alt: "slot machine")#html.elem("span", attrs: (class: "stage-label"))[#title]]
+  } else {
+    block(above: 1.4em, below: 0.9em)[
+      #box(baseline: 0.3em, image("../static/slot-machine.svg", height: 1.8em))
+      #h(0.25em)
+      #text(size: 1.4em, weight: 560)[#title]
+    ]
+  }
+}
+
 // A captioned figure. Drop the image file beside its chapter source, under
 // `content/<chapter>/`, and reference it with that same path (build.py
 // publishes every image under content/ at its matching path):
