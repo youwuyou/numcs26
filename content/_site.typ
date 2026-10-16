@@ -222,6 +222,7 @@
 #let axiom(title, body) = admonition("axiom", _labeled-title("Axiom", title), body)
 #let lemma(title, body) = admonition("lemma", _labeled-title("Lemma", title), body)
 #let theorem(title, body) = admonition("theorem", _labeled-title("Theorem", title), body)
+#let warning(title, body) = admonition("warning", _labeled-title("Warning", title), body)
 
 // `title` overrides the default "Proof." label, e.g.
 // `#proof(title: [Proof of the $n$th-root formula])[ ... ]`.

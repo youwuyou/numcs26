@@ -36,7 +36,7 @@ Note that we should interpret a Newton's basis as a cumulative product that "kee
 ]
 
 
-#example("Lower triangular matrix structure with Newton's basis.")[
+#example("LSE with a lower triangular matrix in Newton's basis.")[
 
 The Newton's polynomial of degree $n$ fulfills the interpolation conditions at $(n + 1)$ distinct data points $(x_i , y_i), forall i = 0, 1, dots, n$,
 

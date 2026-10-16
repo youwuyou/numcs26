@@ -79,6 +79,7 @@
       "group": "2 Polynominterpolation",
       "href": "ch2.html",
       "source": "content/ch2.typ",
+      "pdf": true,
       "sections": [
         "content/ch2/section_2_1.typ",
         "content/ch2/section_2_2.typ",

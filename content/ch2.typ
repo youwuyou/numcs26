@@ -1,4 +1,4 @@
-#import "_site.typ": site, page-heading, code-expert, chapter-hero
+#import "_site.typ": site, chapter-hero, page-heading, code-expert, web-only, admonition, checklist
 
 #site("ch2", "Chapter 2 - Polynominterpolation", [
   #chapter-hero("Chapter 2", "Polynominterpolation")
@@ -14,4 +14,5 @@
     icon: code-expert,
     href: "https://expert.ethz.ch/print/NumINFK/AS26/WktSdh8CzT4uhBC7e",
   )
+
 ])
