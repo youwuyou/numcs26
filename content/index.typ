@@ -175,12 +175,12 @@
         #week-row(
           [5],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/LcozqFYaYvP")[12.10.2026],
-          [15.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/JQXAQ5Y3qZi")[15.10.2026],
           "05",
           [Stückweise Polynomiale Interpolation],
           [19.10.2026],
           "2.4", "3.6", "4.1", "4.2", "4.3",
-          focus: mixed-serie-focus([Serie 05: Stückweise Polynomiale Interpolation], "04", [Chebyshev-Interpolation], "2.4", "3.6"),
+          focus: custom-focus([parts of Serie 04: Chebyshev-Interpolation; Serie 05: Stückweise Polynomiale Interpolation], "2.4", "3.6"),
         )
         #week-row(
           [6],
