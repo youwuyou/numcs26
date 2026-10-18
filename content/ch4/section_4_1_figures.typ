@@ -6,12 +6,13 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 
 // Palette shares the exact hexes of the math-color helpers cteal / cviolet /
-// corange so the figure and the equations' variables read in the same colors,
-// and avoids the red (cred) / blue (cblue) already carrying meaning in the prose:
-// teal = reference coordinate t, violet = physical coordinate x, amber = the change of variable.
+// cblue / cred so the figures and the equations' variables read in the same colors:
+// teal = reference coordinate t, violet = physical coordinate x,
+// blue = the interpolant hat(f), red = its derivative hat(f)'.
 #let cov-ref = rgb("#009688")
 #let cov-tgt = rgb("#7c3aed")
-#let cov-map = rgb("#e8710a")
+#let cov-interp = rgb("#1f77ff")
+#let cov-deriv = rgb("#e4272b")
 #let cov-gray = rgb("#555555")
 
 #let centered-figure-body(body) = context {
@@ -157,7 +158,7 @@
     let data = ((0, 0), (1, 1), (2, 3), (3, 2))
     // the interpolant: straight segments between consecutive samples
     for i in range(data.len() - 1) {
-      line(data.at(i), data.at(i + 1), stroke: 1.6pt + cov-map)
+      line(data.at(i), data.at(i + 1), stroke: 1.6pt + cov-interp)
     }
     // the samples on top
     for (x, y) in data {
@@ -177,9 +178,9 @@
     let steps = ((0, 1, 1), (1, 2, 2), (2, 3, -1))
     // the constant pieces, with filled/hollow endpoints marking the jumps
     for (x0, x1, m) in steps {
-      line((x0, m), (x1, m), stroke: 1.6pt + cov-map)
-      circle((x0, m), radius: 0.08, fill: cov-map, stroke: none)
-      circle((x1, m), radius: 0.08, fill: white, stroke: 1pt + cov-map)
+      line((x0, m), (x1, m), stroke: 1.6pt + cov-deriv)
+      circle((x0, m), radius: 0.08, fill: cov-deriv, stroke: none)
+      circle((x1, m), radius: 0.08, fill: white, stroke: 1pt + cov-deriv)
     }
   })
 
