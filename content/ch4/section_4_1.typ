@@ -7,7 +7,7 @@
 
 == #meta.title
 
-In the following, we examine the simplest piecewise interpolation scheme, i.e. *piecewise linear interpolation*. This gives us an interpolant $hat(f): I := [a,b] -> RR$ that is #underline[continuous, but not differentiable] on $I$. More compactly, we denote such functions to be $hat(f) in C^(0)([a,b])$.
+In the following, we examine the simplest piecewise interpolation scheme, i.e. *piecewise linear interpolation*. This gives us an interpolant $hat(f): I := [a,b] -> RR$ that is #underline[continuous on $I$, but in general not differentiable at the interior nodes]. More compactly, we denote such functions to be $hat(f) in C^(0)([a,b])$, but it may not hold that $hat(f) in C^(1)([a,b])$.
 
 #notation("Differentiability classes")[
 On an interval $I = [a,b] subset.eq RR$, we write#sidenote[See #link("https://en.wikipedia.org/wiki/Smoothness#Differentiability_classes")[Smoothness — differentiability classes] on Wikipedia.]
@@ -75,10 +75,17 @@ cteal(t) &mapsto cviolet(x_(j-1) + h_(j) t := x)
 $
 
 
-Under such a transformation, the degrees of polynomials remain unchanged. In fact, we could visualize
-the change of variable as follows
-
 #fig-change-of-variable
+
+Equivalently, the interpolant $s_(j)$ is the reference interpolant $hat(s)$ precomposed with $chi^(-1)$.
+
+$
+s_(j) &= hat(s) compose chi^(-1), \
+s_(j)(cviolet(x)) &= hat(s)(chi^(-1)(cviolet(x))) = hat(s)(cteal(t)).
+$
+
+The degrees of polynomials $hat(s), s$ remain unchanged under such a transformation.
+
 
 #example("Use change of variables to transform interpolant onto "+ $I_(j)$)[
 
@@ -86,7 +93,7 @@ To apply the change of variables as defined above in order to obtain a transform
 Let the concrete function values at the endpoints be $y_(j-1), y_(j)$, then
 
 $
-s_(j)(x) = hat(s)(cteal(t))
+s_(j)(cviolet(x)) = hat(s)(cteal(t))
 &= y_(j-1)(1 - cteal(t)) + y_(j) cteal(t) \
 &= y_(j-1)(1 - cviolet(frac(x - x_(j-1), h_(j)))) + y_(j) cviolet(frac(x - x_(j-1), h_(j))) \
 &= y_(j-1) frac(h_(j) - (x - x_(j-1)), h_(j)) + y_(j) frac(x - x_(j-1), h_(j)) \
