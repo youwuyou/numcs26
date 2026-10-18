@@ -109,6 +109,7 @@
       "group": "4 Stückweise Polynomiale Interpolation",
       "href": "ch4.html",
       "source": "content/ch4.typ",
+      "pdf": true,
       "sections": [
         "content/ch4/section_4_1.typ",
         "content/ch4/section_4_2.typ",
