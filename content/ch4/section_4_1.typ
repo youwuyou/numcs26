@@ -1,5 +1,5 @@
 #import "../_site.typ": section, boxeq, defbox, notation, example, thought, sidenote, divider, anchor, anchor-ref, cred, cteal, cviolet
-#import "section_4_1_figures.typ": fig-change-of-variable
+#import "section_4_1_figures.typ": fig-change-of-variable, fig-connect-dots-data, fig-connect-dots-fn-deriv
 
 #let meta = (id: "stueckweise-lineare-interpolation", title: "4.1 Stückweise lineare Interpolation")
 
@@ -118,3 +118,62 @@ s_(j)(x_(j-1)) = y_(j-1), quad s_(j)(x_(j)) = y_(j)
 $
 
 hold, and argue from this why the piecewise linear interpolant $hat(f)$ assembled from the pieces $s_(j)$ remains continuous across the whole of $I$.
+
+=== Connect-the-Dots
+
+In the following, let us perform the piecewise linear interpolation for four data points $(0, 0), (1, 1), (2, 3), (3, 2)$ with equidistant nodes.
+
+#fig-connect-dots-data
+
+#example("Applying the piecewise linear interpolation formula on equidistant nodes.")[
+
+Recall the #anchor-ref("eq-local-interpolant")[local interpolant formula] on a generic interval as
+
+$
+s_(j)(x) 
+&= y_(j-1) frac(x_(j) - x, h_(j)) + y_(j) frac(x - x_(j-1), h_(j))
+$
+
+Since every subinterval has length $h_(j) = 1$, it simplifies as follows for all $x in [x_(j-1), x_(j)]$
+
+#boxeq[
+
+$
+s_(j)(x) &= y_(j-1) (x_(j) - x) + y_(j) (x - x_(j-1))
+$
+
+]
+
+where since $x_(j)$ are equidistant nodes, we substituted $h_(j) = 1$ for all $j = 0, 1, 2, 3$ above.
+
+$
+cases(
+  s_(1)(x) = 0 dot (1 - x) + 1 dot x = x & quad x in [0, 1],
+  s_(2)(x) = 1 dot (2 - x) + 3 dot (x - 1) = 2 x - 1 & quad x in [1, 2],
+  s_(3)(x) = 3 dot (3 - x) + 2 dot (x - 2) = 5 - x & quad x in [2, 3].
+)
+$
+
+]
+
+By applying the piecewise linear interpolation formula and "stitching" the pieces together, 
+we obtain an interpolant $hat(f)$ that is continuous on the entire interval
+
+#boxeq[
+$
+hat(f)(x) = cases(
+  x & quad x in [0, 1],
+  2 x - 1 & quad x in [1, 2],
+  5 - x & quad x in [2, 3].
+)
+$
+]
+
+On the left subplot, note that the function values at shared nodes between subintervals coincide by construction. This allows us
+to write the above function definition with case distinctions using overlapping intervals without ambiguity.
+
+
+#fig-connect-dots-fn-deriv
+
+On the right subplot, we see that the *derivatives of a piecewise linear interpolant* is however
+*not continuous on $I$*.

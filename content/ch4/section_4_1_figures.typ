@@ -76,3 +76,123 @@
   })),
   caption: [The change of variable of $t in hat(I)$ into $x in I_(j)$.],
 )
+
+// The raw samples for the connect-the-dots example: nodes x = 0,1,2,3 with
+// values y = 0,1,3,2. Only the data points are drawn -- no interpolant yet --
+// so the reader first sees what is to be connected.
+#let fig-connect-dots-data = figure(
+  centered-figure-body(canvas(length: 1cm, {
+    import draw: *
+
+    let data = ((0, 0), (1, 1), (2, 3), (3, 2))
+    let x-max = 3
+    let y-max = 3
+    // a little headroom beyond the axes
+    let xp = x-max + 0.6
+    let yp = y-max + 0.6
+
+    // axes
+    line((0, 0), (xp, 0), stroke: 0.8pt + cov-gray, mark: (end: "stealth", fill: cov-gray))
+    line((0, 0), (0, yp), stroke: 0.8pt + cov-gray, mark: (end: "stealth", fill: cov-gray))
+    content((xp + 0.25, 0), $x$)
+    content((0, yp + 0.25), $y$)
+
+    // ticks + labels on the x-axis
+    for x in range(1, x-max + 1) {
+      line((x, -0.1), (x, 0.1), stroke: 0.8pt + cov-gray)
+      content((x, -0.38), text(0.85em, $#x$))
+    }
+    // ticks + labels on the y-axis
+    for y in range(1, y-max + 1) {
+      line((-0.1, y), (0.1, y), stroke: 0.8pt + cov-gray)
+      content((-0.38, y), text(0.85em, $#y$))
+    }
+
+    // the data points
+    for (x, y) in data {
+      circle((x, y), radius: 0.09, fill: cov-tgt, stroke: none)
+    }
+  })),
+  caption: [Samples of a function $f : RR -> RR$.],
+)
+
+// The assembled piecewise linear interpolant hat(f) for the connect-the-dots
+// example: the same samples, now joined by straight segments. Corners at the
+// interior nodes x = 1, 2 make the non-differentiability visible.
+// Both subplots share one coordinate frame: x in [0,3], y in [-1,3], with the
+// same ticks. Equal vertical extent means the x-axis (origin line y = 0) sits at
+// the same height in both, so side by side the two origins align.
+#let cd-x-max = 3
+#let cd-y-min = -1
+#let cd-y-max = 3
+#let cd-xp = cd-x-max + 0.6
+#let cd-yp = cd-y-max + 0.6
+#let cd-yn = cd-y-min - 0.6
+
+// Shared axes + ticks, parameterised only by the vertical-axis label.
+#let cd-axes(ylabel) = {
+  import draw: *
+  line((0, 0), (cd-xp, 0), stroke: 0.8pt + cov-gray, mark: (end: "stealth", fill: cov-gray))
+  line((0, cd-yn), (0, cd-yp), stroke: 0.8pt + cov-gray, mark: (end: "stealth", fill: cov-gray))
+  content((cd-xp + 0.3, 0), $x$)
+  content((0, cd-yp + 0.35), ylabel)
+  for x in (1, 2, 3) {
+    line((x, -0.1), (x, 0.1), stroke: 0.8pt + cov-gray)
+    content((x, -0.38), text(0.85em, $#x$))
+  }
+  for y in (-1, 1, 2, 3) {
+    line((-0.1, y), (0.1, y), stroke: 0.8pt + cov-gray)
+    content((-0.38, y), text(0.85em, $#y$))
+  }
+}
+
+// The assembled piecewise linear interpolant hat(f) for the connect-the-dots
+// example: the same samples, now joined by straight segments. Corners at the
+// interior nodes x = 1, 2 make the non-differentiability visible.
+#let cnv-connect-dots-interp = canvas(length: 1cm, {
+    import draw: *
+
+    cd-axes($hat(f)(x)$)
+
+    let data = ((0, 0), (1, 1), (2, 3), (3, 2))
+    // the interpolant: straight segments between consecutive samples
+    for i in range(data.len() - 1) {
+      line(data.at(i), data.at(i + 1), stroke: 1.6pt + cov-map)
+    }
+    // the samples on top
+    for (x, y) in data {
+      circle((x, y), radius: 0.09, fill: cov-tgt, stroke: none)
+    }
+  })
+
+// The derivative hat(f)' for the connect-the-dots example: a piecewise-constant
+// step function (the per-piece slopes 1, 2, -1). Filled/hollow dots mark where
+// each piece is / is not defined, so the jumps at x = 1, 2 read as gaps.
+#let cnv-connect-dots-deriv = canvas(length: 1cm, {
+    import draw: *
+
+    cd-axes($hat(f)'(x)$)
+
+    // (x0, x1, slope) for each subinterval
+    let steps = ((0, 1, 1), (1, 2, 2), (2, 3, -1))
+    // the constant pieces, with filled/hollow endpoints marking the jumps
+    for (x0, x1, m) in steps {
+      line((x0, m), (x1, m), stroke: 1.6pt + cov-map)
+      circle((x0, m), radius: 0.08, fill: cov-map, stroke: none)
+      circle((x1, m), radius: 0.08, fill: white, stroke: 1pt + cov-map)
+    }
+  })
+
+// The interpolant and its derivative, shown side by side so the corners of
+// hat(f) line up with the jumps of hat(f)'. html.frame rasterizes the whole
+// grid to a single inline SVG, so the two-column layout survives HTML export.
+#let fig-connect-dots-fn-deriv = figure(
+  centered-figure-body(grid(
+    columns: 2,
+    column-gutter: 1.2cm,
+    align: horizon,
+    cnv-connect-dots-interp,
+    cnv-connect-dots-deriv,
+  )),
+  caption: [The interpolant $hat(f)$ (left) and its derivative $hat(f)'$ (right).],
+)
