@@ -110,3 +110,11 @@ $
 s_(j)(x) = y_(j-1) frac(x_(j) - x, h_(j)) + y_(j) frac(x - x_(j-1), h_(j)), quad x in [x_(j-1), x_(j)] .
 $
 ]]
+
+As an exercise, verify that the interpolation conditions
+
+$
+s_(j)(x_(j-1)) = y_(j-1), quad s_(j)(x_(j)) = y_(j)
+$
+
+hold, and argue from this why the piecewise linear interpolant $hat(f)$ assembled from the pieces $s_(j)$ remains continuous across the whole of $I$.
