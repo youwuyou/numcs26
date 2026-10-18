@@ -27,6 +27,7 @@
 #let corange = _mathcolor("#e8710a")
 #let colive = _mathcolor("#808000")
 #let cteal = _mathcolor("#009688")
+#let cviolet = _mathcolor("#7c3aed")
 
 // Complex conjugate `$conj(g(x))$`. Typst's math `overline()` is silently
 // dropped during MathML export, and `accent()` only ever emits a fixed-width
@@ -219,6 +220,7 @@
 
 #let defbox(title, body) = admonition("definition", _labeled-title("Definition", title), body)
 #let definition(title, body) = admonition("definition", _labeled-title("Definition", title), body)
+#let notation(title, body) = admonition("definition", _labeled-title("Notation", title), body)
 #let axiom(title, body) = admonition("axiom", _labeled-title("Axiom", title), body)
 #let lemma(title, body) = admonition("lemma", _labeled-title("Lemma", title), body)
 #let theorem(title, body) = admonition("theorem", _labeled-title("Theorem", title), body)
