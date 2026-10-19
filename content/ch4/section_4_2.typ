@@ -11,7 +11,7 @@
 
 In the previous section, we introduced the simplest case of a piecewise interpolation scheme that gives rise to a interpolant that is continuous, yet not differentiable $hat(f) in C^(0)([a, b])$. In this section, we would like to study an alternative that allows us to have a smoother interpolant that is of class $C^(1)$, meaning that we can differentiable $hat(f)$ once.
 
-In fact, let us denote the local polynomial as $s := p_(n): I_(j) :=  [x_(j-1), x_(j)] -> RR$, and write $h_(j) := x_(j) - x_(j-1)$ for the width of the subinterval. Within such a subinterval $I_(j)$, the interpolant $s$ is given by
+In fact, let us denote the local polynomial as $s_(j): I_(j) :=  [x_(j-1), x_(j)] -> RR$, and write $h_(j) := x_(j) - x_(j-1)$ for the width of the subinterval. As we will see shortly, the four conditions imposed on $s_(j)$ force it to be a cubic. Within such a subinterval $I_(j)$, the interpolant $s_(j)$ is given by
 
 #boxeq[
 $
@@ -55,16 +55,16 @@ $f(x_(j)) = y_(j)$, we also need to impose a condition to state "how steep the s
 - On left endpoint $x_(j - 1)$ of $I_(j)$
 $
 cases(
-cblue(s(x_(j-1)) = y_(j-1)),
-cred(s^(')(x_(j-1)) = c_(j-1)),
+cblue(s_(j)(x_(j-1)) = y_(j-1)),
+cred(s_(j)^(')(x_(j-1)) = c_(j-1)),
 )
 $
 
 - On right endpoint $x_(j)$ of $I_(j)$
 $
 cases(
-cblue(s(x_(j)) = y_(j)),
-cred(s^(')(x_(j)) = c_(j)),
+cblue(s_(j)(x_(j)) = y_(j)),
+cred(s_(j)^(')(x_(j)) = c_(j)),
 )
 $
 
