@@ -63,6 +63,32 @@ $
 
 This would allow us to derive the formula for $phi, psi$ by solving for the coefficients $a,b,c,d$.
 
+#example("Deriving the formula for " + $phi$)[
+For $phi$ the Kronecker conditions were
+$
+phi(t_(m)) = delta_(m 1), quad phi'(t_(m)) = 0, quad m in {0, 1},
+$
+
+In other words,
+
+$
+cases(
+  phi(0) = 0 & quad ==> quad d = 0,
+  phi'(0) = 0 & quad ==> quad c = 0,
+  phi(1) = 1 & quad ==> quad a + b = 1,
+  phi'(1) = 0 & quad ==> quad 3a + 2b = 0
+)
+$
+This time $a = -2$ and $b = 3$, so
+$
+phi(t) = -2 t^(3) + 3 t^(2) = t^(2)(3 - 2t) .
+$
+
+#linebreak()
+
+#fig-phi-basis
+]
+
 #example("Deriving the formula for " + $psi$)[
 For $psi$ the Kronecker conditions were
 $
@@ -89,31 +115,6 @@ $
 #fig-psi-basis
 ]
 
-#example("Deriving the formula for " + $phi$)[
-For $phi$ the Kronecker conditions were
-$
-phi(t_(m)) = delta_(m 1), quad phi'(t_(m)) = 0, quad m in {0, 1},
-$
-
-In other words,
-
-$
-cases(
-  phi(0) = 0 & quad ==> quad d = 0,
-  phi'(0) = 0 & quad ==> quad c = 0,
-  phi(1) = 1 & quad ==> quad a + b = 1,
-  phi'(1) = 0 & quad ==> quad 3a + 2b = 0
-)
-$
-This time $a = -2$ and $b = 3$, so
-$
-phi(t) = -2 t^(3) + 3 t^(2) = t^(2)(3 - 2t) .
-$
-
-#linebreak()
-
-#fig-phi-basis
-]
 
 ==== Imposing Constraints of Values and Slopes at Endpoints
 
