@@ -46,32 +46,6 @@ $
 ]
 
 
-
-==== Imposing Constraints of Values and Slopes at Endpoints
-
-Note that, in the expressions of $p_(j), q_(j)$, unlike before that we only specified $y_(j)$ using the function values
-$f(x_(j)) = y_(j)$, we also need to impose a condition to state "how steep the slope should be" at endpoints. Collectively, both the value and slope constraints on a subinterval $I_(j) = [x_(j-1), x_(j)]$ can be specified on both $x_(j-1), x_(j)$ respectively by
-
-- On left endpoint $x_(j - 1)$ of $I_(j)$
-$
-cases(
-cblue(s_(j)(x_(j-1)) = y_(j-1)),
-cred(s_(j)^(')(x_(j-1)) = c_(j-1)),
-)
-$
-
-- On right endpoint $x_(j)$ of $I_(j)$
-$
-cases(
-cblue(s_(j)(x_(j)) = y_(j)),
-cred(s_(j)^(')(x_(j)) = c_(j)),
-)
-$
-
-Hence, there are total $4$ degrees of freedom. In other words, the local polynomial fulfilling such conditions should be of degree $n = cred(3)$ in this subinterval. As remarked in the lecture, the choice of slope values $cred(c_(j))$ should be "done wisely".
-
-In fact, there are _slope estimators_ that extract information from the provided sample data points and provide suitable $cred(c_(j))$ values for us. In particular, the *PCHIP* and *Akima* were the ones mentioned in the class; while *PCHIP* has the more desirable "structure-preserving"#sidenote[DE: "formbehaltend"] property to preserve intrinsic properties of the original function $f$ while obtaining the interpolant $hat(f)$, such as the monotonicity property of a function.#sidenote[In `scipy.interpolate`, see #link("https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html")[`PchipInterpolator`] and #link("https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Akima1DInterpolator.html")[`Akima1DInterpolator`].]
-
 ==== Deriving Formulas of the Hermite Basis Functions $phi, psi$
 
 Instead of memorizing the formulas, one could also derive the formulas of $phi, psi$ by starting from a cubic polynomial on $hat(I) = [0,1]$
@@ -140,3 +114,28 @@ $
 
 #fig-phi-basis
 ]
+
+==== Imposing Constraints of Values and Slopes at Endpoints
+
+Note that, in the expressions of $p_(j), q_(j)$, unlike before that we only specified $y_(j)$ using the function values
+$f(x_(j)) = y_(j)$, we also need to impose a condition to state "how steep the slope should be" at endpoints. Collectively, both the value and slope constraints on a subinterval $I_(j) = [x_(j-1), x_(j)]$ can be specified on both $x_(j-1), x_(j)$ respectively by
+
+- On left endpoint $x_(j - 1)$ of $I_(j)$
+$
+cases(
+cblue(s_(j)(x_(j-1)) = y_(j-1)),
+cred(s_(j)^(')(x_(j-1)) = c_(j-1)),
+)
+$
+
+- On right endpoint $x_(j)$ of $I_(j)$
+$
+cases(
+cblue(s_(j)(x_(j)) = y_(j)),
+cred(s_(j)^(')(x_(j)) = c_(j)),
+)
+$
+
+Hence, there are total $4$ degrees of freedom. In other words, the local polynomial fulfilling such conditions should be of degree $n = cred(3)$ in this subinterval. As remarked in the lecture, the choice of slope values $cred(c_(j))$ should be "done wisely".
+
+In fact, there are _slope estimators_ that extract information from the provided sample data points and provide suitable $cred(c_(j))$ values for us. In particular, the *PCHIP* and *Akima* were the ones mentioned in the class; while *PCHIP* has the more desirable "structure-preserving"#sidenote[DE: "formbehaltend"] property to preserve intrinsic properties of the original function $f$ while obtaining the interpolant $hat(f)$, such as the monotonicity property of a function.#sidenote[In `scipy.interpolate`, see #link("https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html")[`PchipInterpolator`] and #link("https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Akima1DInterpolator.html")[`Akima1DInterpolator`].]
