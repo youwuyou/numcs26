@@ -179,8 +179,8 @@
           "05",
           [Stückweise Polynomiale Interpolation],
           [19.10.2026],
-          "2.4", "3.6", "4.1", "4.2", "4.3",
-          focus: custom-focus([parts of Serie 04: Chebyshev-Interpolation; Serie 05: Stückweise Polynomiale Interpolation], "2.4", "3.6"),
+          "4.1", "4.2", "4.3",
+          focus: custom-focus([Serie 05: Stückweise Polynomiale Interpolation], "4.1", "4.2", "4.3"),
         )
         #week-row(
           [6],
