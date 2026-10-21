@@ -17,7 +17,7 @@
   ch2: true,
   ch3: true,
   ch4: true,
-  ch5: false,
+  ch5: true,
   ch6: false,
   ch7: false,
   ch8: false,

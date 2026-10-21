@@ -64,8 +64,11 @@
 // it draws on, rendered only once every one of those chapters is released.
 // `extra`: nav hrefs outside the Skript to highlight alongside (e.g. the Python
 // warm-up page). `note`: trailing text for the Sections cell.
-#let week-row(week, lecture_1, lecture_2, number, topics, date, ..keys, extra: (), extra-sections: (), note: none, focus: none) = {
-  if all-released(..keys) {
+// `hidden`: force the TBD state even when the chapter is already released --
+// needed when one released chapter spans two sheets (e.g. ch5 carries both
+// Serie 06 and Serie 07), so the later sheet is not spoiled before it is set.
+#let week-row(week, lecture_1, lecture_2, number, topics, date, ..keys, extra: (), extra-sections: (), note: none, focus: none, hidden: false) = {
+  if not hidden and all-released(..keys) {
     row(
       week,
       lecture_1,
@@ -184,7 +187,7 @@
         )
         #week-row(
           [6],
-          [19.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/CKnOp3jOUrJ")[19.10.2026],
           [22.10.2026],
           "06",
           [Quadratur],
@@ -199,6 +202,7 @@
           [Einfache Monte-Carlo Methode],
           [02.11.2026],
           "5.8", "5.9",
+          hidden: true,
         )
         #week-row(
           [8],
