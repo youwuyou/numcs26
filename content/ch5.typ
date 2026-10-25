@@ -7,9 +7,8 @@
   #include "ch5/section_5_3.typ"
   #include "ch5/section_5_4.typ"
   #include "ch5/section_5_5.typ"
-  #include "ch5/section_5_7.typ"
 
-  // 5.6, 5.8 and 5.9 are flagged `draft: true` in their metas: self-study /
+  // 5.6, 5.7, 5.8 and 5.9 are flagged `draft: true` in their metas: self-study /
   // further reading, not lectured. They are intentionally NOT included here, so no
   // panel renders on the page -- but they stay in site.json's section list, where
   // build.py / site.js show them greyed out and unclickable in the sidebar (📖,
