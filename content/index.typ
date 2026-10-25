@@ -188,7 +188,7 @@
         #week-row(
           [6],
           link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/CKnOp3jOUrJ")[19.10.2026],
-          [22.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/EwMxflduZ9I")[22.10.2026],
           "06",
           [Quadratur],
           [26.10.2026],
