@@ -9,6 +9,10 @@ from pathlib import Path
 
 
 SECTION_META_RE = re.compile(r'#let meta = \(id: "([^"]+)", title: "([^"]+)"')
+# A section may carry `draft: true` in its meta tuple: self-study / further
+# reading, not lectured. It has no panel on the page, so the sidebar lists it
+# numbered but greyed and unclickable (see build_nav + site.js).
+SECTION_DRAFT_RE = re.compile(r'#let meta = \([^)]*\bdraft: true\b')
 RELEASED_RE = re.compile(r"^\s*(\w+): (true|false),", re.MULTILINE)
 
 
@@ -226,7 +230,11 @@ def parse_section_meta(path):
     match = SECTION_META_RE.search(text)
     if not match:
         raise ValueError(f"no `#let meta = (id: ..., title: ...)` found in {path}")
-    return {"id": match.group(1), "title": match.group(2)}
+    return {
+        "id": match.group(1),
+        "title": match.group(2),
+        "draft": SECTION_DRAFT_RE.search(text) is not None,
+    }
 
 
 def build_nav(manifest, released):
@@ -246,7 +254,11 @@ def build_nav(manifest, released):
         if "page" in entry:
             page = pages_by_id[entry["page"]]
             links = [
-                {"title": meta["title"], "href": f"{page['href']}#{meta['id']}"}
+                {
+                    "title": meta["title"],
+                    "href": f"{page['href']}#{meta['id']}",
+                    **({"draft": True} if meta["draft"] else {}),
+                }
                 for meta in (
                     parse_section_meta(ROOT / section) for section in page.get("sections", [])
                 )

@@ -689,6 +689,22 @@ nav a[aria-current="page"] {
   font-weight: 700;
 }
 
+/* A self-study section (draft: true in its Typst meta): not lectured, so it has
+   no page of its own and is listed in the sidebar only to keep the chapter
+   outline complete. Rendered as a dead greyed label (a <span>, not an <a>)
+   carrying the 📖 marker -- "listed and numbered, optional further reading". It
+   matches a nav link's footprint but is not interactive. */
+.nav-link-wip {
+  display: flex;
+  align-items: center;
+  padding: 0.34rem 0 0.34rem 0.75rem;
+  color: color-mix(in srgb, var(--muted) 60%, transparent);
+  font-size: 0.9rem;
+  font-weight: 450;
+  line-height: 1.45;
+  cursor: default;
+}
+
 .main-column {
   min-width: 0;
 }

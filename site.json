@@ -122,9 +122,9 @@
       "group": "5 Numerische Quadratur",
       "href": "ch5.html",
       "source": "content/ch5.typ",
+      "pdf": true,
       "sections": [
         "content/ch5/section_5_1.typ",
-        "content/ch5/section_5_2.typ",
         "content/ch5/section_5_3.typ",
         "content/ch5/section_5_4.typ",
         "content/ch5/section_5_5.typ",

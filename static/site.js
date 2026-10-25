@@ -92,6 +92,22 @@ function renderSiteNav() {
     list.className = "nav-group-links";
 
     links.forEach((page) => {
+      // A self-study section (draft: true in its Typst meta): not lectured, so it
+      // has no panel on the page -- it is listed and numbered so the chapter
+      // outline stays visible, but shown as a dead greyed label with a 📖 marker
+      // rather than a link, flagging it as optional further reading.
+      if (page.draft) {
+        const label = document.createElement("span");
+        label.className = "nav-link-wip";
+        label.textContent = page.title;
+        label.title = "Self-study & further reading in the script";
+        const marker = document.createElement("span");
+        marker.className = "nav-wip-marker";
+        marker.textContent = "📖";
+        label.append(marker);
+        list.append(label);
+        return;
+      }
       const link = document.createElement("a");
       link.href = page.href;
       link.textContent = page.title;
