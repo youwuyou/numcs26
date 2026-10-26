@@ -65,9 +65,11 @@ The #anchor-ref("eq-quadrature-general")[quadrature formula] above is presented 
 
 To illustrate it, we consider the *Lagrange interpolation formula*, recall on given data points $(x_(i), y_(i))$, the $p_(n)$ is a weighted sum of the Lagrange polynomial $l_(i)$ that depends on the choice of interpolation nodes $x_(i)$.
 
+#anchor("eq-lagrange-interpolation")[
 $
 p_(n)(x) = sum^(n)_(i = 0) y_(i) l_(i)(x)
 $
+]
 
 Let us replace the integrand $f$ by $p_(n)$ then
 
@@ -82,11 +84,11 @@ $
 
 where the weights $w_(i) = integral^(b)_(a) l_(i)(x) d x$ depend only on the nodes, not on $f$. This corresponds to #anchor-ref("eq-quadrature-general")[quadrature formula] with $omega_(i)^(n) = w_(i)$ at nodes $c_(i)^(n) = x_(i)$ as follows
 
-#boxeq[
+#anchor("eq-interpolatory-quadrature")[#boxeq[
 $
 Q_(n)(f; a, b) = sum^(n)_(i = 0) w_(i) f(x_(i)), quad w_(i) = integral^(b)_(a) l_(i)(x) d x.
 $
-]
+]]
 
 
 
