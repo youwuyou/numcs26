@@ -34,7 +34,7 @@ then each Lagrange polynomial $l_(i)$ is of degree $n$, i.e. $deg l_(i) = n$.
 
 Note that the definitions of Lagrange polynomials $l_(0)(x), dots, l_(n)(x)$ *depend on* the interpolation nodes, unlike the monomial basis. Let $\{ cnode0(x_(0)), cnode1(x_(1)), cnode2(x_(2)), cnode3(x_(3)) \} subset RR$ denote the nodes,
 
-- For $i = 0$, the numerator excludes $cnode0(x_(0))$ and the denumerator consists of product of all pairwise differences between $cnode0(x_(0))$ and other nodes,
+- For $i = 0$, the numerator excludes $cnode0(x_(0))$ and the denominator consists of product of all pairwise differences between $cnode0(x_(0))$ and other nodes,
 
 $
 l_(cnode0(0))(x)
