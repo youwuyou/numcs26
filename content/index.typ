@@ -172,8 +172,8 @@
           "03",
           [Trigonometrische Interpolation],
           [12.10.2026],
-          "3.2", "3.3", "3.4", "3.5",
-          focus: custom-focus([parts of Serie 03: Trigonometrische Interpolation], "3.2", "3.3", "3.4", "3.5"),
+          "3.2", "3.3", "3.5",
+          focus: custom-focus([parts of Serie 03: Trigonometrische Interpolation], "3.2", "3.3", "3.5"),
         )
         #week-row(
           [5],

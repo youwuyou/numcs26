@@ -12,7 +12,6 @@
 #import "ch3/section_3_1.typ" as c3_1
 #import "ch3/section_3_2.typ" as c3_2
 #import "ch3/section_3_3.typ" as c3_3
-#import "ch3/section_3_4.typ" as c3_4
 #import "ch3/section_3_5.typ" as c3_5
 #import "ch3/section_3_6.typ" as c3_6
 #import "ch4/section_4_1.typ" as c4_1
@@ -47,7 +46,7 @@
 #let chapters = (
   (href: "ch1.html", modules: (c1_1, c1_2, c1_3)),
   (href: "ch2.html", modules: (c2_1, c2_2, c2_3, c2_4)),
-  (href: "ch3.html", modules: (c3_1, c3_2, c3_3, c3_4, c3_5, c3_6)),
+  (href: "ch3.html", modules: (c3_1, c3_2, c3_3, c3_5, c3_6)),
   (href: "ch4.html", modules: (c4_1, c4_2, c4_3, c4_4)),
   (href: "ch5.html", modules: (c5_1, c5_3, c5_4, c5_5, c5_6, c5_7, c5_8, c5_9)),
   (href: "ch6.html", modules: (c6_1, c6_2, c6_3, c6_4, c6_5, c6_6, c6_7, c6_8, c6_9)),

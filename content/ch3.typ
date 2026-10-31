@@ -16,7 +16,14 @@
   #divider()
 
   #include "ch3/section_3_3.typ"
-  #include "ch3/section_3_4.typ"
   #include "ch3/section_3_5.typ"
   #include "ch3/section_3_6.typ"
+  #include "ch3/Serie03.typ"
+
+  #page-heading(
+    "serie-04",
+    [Serie04: Chebyshev-Interpolation],
+    icon: code-expert,
+    href: "https://expert.ethz.ch/print/NumINFK/AS26/euXaGDb6DbwSNmWje",
+  )
 ])
