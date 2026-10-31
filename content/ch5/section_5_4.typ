@@ -165,6 +165,3 @@ Lastly, it is important to keep an important consequence in mind.#sidenote([Grad
 
 #theorem("Symmetry of a quadrature formula.")[The order of a symmetric quadrature formula is always an even number.
 ]
-
-
-#divider()
