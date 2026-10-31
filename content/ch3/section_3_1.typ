@@ -1,4 +1,4 @@
-#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, colive, corange, conj, boxeq, divider, proof
+#import "../_site.typ": section, slidebreak, ip, definition, lemma, theorem, example, thought, admonition, proof, figure-img, sidenote, cblue, cred, colive, corange, conj, boxeq, divider
 
 #let meta = (id: "trigonometrische-polynome-und-fourier-reihen", title: "3.1 Trigonometrische Polynome und Fourier-Reihen")
 

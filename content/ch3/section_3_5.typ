@@ -78,13 +78,9 @@ On lin-log axes the data points $(n_(i), log epsilon_(i))$ lie on a line of slop
 #fig-exponential
 
 
-#divider()
-
 === Asymptotic Behaviors of Approximation Errors in Trigonometric Approximation
 
 With the classification on types of error convergence as introduced in the section above, we now study how the trigonometric interpolation error behaves as $n -> infinity$ for three functions $f, g, h$ of different smoothness#sidenote[Examples from Gradinaru, p. 101, 3.5.25 - 3.5.27.].
-
-The following three functions are ordered by increasing smoothness: a discontinuous step function $f$, a continuous hat function $g$ with one corner, and a smooth periodic function $h$.
 
 #import "section_3_5_functions.typ": fig-functions
 #fig-functions
