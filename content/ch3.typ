@@ -18,7 +18,6 @@
   #include "ch3/section_3_3.typ"
   #include "ch3/section_3_5.typ"
   #include "ch3/section_3_6.typ"
-  #include "ch3/Serie03.typ"
 
   #page-heading(
     "serie-04",
