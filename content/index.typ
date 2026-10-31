@@ -192,17 +192,17 @@
           "06",
           [Quadratur],
           [26.10.2026],
-          "5.1", "5.2", "5.3", "5.4", "5.5",
+          "5.1", "5.3", "5.4", "5.5",
         )
         #week-row(
           [7],
-          [26.10.2026],
-          [29.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/EszM4fzD8pR")[26.10.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/B2asGu8vN1O")[29.10.2026],
           "07",
           [Einfache Monte-Carlo Methode],
           [02.11.2026],
-          "5.8", "5.9",
-          hidden: true,
+          "5.6", "5.7", "5.8", "5.9",
+          focus: custom-focus([parts of Serie06; Serie07: Einfache Monte-Carlo Methode], "5.6", "5.7", "5.8", "5.9"),
         )
         #week-row(
           [8],
