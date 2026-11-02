@@ -21,8 +21,11 @@
     href: "https://expert.ethz.ch/print/NumINFK/AS26/YuzZi3Jn4Z74kWYTm",
   )
 
-  #include "ch5/section_5_8.typ"
-  #include "ch5/section_5_9.typ"
+  // 5.8 and 5.9 are flagged `draft: true` in their metas: self-study / further
+  // reading, not lectured. Intentionally NOT included here (no panel renders on
+  // the page), but they stay in site.json's section list so build.py / site.js
+  // show them greyed out and unclickable in the sidebar (📖). Add the `#include`
+  // (and drop the flag) to promote either one.
 
   #page-heading(
     "serie-07",
