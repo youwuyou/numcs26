@@ -201,8 +201,8 @@
           "07",
           [Einfache Monte-Carlo Methode],
           [02.11.2026],
-          "5.6", "5.7", "5.8", "5.9",
-          focus: custom-focus([parts of Serie06; Serie07: Einfache Monte-Carlo Methode], "5.6", "5.7", "5.8", "5.9"),
+          "5.7",
+          focus: custom-focus([parts of Serie06; Serie07: Einfache Monte-Carlo Methode], "5.7"),
         )
         #week-row(
           [8],
