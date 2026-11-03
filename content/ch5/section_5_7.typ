@@ -1,5 +1,6 @@
-#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, anchor, anchor-ref, divider, mat, vec, cblue, cred, colive, proof
+#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, divider, mat, vec, cblue, cred, colive, proof
 #import "section_5_7_figures.typ": fig-domains, fig-dyadic
+#import "section_5_7_sparse.typ": fig-sparse
 #import "section_5_7_curse.typ": fig-curse
 #import "section_5_7_aniso.typ": fig-aniso
 #import "section_5_7_trapezoid.typ": fig-trapezoid
@@ -283,7 +284,7 @@ $
 Delta_(2)^(1) := Q_(2)^(1)(f; a, b) - Q_(1)^(1)(f; a, b).
 $
 
-By performing one more level of refinement, we obtain the composite rule $Q_(3)^(1)$ that now consists of $4$ trapezoids
+By performing one more level of refinement, we obtain the composite rule $Q_(3)^(1)$ that now consists of $4$ trapezoids. We can also see there are two triangular pieces as increments, these differences are tracked by $Delta_(3)^(1)$ defined as follows:
 
 $
 Delta_(3)^(1) := Q_(3)^(1)(f; a, b) - Q_(2)^(1)(f; a, b),
@@ -292,7 +293,7 @@ $
 
 #fig-trapezoid
 
-To allow for a more general treatment, we define the function that captures the increment that a level-$ell$ quadrature rule adds over a level-$ell - 1$ quadrature rule as the *difference triangle*, defined as follows,
+To allow for a more general treatment, we call the increment a *difference triangle*, this is a function that tracks the difference a level-$ell$ quadrature rule adds over a level-$ell - 1$ rule. It is defined as:
 
 $
 Delta_(ell)^(1) := Q_(ell)^(1) - Q_(ell - 1)^(1).
@@ -320,3 +321,87 @@ Q_(ell)^(1) f
 $
 ]
 
+We can now make use of the above summation and examine a simple case to combine two 1D quadrature rules $Q^(1)_(ell_(1)), Q^(1)_(ell_(2))$ of arbitrary refinement levels $ell_(1), ell_(2) in NN_(0)$, respectively, to a two-dimensional quadrature rule. We do it by taking their tensor products, with the sum of difference triangles substituted in.
+
+$
+Q_(ell_(1))^(1) times.o Q_(ell_(2))^(1)
+&= (sum_(k_(1) = 1)^(ell_(1)) Delta_(k_(1))^(1)) times.o (sum_(k_(2) = 1)^(ell_(2)) Delta_(k_(2))^(1))\
+&= sum_(k_(1) = 1)^(ell_(1)) sum_(k_(2) = 1)^(ell_(2)) Delta_(k_(1))^(1) times.o Delta_(k_(2))^(1).
+$
+
+
+The last step uses bilinearity to distribute the tensor product over both sums, turning it into a single double sum with one tensor product of two difference triangles per index pair $(k_(1), k_(2))$.
+
+#divider()
+
+==== The Tensor-Product Grid
+
+By generalizing the operation of taking tensor products to combine $d$ one-dimensional quadrature rules, we obtain $d$-dimensional quadrature rule on a *tensor-product grid*, defined as follows:
+
+#definition("Quadrature on tensor-product grids.")[
+
+The $d$-dimensional quadrature rule on a tensor-product grid is defined by a tensor product of $d$ one-dimensional quadrature rules, given as:
+
+$
+Q_(bold(ell))^(d)
+&= Q_(ell_(1))^(1) times.o dots times.o Q_(ell_(d))^(1) = sum_(k_(1) = 1)^(ell_(1)) dots sum_(k_(d) = 1)^(ell_(d)) Delta_(k_(1))^(1) times.o dots times.o Delta_(k_(d))^(1)
+$
+
+here $bold(ell) := (ell_(1), dots, ell_(d))$ denotes the refinement levels chosen for each coordinate direction.
+
+]
+
+If we set $bold(ell) = (ell, dots, ell)$, this gives rise to an *isotropic* grid, whose degree constraints can be expressed by $abs(bold(k))_(infinity) <= ell$, this gives the following simplified notation
+
+$
+Q_(ell)^(d) = sum_(abs(bold(k))_(infinity) <= ell) Delta_(bold(k))^(d).
+$
+
+However, the quadrature formula defined above is strongly affected by the "curse of dimensionality". To reduce the overall degrees of freedom, but still reach a desired level of refinement $ell$, we should borrow the idea from the previous section to *constrain the total degree* instead. 
+
+==== The Smolyak Sparse Grid
+
+In fact, we may discard "unimportant" contributions that refine many directions at once, and keep only those whose total refinement $abs(bold(k))_(1)$ stays small. This is the underlying idea of the quadrature formula on a *Smolyak sparse grid*.
+
+
+#definition("Quadrature on Smolyak sparse grids")[
+
+The $d$-dimensional quadrature rule on a Smolyak sparse grid that reaches the finest level $ell in NN_(0)$ in a single coordinate direction is given as
+
+$
+S_(ell)^(d) f := sum_(abs(bold(k))_(1) <= ell + d - 1) Delta_(bold(k))^(d) f.
+$
+
+here the bound $ell + d - 1$ ensures the most refined term reach level $ell$ in a single direction, in the form of $bold(k) = (ell, 1, dots, 1)$.
+
+]
+
+
+In practical applications, we use the following formula that is equivalent to the above formula, but *reuses the quadrature formulas* $Q_(k)^(1)$. The alternating sum comes directly from the fact that each difference triangle is a subtraction of two quadrature rules, and $q$ is used as a counting argument to group these terms by their total refinement $abs(bold(k))_(1) = ell + q$.
+
+#boxeq[
+$
+S_(ell)^(d) f = sum_(q = 0)^(d - 1) (-1)^(d - 1 - q) binom(d - 1, q) sum_(abs(bold(k))_(1) = ell + q) (Q_(k_(1))^(1) times.o dots times.o Q_(k_(d))^(1)) f.
+$
+]
+
+#example("Quadrature rule " + $S^(2)_(2)$ + " on a two-dimensional Smolyak sparse grid.")[
+
+For $d = 2$ and $ell = 2$, we apply the combinatorial formula and have
+
+$
+S_(2)^(2) f
+&= sum_(q = 0)^(1) (-1)^(1 - q) binom(1, q) sum_(abs(bold(k))_(1) = 2 + q) (Q_(k_(1))^(1) times.o Q_(k_(2))^(1)) f \
+&= underbrace((-1)^(1) binom(1, 0), = -1) sum_(abs(bold(k))_(1) = 2) (Q_(k_(1))^(1) times.o Q_(k_(2))^(1)) f
++ underbrace((-1)^(0) binom(1, 1), = +1) sum_(abs(bold(k))_(1) = 3) (Q_(k_(1))^(1) times.o Q_(k_(2))^(1)) f \
+&= - underbrace(cblue((Q_(1)^(1) times.o Q_(1)^(1))), "isotropic " (1\,1))f
++ underbrace(cred((Q_(2)^(1) times.o Q_(1)^(1) + Q_(1)^(1) times.o Q_(2)^(1))), "anisotropic " (2\,1)\, (1\,2))f.
+$
+
+]
+
+We can see that the two-dimensional rule adds the contributions of the two anisotropic grids and subtracts their isotropic overlap. In fact, we may illustrate the construction of $S_(2)^(2)$ as follows:
+
+#fig-sparse
+
+Note that since a level-$ell_(i)$ direction carries $2^(ell_(i)) + 1$ nodes, we have in total $21$ nodes on the sparse grid.
