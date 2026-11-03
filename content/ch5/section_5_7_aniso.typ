@@ -1,7 +1,7 @@
 // CeTZ figure for section 5.7: the anisotropic tensor grid (fig-aniso).
 // Kept in its own file; colors and the centered wrapper match
 // section_5_7_figures.typ.
-#import "../_site.typ": framed
+#import "../_site.typ": framed, cetz-figure
 #import "@preview/cetz:0.4.2": canvas, draw
 
 #let dom = rgb("#1f77ff") // domain Omega
@@ -22,7 +22,7 @@
 // square (dashed outline), which makes the 1/4 node count visible at a glance.
 #let guide = rgb("#9aa0a6")
 
-#let fig-aniso = figure(
+#let fig-aniso = cetz-figure("fig-aniso",
   centered-figure-body({
   canvas(length: 1cm, {
     import draw: *

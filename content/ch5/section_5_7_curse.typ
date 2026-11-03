@@ -1,7 +1,7 @@
 // CeTZ figure for section 5.7: the curse of dimensionality for an isotropic
 // grid. Kept in its own module (separate from section_5_7_figures.typ) and
 // exposed as a content value so the section source just imports and places it.
-#import "../_site.typ": framed
+#import "../_site.typ": framed, cetz-figure
 #import "@preview/cetz:0.4.2": canvas, draw
 
 // Shared palette: blue for the domain Omega, gray for axes, red for the nodes.
@@ -23,7 +23,7 @@
 // direction (red, at the cell midpoints so all of them lie strictly inside).
 // The count N^d = 3, 9, 27 is set under each panel. In the d = 3 panel the
 // nodes fade with depth (back layer lightest) so the three layers separate.
-#let fig-curse = figure(
+#let fig-curse = cetz-figure("fig-curse",
   centered-figure-body(canvas(length: 1cm, {
     import draw: *
     let N = 3

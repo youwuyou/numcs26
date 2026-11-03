@@ -1,7 +1,7 @@
 // CeTZ figures for section 5.7 (Quadratur in R^d und duenne Gitter). Each
 // drawing is exposed as a content value so the section source just imports and
 // places it, mirroring the section_5_1_figures.typ pattern.
-#import "../_site.typ": framed
+#import "../_site.typ": framed, cetz-figure
 #import "@preview/cetz:0.4.2": canvas, draw
 
 // One hue for the domain object Omega (blue), neutral gray for axes and ticks,
@@ -22,7 +22,7 @@
 // progression of panels so the increase in dimension reads as a sequence. Each
 // Omega is the same blue object; axes and guides are neutral so the eye tracks
 // the region, not the scaffolding.
-#let fig-domains = figure(
+#let fig-domains = cetz-figure("fig-domains",
   centered-figure-body(canvas(length: 1cm, {
     import draw: *
  
@@ -142,7 +142,7 @@
 // nodes k / 2^ell, so the interval is split into 2^ell equal pieces. The level
 // labels sit on the left; the shared endpoints 0 and 1 are marked only on the
 // bottom line to keep the upper lines uncluttered.
-#let fig-dyadic = figure(
+#let fig-dyadic = cetz-figure("fig-dyadic",
   centered-figure-body(canvas(length: 1cm, {
     import draw: *
 
@@ -167,6 +167,5 @@
     // shared endpoint labels 0 and 1 under the bottom line
     content((0, -0.5), $0$)
     content((total, -0.5), $1$)
-  })),
-  caption: [Dyadic refinement of $hat(I) = [0, 1]$: level $ell$ has nodes $k \/ 2^ell$, $k = 0, dots, 2^ell$.],
-)
+  }))
+  )

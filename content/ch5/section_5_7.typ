@@ -1,7 +1,8 @@
-#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, anchor, anchor-ref, divider, mat, vec, cblue, cred, proof
+#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, anchor, anchor-ref, divider, mat, vec, cblue, cred, colive, proof
 #import "section_5_7_figures.typ": fig-domains, fig-dyadic
 #import "section_5_7_curse.typ": fig-curse
 #import "section_5_7_aniso.typ": fig-aniso
+#import "section_5_7_trapezoid.typ": fig-trapezoid
 
 // Editorial review note. Typst drops `text(fill:)` in the HTML target, so emit a
 // styled <span> for the website and fall back to colored text for the PDF build.
@@ -253,8 +254,6 @@ Note that the coefficient matrix $bold(C)$ is an upper-triangular matrix.
 
 #divider()
 
-// === p4 (left + right): 1D quadrature, dyadic refinement, difference triangles ===
-
 === Tensor Products of Quadrature Rules and Sparse Grids
 
 So far, we set up the preliminaries to describe a multivariate polynomial. More specifically, we saw how the tensor product uses $d$ univariate functions to construct a $d$-variate function.
@@ -264,8 +263,60 @@ We will now see a first application to *quadrature rules*, and we will use tenso
 
 ==== Halving Intervals Up to the Level of Refinement $ell$
 
-In the following, we may consider a one-dimensional reference interval $hat(I) = [0, 1]$. Moreover, we consider the refined sequence of such a grid up to a certain level $l in NN_(0)$, by halving such an interval $l$ times.
+In the following, we may consider a one-dimensional reference interval $hat(I) = [0, 1]$. Moreover, we consider the refined sequence of such a grid up to a certain level $ell in NN_(0)$, by halving such an interval $ell$ times. At refinement level $ell$, the interval is partitioned into $2^(ell)$ subintervals, giving the node set
 
-This gives rise to a nested sequence of grid subdivisions, where division points at level $l -1$ are always contained for a grid at the next level $l$, as illustrated below
+$
+X_(ell) = { j / 2^(ell) : j = 0, dots, 2^(ell) }.
+$
+
+This gives rise to a nested sequence of grid subdivisions $X_(ell - 1) subset X_(ell)$, where division points at level $ell - 1$ are always contained in the grid at the next level $ell$, while new nodes are introduced between the existing ones, as illustrated below.
 
 #fig-dyadic
+
+For a fixed level $l$, we denote the composite trapezoidal quadrature rule over the entire interval $hat(I)$ as $Q_(ell)^(1)$ that consists of $2^(l)$ such "trapezoids" used to approximate the area under the curve of a function. Therefore, the nested grids give rise to a sequence of composite quadrature rules $Q_(1)^(1), Q_(2)^(1), Q_(3)^(1), dots$, that are defined on increasingly finer grids.
+
+==== Difference Triangles
+
+Before we proceed, it is important to note that such a nested sequence of grids allows for an alternative way of tracking improvements across refinement levels, by tracking only what each new level *adds upon* the previous level. In the following, we illustrate this idea geometrically. Note that the left subplot shows $Q_(1)^(1)(f; a,b)$ and $Q_(2)^(1)(f; a, b)$, and we observe their difference consists of geometrically exactly a single triangle. We may denote the difference as $Delta_(2)^(1)$,
+
+$
+Delta_(2)^(1) := Q_(2)^(1)(f; a, b) - Q_(1)^(1)(f; a, b).
+$
+
+By performing one more level of refinement, we obtain the composite rule $Q_(3)^(1)$ that now consists of $4$ trapezoids
+
+$
+Delta_(3)^(1) := Q_(3)^(1)(f; a, b) - Q_(2)^(1)(f; a, b),
+$
+
+
+#fig-trapezoid
+
+To allow for a more general treatment, we define the function that captures the increment that a level-$ell$ quadrature rule adds over a level-$ell - 1$ quadrature rule as the *difference triangle*, defined as follows,
+
+$
+Delta_(ell)^(1) := Q_(ell)^(1) - Q_(ell - 1)^(1).
+$
+
+Next, we highlight an important identity that relates the sum of $ell$ difference triangles to a level-$ell$ quadrature rule.#sidenote[This is the quadrature instance of a general hierarchical decomposition. Writing $V_(ell)$ for the space of functions resolved at level $ell$, the nested grids give $V_(0) subset V_(1) subset dots$, and each level splits off a complement $W_(ell)$ with $V_(ell) xor W_(ell) = V_(ell + 1)$. The telescoping sum below is then the counterpart of $f = f_(0) + Delta f_(0) + Delta f_(1) + dots$, whose increments $Delta f_(ell) in W_(ell)$ form the *hierarchical basis*. Gradinaru.]
+
+#boxeq[
+$
+Q_(ell)^(1) = sum_(k = 1)^(ell) Delta_(k)^(1).
+$
+]
+
+#proof(title: [Proof. Trapezoidal quadrature as a sum of difference triangles.], boxed: true)[
+
+The definition of the difference triangle given as $Delta_(k)^(1) = Q_(k)^(1) - Q_(k - 1)^(1)$ can be rearranged to $Q_(k)^(1) = Q_(k - 1)^(1) + Delta_(k)^(1)$. We now make use of this identity to unroll a quadrature rule $Q^(1)_(ell)$ refined at level $ell$ down to the base level,
+
+$
+Q_(ell)^(1) f
+&= Q_(ell - 1)^(1) f + Delta_(ell)^(1) f \
+&= Q_(ell - 2)^(1) f + Delta_(ell - 1)^(1) f + Delta_(ell)^(1) f \
+& dots.v \
+&= underbrace(Q_(0)^(1) f, = 0) + Delta_(1)^(1) f + dots + Delta_(ell - 1)^(1) f + Delta_(ell)^(1) f
+= (sum_(k = 1)^(ell) Delta_(k)^(1)) f.
+$
+]
+
