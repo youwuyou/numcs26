@@ -84,6 +84,42 @@
   if target() == "html" { html.frame(body) } else { body }
 }
 
+// A cacheable CeTZ figure. Laying out a canvas dominates compile time and the
+// drawings change far less often than the prose around them, so the build can
+// pre-render each one to an SVG keyed by its source hash and reuse it. Convert
+// a figure by renaming `figure(` to `cetz-figure("<name>",` -- the body (a
+// `centered-figure-body(canvas(...))`, a grid of panels, ...) is passed through
+// untouched. Place it with `#fig-x` exactly as before. Three modes:
+//
+//   * `--input figrender=<name>` (build.py's pre-render pass): yield the bare
+//     body, no figure wrapper or caption, so the standalone SVG crops to the
+//     drawing. `body` still routes through the author's `centered-figure-body`,
+//     whose paged branch (`align(center)[framed(...)]`) lays the canvas out.
+//   * HTML build with `--input figcache=<dir>`: embed <dir>/<name>.svg, the
+//     cached drawing, in the same centering div the live path uses, instead of
+//     re-laying-out the canvas. Caption stays live HTML so <figcaption>,
+//     styling and search are unaffected.
+//   * otherwise (PDF build, or HTML with no cache): render `body` live,
+//     identical to the original hand-written `figure(body, caption: ...)`.
+#let _figcache = sys.inputs.at("figcache", default: "")
+#let _figrender = sys.inputs.at("figrender", default: "")
+
+#let cetz-figure(name, body, caption: none) = {
+  if _figrender == name { return body }
+  context {
+    if target() == "html" and _figcache != "" {
+      figure(
+        html.elem("div", attrs: (style: "display: flex; justify-content: center;"))[
+          #image(_figcache + "/" + name + ".svg")
+        ],
+        caption: caption,
+      )
+    } else {
+      figure(body, caption: caption)
+    }
+  }
+}
+
 // Accent colors for the paged admonition boxes, keyed like the CSS classes.
 #let _accent(class) = {
   if class == "definition" { rgb("#2b6cb0") }
@@ -160,6 +196,45 @@
         #html.span(class: "console-prompt")[\>\>\>]
         #html.textarea(class: "console-input", spellcheck: false, rows: 1, aria-label: "Python console input")
       ]
+    ]
+  ]
+}
+
+// Interactive interpolation widget (chapters 2-4). On the website it emits a
+// mount point that static/interp-demo.js fills with method buttons -- grouped
+// into "Global" (polynomial, Chebyshev, trigonometric) and "Stückweise" (linear,
+// Hermite, spline, B-spline) -- plus a dataset dropdown, a node-count slider and
+// an SVG plot. No code shown, no Python runtime. `methods` is a comma-separated
+// subset of poly,cheb,trig,linear,pchip,splineNatural,splineComplete,
+// splineNotknot,splinePeriodic (the first listed is selected on load). On paper it
+// degrades to a one-line note. With `collapsed: true` the widget renders as a
+// Notion-style toggle (closed by default, click the title to open) -- the plot uses
+// a fixed viewBox, so it draws correctly even while hidden.
+#let interp-demo(title: "Comparison of Global and Piecewise Interpolation", methods: "poly,cheb,trig,linear,pchip,splineNatural,splineComplete,splineNotknot,splinePeriodic", collapsed: false) = context {
+  if target() != "html" {
+    return block(width: 100%, breakable: true)[
+      #text(weight: "bold")[#title] #emph[— interactive demo, available on the website.]
+    ]
+  }
+  let controls = html.div(class: "interp-controls")
+  let svg = html.elem("svg", attrs: (class: "interp-svg", role: "img", "aria-label": title))
+  let legend = html.p(class: "interp-legend")[
+    #html.span[#html.span(class: "interp-swatch swatch-curve") Interpolant $tilde(f)$]
+    #html.span[#html.span(class: "interp-swatch swatch-true") Reference $f$]
+  ]
+  html.elem("figure", attrs: (class: "interp-demo", "data-methods": methods))[
+    #if collapsed [
+      #html.elem("details", attrs: (class: "interp-details"))[
+        #html.elem("summary", attrs: (class: "interp-title"))[#title]
+        #controls
+        #svg
+        #legend
+      ]
+    ] else [
+      #html.p(class: "interp-title")[#title]
+      #controls
+      #svg
+      #legend
     ]
   ]
 }
@@ -406,8 +481,10 @@
 // A link to another section of the site, e.g.
 // #page-ref("ch1.html#rechenaufwand")[1.2 Rechenaufwand]. Written as a helper
 // rather than a bare `html.a` so the paged target has something to fall back on.
-#let page-ref(href, label) = context {
-  if target() == "html" { html.a(href: href)[#label] } else { emph(label) }
+// Pass `class: "sec-ref"` for an in-site section jump that should read as a
+// cross-reference (accent, no underline) rather than an outbound blue link.
+#let page-ref(href, label, class: none) = context {
+  if target() == "html" { html.a(href: href, class: class)[#label] } else { emph(label) }
 }
 
 // Counter behind the `id` of each sidenote's toggle checkbox. The *visible*
@@ -789,6 +866,7 @@
     #html.link(rel: "stylesheet", href: "static/site.css")
     #html.script(defer: true, src: "static/site.js")
     #html.script(defer: true, src: "static/runner.js")
+    #html.script(defer: true, src: "static/interp-demo.js")
     #if _goatcounter != "" {
       html.elem("script", attrs: (
         "data-goatcounter": _goatcounter,
