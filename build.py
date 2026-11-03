@@ -5,6 +5,7 @@ import json
 import re
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -200,16 +201,20 @@ def bust_asset_caches():
     the file's own bytes, so the URL changes exactly when the asset does.
     """
     versions = {}
-    for name in ("site.css", "site.js", "runner.js"):
+    for name in ("site.css", "site.js", "runner.js", "interp-demo.js"):
         asset = ROOT / "static" / name
         if asset.exists():
             digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:10]
-            versions[f"static/{name}"] = f"static/{name}?v={digest}"
+            # Match the bare reference and any already-stamped one, so an
+            # incremental rebuild that reuses a previously-busted page still
+            # moves its URL to the current hash (CSS/JS edits in watch mode).
+            pattern = re.compile(rf'"static/{re.escape(name)}(?:\?v=[0-9a-f]+)?"')
+            versions[pattern] = f'"static/{name}?v={digest}"'
 
     for page in DIST.glob("*.html"):
         text = page.read_text(encoding="utf-8")
-        for plain, stamped in versions.items():
-            text = text.replace(f'"{plain}"', f'"{stamped}"')
+        for pattern, stamped in versions.items():
+            text = pattern.sub(stamped, text)
         page.write_text(text, encoding="utf-8")
 
 
@@ -274,7 +279,50 @@ def build_nav(manifest, released):
     return nav
 
 
-def main():
+def affected_pages(changed, manifest):
+    """Decide which pages an incremental rebuild must recompile.
+
+    `changed` is a list of paths (relative to ROOT or absolute) reported by the
+    watcher. Returns a set of page ids to recompile, or None meaning "rebuild
+    everything" (a shared dependency or the build config itself moved, so we
+    cannot reason about the blast radius cheaply).
+
+    An empty set means no Typst page needs recompiling -- e.g. only a stylesheet
+    or image changed; the caller still copies assets and re-stamps caches.
+    """
+    rels = {Path(c).resolve().relative_to(ROOT).as_posix()
+            if Path(c).is_absolute() else Path(c).as_posix()
+            for c in changed}
+
+    # The build script or its manifest -> full rebuild.
+    if "build.py" in rels or "site.json" in rels:
+        return None
+    # Shared Typst modules live directly under content/ as `_*.typ` (e.g.
+    # _site.typ, _paper.typ, _status.typ) and are imported by every page, so a
+    # change there invalidates all of them.
+    if any(r.startswith("content/_") and r.endswith(".typ") for r in rels):
+        return None
+
+    ids = set()
+    for page in manifest["pages"]:
+        owned = {page["source"], *page.get("sections", [])}
+        if rels & owned:
+            ids.add(page["id"])
+    # A touched .typ we could not attribute to a page (new file not yet wired
+    # into site.json, or an include we don't track) -> be safe, rebuild all.
+    for r in rels:
+        if not r.endswith(".typ"):
+            continue  # non-Typst assets never force a page recompile
+        if not any(r == p["source"] or r in p.get("sections", [])
+                   for p in manifest["pages"]):
+            return None
+    return ids
+
+
+def main(changed=None):
+    # changed=None -> full build (every page, with PDFs). A list -> incremental:
+    # recompile only the affected pages' HTML and skip the slow paged PDF step,
+    # which the live preview never shows.
     manifest = read_manifest()
     released = read_released()
     manifest["pages"] = [
@@ -297,10 +345,23 @@ def main():
         for suffix in (".typ", ".md", ".pdf"):
             (DIST / "_sources" / f"{stem}{suffix}").unlink(missing_ok=True)
 
+    # Incremental builds recompile only the pages whose source changed; the
+    # rest keep the HTML a previous build already wrote to dist/.
+    compile_ids = None if changed is None else affected_pages(changed, manifest)
+
     pdf_hrefs = {}
     for page in manifest["pages"]:
+        recompile = compile_ids is None or page["id"] in compile_ids
+        # A page never built (fresh dist/) must be compiled regardless.
+        if not recompile and not (DIST / page["href"]).exists():
+            recompile = True
+        if not recompile:
+            continue
+
         compile_page(page)
-        if page.get("pdf") is True:
+        # PDFs are only for the download menu, never the live preview, so skip
+        # the slow paged build during incremental rebuilds.
+        if page.get("pdf") is True and changed is None:
             pdf_hrefs[page["id"]] = compile_pdf(page)
         source = ROOT / page["source"]
         source_name = Path(page["href"]).with_suffix(".typ").name
@@ -356,7 +417,17 @@ def main():
         item["source_href"] = f"_sources/{Path(page['href']).with_suffix('.typ').name}"
         item["markdown_href"] = f"_sources/{Path(page['href']).with_suffix('.md').name}"
         # `"pdf": true` -> the PDF we just built; a string -> a hand-supplied one.
-        item["pdf_href"] = pdf_hrefs.get(page["id"], page.get("pdf") if isinstance(page.get("pdf"), str) else None)
+        # Incremental builds skip the PDF step but an earlier full build left the
+        # file in place, so point at its conventional path rather than dropping
+        # the download link.
+        if page["id"] in pdf_hrefs:
+            item["pdf_href"] = pdf_hrefs[page["id"]]
+        elif page.get("pdf") is True:
+            item["pdf_href"] = f"_sources/{Path(page['href']).with_suffix('.pdf').name}"
+        elif isinstance(page.get("pdf"), str):
+            item["pdf_href"] = page["pdf"]
+        else:
+            item["pdf_href"] = None
         pages.append(item)
 
     (DIST / "site-data.json").write_text(
@@ -374,4 +445,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # `--changed <path> ...` triggers an incremental rebuild of only the pages
+    # those paths belong to (used by dev.py's watcher). No args -> full build.
+    args = sys.argv[1:]
+    if args and args[0] == "--changed":
+        main(changed=args[1:])
+    else:
+        main()

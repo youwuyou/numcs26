@@ -10,8 +10,10 @@ Usage:
     python3 dev.py            # serve on :8001, watch and auto-reload
     python3 dev.py --port 9000
 
-Caveat: build.py recompiles every page, so each save pays a full `typst
-compile` before the reload fires -- expect a second or two of lag.
+On each save only the affected page(s) are recompiled (build.py --changed), and
+PDFs are skipped, so a single-section edit reloads in about a second. Editing a
+shared module (content/_*.typ), build.py or site.json still triggers a full
+rebuild.
 """
 import argparse
 import subprocess
@@ -113,10 +115,19 @@ def snapshot():
     return state
 
 
-def build():
-    """Run the existing full build; bump the version only if it succeeds."""
+def build(changed=None):
+    """Run build.py; bump the version only if it succeeds.
+
+    `changed` is the list of source paths that triggered this run. Passing it
+    lets build.py do an incremental rebuild -- recompiling only the affected
+    page(s) and skipping PDFs -- instead of recompiling every page. `None` (the
+    initial build) does the full build.
+    """
     global _build_version
-    result = subprocess.run([sys.executable, "build.py"], cwd=ROOT)
+    cmd = [sys.executable, "build.py"]
+    if changed is not None:
+        cmd += ["--changed", *(str(p) for p in changed)]
+    result = subprocess.run(cmd, cwd=ROOT)
     if result.returncode == 0:
         with _version_lock:
             _build_version += 1
@@ -138,7 +149,7 @@ def watch_loop():
             )
             print(f"change: {', '.join(str(c) for c in changed[:5])}"
                   + (" ..." if len(changed) > 5 else ""), flush=True)
-            build()
+            build(changed=changed)
             # Re-snapshot after build so build.py's own writes to dist/ (which
             # is not watched) or source touches don't retrigger immediately.
             last = snapshot()
