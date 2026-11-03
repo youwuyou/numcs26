@@ -1,5 +1,5 @@
-#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, anchor, anchor-ref, divider, mat, vec, cblue, cred
-#import "section_5_7_figures.typ": fig-domains
+#import "../_site.typ": section, thought, example, definition, sidenote, boxeq, anchor, anchor-ref, divider, mat, vec, cblue, cred, proof
+#import "section_5_7_figures.typ": fig-domains, fig-dyadic
 #import "section_5_7_curse.typ": fig-curse
 #import "section_5_7_aniso.typ": fig-aniso
 
@@ -254,3 +254,18 @@ Note that the coefficient matrix $bold(C)$ is an upper-triangular matrix.
 #divider()
 
 // === p4 (left + right): 1D quadrature, dyadic refinement, difference triangles ===
+
+=== Tensor Products of Quadrature Rules and Sparse Grids
+
+So far, we set up the preliminaries to describe a multivariate polynomial. More specifically, we saw how the tensor product uses $d$ univariate functions to construct a $d$-variate function.
+
+We will now see a first application to *quadrature rules*, and we will use tensor product to allow extending the 1D quadrature rule $Q(f; a, b)$, which we learnt in the previous sections to higher dimensions.
+
+
+==== Halving Intervals Up to the Level of Refinement $ell$
+
+In the following, we may consider a one-dimensional reference interval $hat(I) = [0, 1]$. Moreover, we consider the refined sequence of such a grid up to a certain level $l in NN_(0)$, by halving such an interval $l$ times.
+
+This gives rise to a nested sequence of grid subdivisions, where division points at level $l -1$ are always contained for a grid at the next level $l$, as illustrated below
+
+#fig-dyadic
