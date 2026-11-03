@@ -20,7 +20,7 @@ Q_(n)(f; a, b) = sum^(n)_(i = 0) w_(i) f(x_(i)), quad w_(i) = integral^(b)_(a) l
 $
 ]
 
-For a fixed $n in NN_(0)$, choose $n + 1$ equidistant nodes $x_(0), dots, x_(n)$. Since the quadrature rule integrates the Lagrange interpolant exactly, it is exact for every polynomial of degree at most $n$. Thus its order is *at least* $n + 1$.
+For a fixed number of nodes $m in NN_(>= 1)$, choose $m$ equidistant nodes $x_(0), dots, x_(m - 1)$. Since the quadrature rule integrates the Lagrange interpolant exactly, it is exact for every polynomial of degree at most $m - 1$. Thus its order is *at least* $m$. We index each rule $Q_(m)$ by its number of nodes $m$, so that $Q_(1), Q_(2), Q_(3)$ carry $1, 2, 3$ nodes and interpolate with degree $0, 1, 2$, respectively.
 
 
 In the following, we can see an illustration on an example interval, where we show $Q_(1), Q_(2), Q_(3)$, with the equidistant nodes $x_(j)$ chosen.
@@ -31,12 +31,12 @@ In the following, we can see an illustration on an example interval, where we sh
   width: 90%,
   credit: [Source: #link("https://personal.math.ubc.ca/~CLP/CLP2/clp_2_ic/sec_numeric_int.html")[CLP-2 Integral Calculus], #link("https://personal.math.ubc.ca/~CLP/CLP2/clp_2_ic/clp_2_ic-2.html")[§1.11].],
 )[
-  $n = 1, 2, 3$: the midpoint, trapezoidal, and Simpson's rule.
+  $m = 1, 2, 3$: the midpoint, trapezoidal, and Simpson's rule.
 ]
 
 === Deriving Midpoint, Trapezoidal and Simpson's Rule from Lagrange Interpolation Formula
 
-Note that since this family of quadrature rules have weights given by the Lagrange basis polynomial, we only need to compute weights $w_(i)$ with different number of nodes $n = 1, 2, 3$.
+Note that since this family of quadrature rules have weights given by the Lagrange basis polynomial, we only need to compute weights $w_(i)$ with different number of nodes $m = 1, 2, 3$.
 
 
 In the following, we denote the width of the interval $h := b -a$. We compute $l_(i)$ and then integrate over $[a,b]$ to arrive at $Q_(i)(f; a,b)$ by
@@ -75,7 +75,7 @@ $
 
 #example("Deriving Midpoint rule (order 2).")[
 
-For $n = 1$, the node $x_(0) = frac((a+b), 2)$ is chosen as the midpoint of the interval $I = [a,b]$, and the cardinal basis is
+For $m = 1$, the node $x_(0) = frac((a+b), 2)$ is chosen as the midpoint of the interval $I = [a,b]$, and the cardinal basis is
 
 $
 l_(0)(x) = 1
@@ -97,7 +97,7 @@ $
 
 #example("Deriving Trapezoidal rule (order 2).")[
 
-For $n = 2$, the nodes $x_(0) = a$, $x_(1) = b$ are chosen as the endpoints of the interval $I = [a,b]$, and the cardinal basis is
+For $m = 2$, the nodes $x_(0) = a$, $x_(1) = b$ are chosen as the endpoints of the interval $I = [a,b]$, and the cardinal basis is
 
 $
 l_(0)(x) = (x - x_(1)) / (x_(0) - x_(1)), quad l_(1)(x) = (x - x_(0)) / (x_(1) - x_(0))
@@ -120,7 +120,7 @@ $
 
 #example("Deriving Simpson's rule (order 4).")[
 
-For $n = 3$, the nodes $x_(0) = a$, $x_(1) = (a + b) \/ 2$, $x_(2) = b$ are chosen equidistantly on the interval $I = [a,b]$, and the cardinal basis is
+For $m = 3$, the nodes $x_(0) = a$, $x_(1) = (a + b) \/ 2$, $x_(2) = b$ are chosen equidistantly on the interval $I = [a,b]$, and the cardinal basis is
 
 $
 l_(0)(x) &= ((x - x_(1))(x - x_(2))) / ((x_(0) - x_(1))(x_(0) - x_(2))), \

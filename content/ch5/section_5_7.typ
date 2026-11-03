@@ -123,10 +123,10 @@ To proceed, we need to introduce ways of specifying degrees of a multivariate ba
 
 ==== Constraint on the Total Degree
 
-The first way to specify the degrees of such a polynomial is to enforce a constraint on the *total degree*. We introduce the notion with $abs(dot)_(1)$, to require the sum of all powers may not exceed $N in NN_(0)$
+The first way to specify the degrees of such a polynomial is to enforce a constraint on the *total degree*. We introduce the notion with $abs(dot)_(1)$, the sum of all powers, and require it may not exceed $n in NN_(0)$
 
 $
-abs(bold(alpha))_(1) := sum_(i = 1)^(d) alpha_(i) < N
+abs(bold(alpha))_(1) := sum_(i = 1)^(d) alpha_(i) <= n
 $
 
 This naturally gives rise to the *total-degree space*.
@@ -202,7 +202,7 @@ cal(Q)_(n)(RR^(d)) &= "span"{ b_(alpha_(1)) times.o dots times.o b_(alpha_(d)) :
 $
 ]
 
-In the following, we consider a fixed degree $n$ and examine an arbitrary function $f$ in each space, respectively. Let us resort to a two-dimensional case with $d = 2$. A tensor-product polynomial $f in cal(Q)_(bold(n))(RR^(2))$ can then be written as follows, with $bold(phi), bold(psi)$ collecting the univariate basis functions along each coordinate direction, respectively.
+In the following, we consider a fixed degree $n$ and examine an arbitrary function $f$ in each space, respectively. Let us resort to a two-dimensional case with $d = 2$. A tensor-product polynomial $f in cal(Q)_(bold(n))(RR^(2))$ can then be written as follows, with $bold(phi) in RR^(n_(1) + 1)$ and $bold(psi) in RR^(n_(2) + 1)$ collecting the univariate basis functions along each coordinate direction, and $bold(C) in RR^((n_(1) + 1) times (n_(2) + 1))$ the matrix of coefficients $c_(alpha_(1) alpha_(2))$.
 
 $
 f(bold(x)) &= bold(phi)(x_(1))^(T) bold(C) bold(psi)(x_(2)) \
@@ -250,7 +250,7 @@ mat(
 vec(1, x_(2), x_(2)^(2), x_(2)^(3)).
 $
 
-Note that the coefficient matrix $bold(C)$ is an upper-triangular matrix.
+Note that, with the row index $alpha_(1)$ and the column index $alpha_(2)$ both counted from $0$, every entry on or below the anti-diagonal $alpha_(1) + alpha_(2) = 3$ is kept, while rest of entries are zeros.
 ]
 
 #divider()
@@ -361,7 +361,7 @@ However, the quadrature formula defined above is strongly affected by the "curse
 
 ==== The Smolyak Sparse Grid
 
-In fact, we may discard "unimportant" contributions that refine many directions at once, and keep only those whose total refinement $abs(bold(k))_(1)$ stays small. This is the underlying idea of the quadrature formula on a *Smolyak sparse grid*.
+In fact, we may restrict the set of admissible multi-indices $bold(k)$ to those whose total refinement $abs(bold(k))_(1)$ stays small, dropping the difference triangles that refine many directions at once. This is a *structured truncation* of the tensor-product sum, and is the underlying idea of the quadrature formula on a *Smolyak sparse grid*.
 
 
 #definition("Quadrature on Smolyak sparse grids")[
