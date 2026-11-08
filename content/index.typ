@@ -206,12 +206,12 @@
         )
         #week-row(
           [8],
-          [02.11.2026],
-          [05.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/HCciUO2op7Y")[02.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/NTr4pxPlac5")[05.11.2026],
           "08",
           [Nullstellen],
           [09.11.2026],
-          "6.1", "6.2", "6.3", "6.4", "6.5", "6.6", "6.7", "6.8", "6.9",
+          "6.1-6.2", "6.3", "6.4", "6.5", "6.6", "6.7", "6.8", "6.9",
         )
         #week-row(
           [9],
