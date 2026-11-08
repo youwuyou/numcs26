@@ -286,7 +286,7 @@
       The exam will take place using Moodle and with CodeExpert within it as the coding environment, provided aids are:
       - the lecture document “Numerische Methoden” by Dr. Gradinaru
       - the lecture notes, i.e. “Aufschriebe” by Dr. Gradinaru
-      - #strike[(tentatively) a Jupyter window as scratch paper may be allowed, but its outputs are ignored when grading]#sidenote[This year's exam will not provide a Jupyter notebook window.]
+      - (tentatively) a Jupyter window as scratch paper may be allowed, but its outputs are ignored when grading
     ])
 
     #faq([❓], [How important are the exercises and the Moodle quizzes?], [
@@ -337,6 +337,6 @@
       No. The lecture document, the lecture notes and the exercises must not be directly uploaded anywhere.
     ])
 
-    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 02.10.2026]
+    #html.p(class: "faq-source")[Source: Moodle / Allgemeines (Erlaubte Hilfsmitteln, Notenbonus) · last checked 08.11.2026]
   ]
 ])
