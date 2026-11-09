@@ -8,8 +8,19 @@
 #let _blue = rgb("#1e88e5")
 #let _green = rgb("#00a651")
 
+// Centers the drawing in both targets: a flex div in HTML, align(center) when
+// paged. Mirrors the helper the other figure modules use so the live HTML path
+// centers the figure even when the SVG cache is not in play.
+#let centered-figure-body(body) = context {
+  if target() == "html" {
+    html.elem("div", attrs: (style: "display: flex; justify-content: center;"))[#framed(body)]
+  } else {
+    align(center)[#framed(body)]
+  }
+}
+
 #let fig-tangent = cetz-figure("fig-tangent",
-  framed(canvas(length: 0.55cm, {
+  centered-figure-body(canvas(length: 0.55cm, {
     import draw: *
     set-style(stroke: (cap: "round", join: "round"))
 
