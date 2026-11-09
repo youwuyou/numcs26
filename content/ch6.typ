@@ -8,12 +8,8 @@
 
   #include "ch6/section_6_1.typ"
   #include "ch6/section_6_3.typ"
-  #include "ch6/section_6_4.typ"
   #include "ch6/section_6_5.typ"
-  #include "ch6/section_6_6.typ"
   #include "ch6/section_6_7.typ"
-  #include "ch6/section_6_8.typ"
-  #include "ch6/section_6_9.typ"
 
   #page-heading(
     "serie-08",
