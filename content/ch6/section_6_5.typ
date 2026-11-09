@@ -52,7 +52,7 @@ The underlying idea of the secant's method is to avoid computing the derivative 
 
 
 
-#boxeq(title: [Secant Method - Damped Newton's method in 1D], muted: true)[
+#boxeq(title: [Secant Method - Quasi-Newton method in 1D], muted: true)[
 #scalar[$
 xit(k+1) &:= xit(k) - frac(F(xit(k)), q^((k)))\
 q^((k))  &= frac(F(xit(k)) - F(xit(k-1)), xit(k) - xit(k-1))
