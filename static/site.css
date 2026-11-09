@@ -3048,6 +3048,35 @@ body.notes-lightbox-open {
   margin: 0;
 }
 
+/* A boxed equation with an optional label above it. The group shrinks to the
+   box width so the label aligns with the box's left edge. */
+.boxeq-group {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1rem auto;
+}
+
+.boxeq-group > .boxeq {
+  margin: 0;
+}
+
+/* Small label sitting just above the box, outside the border. Matches the
+   site's eyebrow/kicker convention: uppercase, letter-spaced, accent-colored. */
+.boxeq-title {
+  margin-bottom: 0.35rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Greyed label marking a special case (e.g. the 1D form) of a more general box.
+   Declared after `.boxeq-title` so it wins at equal specificity. */
+.boxeq-title-muted {
+  color: var(--muted);
+}
+
 /* Horizontal section divider (see `divider()` in content/_site.typ). */
 .divider {
   margin: 2rem auto;

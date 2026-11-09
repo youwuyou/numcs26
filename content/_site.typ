@@ -543,12 +543,29 @@
 // A boxed/highlighted display equation, LaTeX `\boxed{...}` style. The HTML
 // target wraps the equation in a styled `.boxeq` div (see static/site.css),
 // since native `box`/`align` strokes are dropped during HTML export; the paged
-// target uses a real stroked box.
-#let boxeq(body) = context {
+// target uses a real stroked box. An optional `title` renders a small label
+// sitting just above the box, outside the border, so a label and its equation
+// read as one unit. Set `muted: true` to grey the label (instead of the accent
+// colour), signalling a special case (e.g. the 1D form) of a more general box.
+#let boxeq(body, title: none, muted: false) = context {
   if target() == "html" {
-    html.div(class: "boxeq")[#body]
+    let title-class = if muted { "boxeq-title boxeq-title-muted" } else { "boxeq-title" }
+    if title != none {
+      html.div(class: "boxeq-group")[
+        #html.div(class: title-class)[#title]
+        #html.div(class: "boxeq")[#body]
+      ]
+    } else {
+      html.div(class: "boxeq")[#body]
+    }
   } else {
-    align(center, box(stroke: 0.5pt, inset: 10pt, radius: 4pt, body))
+    let boxed = align(center, box(stroke: 0.5pt, inset: 10pt, radius: 4pt, body))
+    if title != none {
+      let title-color = if muted { luma(130) } else { black }
+      block(stack(spacing: 4pt, text(weight: "bold", size: 0.85em, fill: title-color, title), boxed))
+    } else {
+      boxed
+    }
   }
 }
 
