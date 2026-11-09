@@ -1,10 +1,7 @@
-#import "_site.typ": site, page-heading, code-expert
+#import "_site.typ": site, chapter-hero, page-heading, code-expert
 
 #site("ch6", "Chapter 6 - Nullstellensuche", [
-  #html.header(class: "hero compact-hero")[
-    #html.p(class: "eyebrow")[Chapter 6]
-    #html.h1[Nullstellensuche]
-  ]
+  #chapter-hero("Chapter 6", "Nullstellensuche")
 
   #include "ch6/section_6_1.typ"
   #include "ch6/section_6_3.typ"

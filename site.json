@@ -140,6 +140,7 @@
       "group": "6 Nullstellensuche",
       "href": "ch6.html",
       "source": "content/ch6.typ",
+      "pdf": true,
       "sections": [
         "content/ch6/section_6_1.typ",
         "content/ch6/section_6_3.typ",
