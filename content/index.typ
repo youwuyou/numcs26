@@ -211,16 +211,16 @@
           "08",
           [Nullstellen],
           [09.11.2026],
-          "6.1-6.2", "6.3", "6.4", "6.5", "6.6", "6.7", "6.8", "6.9",
+          "6.1-6.2", "6.3", "6.5", "6.7",
         )
         #week-row(
           [9],
-          [09.11.2026],
-          [12.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/AMa-B_8IBB_")[09.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/A4VzfwGcdQ0")[12.11.2026],
           "09",
           [Intermezzo in LA],
           [16.11.2026],
-          "7.1.1", "7.1.2", "7.1.3",
+          "7.2", "7.3", "7.5",
         )
         #week-row(
           [10],
@@ -229,7 +229,7 @@
           "10",
           [Lineare Ausgleichsrechnung],
           [23.11.2026],
-          "8.1",
+          "7.4", focus: [-],
         )
         #week-row(
           [11],
@@ -238,7 +238,7 @@
           "11",
           [Ausgleichsrechnung mit Nebenbedingung],
           [30.11.2026],
-          "8.1", note: [ (Nebenbedingungen, no own number)],
+          "8.1", "8.2", focus: [-],
         )
         #week-row(
           [12],
@@ -247,14 +247,14 @@
           "12",
           [Nichtlineare Ausgleichsrechnung],
           [07.12.2026],
-          "8.2",
+          "8.3", focus: [-],
         )
         #row(
           [13],
           [07.12.2026],
           [10.12.2026],
           [-],
-          if all-released("8.3") [#sec("8.3")] else [#tbd],
+          [-],
           muted-ticket([No tutorial]),
         )
         #row(
