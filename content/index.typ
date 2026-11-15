@@ -220,7 +220,7 @@
           "09",
           [Intermezzo in LA],
           [16.11.2026],
-          "7.2", "7.3", "7.5",
+          "7.2", "7.3", "7.4",
         )
         #week-row(
           [10],
@@ -229,7 +229,7 @@
           "10",
           [Lineare Ausgleichsrechnung],
           [23.11.2026],
-          "7.4", focus: [-],
+          "7.5", "8.1", focus: [-],
         )
         #week-row(
           [11],
@@ -238,7 +238,7 @@
           "11",
           [Ausgleichsrechnung mit Nebenbedingung],
           [30.11.2026],
-          "8.1", "8.2", focus: [-],
+          "8.2", focus: [-],
         )
         #week-row(
           [12],

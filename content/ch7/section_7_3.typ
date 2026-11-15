@@ -1,6 +1,6 @@
 #import "../_site.typ": section
 
-#let meta = (id: "gram-schmidt-algorithmus", title: "7.3 Gram-Schmidt-Algorithmus")
+#let meta = (id: "gram-schmidt-algorithmus", title: "7.3 QR-Zerlegung & Gram-Schmidt-Algorithmus")
 
 #show: section.with(meta)
 
