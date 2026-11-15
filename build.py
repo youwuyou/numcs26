@@ -112,6 +112,77 @@ def normalize_mathml_accents(path):
     path.write_text(text, encoding="utf-8")
 
 
+# Fence operators -- parentheses, brackets, braces, bars -- carry the MathML
+# default `stretchy=true`, so Chromium's MathML Core grows them to the height of
+# whatever they wrap. That is right for a fraction, matrix, or `cases`, but in a
+# super/subscript it balloons a short index to full size: the `(k)` in `x^(k)`
+# renders as tall as a display paren. We flip fences sitting in a script slot to
+# `stretchy="false"` so they stay glyph-sized, while leaving display-level
+# fences (which *should* stretch) untouched. Scoped per `<math>` block, where
+# Typst's output is well-formed MathML, so HTML void tags can't skew the pairing.
+_SCRIPT_TAGS = {"msup", "msub", "msubsup"}
+_FENCE_CHARS = set("()[]{}|") | set("‖⌈⌉⌊⌋⟨⟩")
+_MATH_BLOCK_RE = re.compile(r"<math\b.*?</math>", re.DOTALL)
+_TAG_RE = re.compile(r"<(/?)([a-zA-Z][\w-]*)([^>]*?)(/?)>")
+_MO_RE = re.compile(r"<mo( [^>]*)?>(.)</mo>", re.DOTALL)
+
+
+def _script_fence_spans(block):
+    """Byte ranges, within one <math> block, that sit in a sub/superscript slot.
+
+    Walks the tag stream keeping a stack of open elements. A child element of an
+    `msup`/`msub`/`msubsup` is a script (as opposed to the base) when its index
+    among that parent's element children is >= 1; we record its full extent so
+    any fence nested anywhere inside it gets flattened.
+    """
+    spans = []
+    stack = []  # one entry per open element: {tag, start, script, child_count}
+    for m in _TAG_RE.finditer(block):
+        if m.group(1):  # closing tag
+            if stack:
+                info = stack.pop()
+                if info["script"]:
+                    spans.append((info["start"], m.end()))
+            continue
+        # opening (or self-closing) tag: first settle its role as a child.
+        is_script = False
+        if stack and stack[-1]["tag"] in _SCRIPT_TAGS:
+            idx = stack[-1]["child_count"]
+            stack[-1]["child_count"] += 1
+            is_script = idx >= 1
+        if m.group(4):  # self-closing: a complete element, nothing to push
+            if is_script:
+                spans.append((m.start(), m.end()))
+            continue
+        stack.append(
+            {"tag": m.group(2), "start": m.start(), "script": is_script, "child_count": 0}
+        )
+    return spans
+
+
+def _flatten_block(block):
+    spans = _script_fence_spans(block)
+    if not spans:
+        return block
+    edits = []
+    for mo in _MO_RE.finditer(block):
+        attrs, ch = mo.group(1) or "", mo.group(2)
+        if ch not in _FENCE_CHARS or "stretchy" in attrs:
+            continue
+        if any(s <= mo.start() < e for s, e in spans):
+            edits.append((mo.start(), mo.end(), f'<mo{attrs} stretchy="false">{ch}</mo>'))
+    for start, end, new in sorted(edits, reverse=True):
+        block = block[:start] + new + block[end:]
+    return block
+
+
+def fix_script_fences(path):
+    """Keep sub/superscript fences glyph-sized (see `_script_fence_spans`)."""
+    text = path.read_text(encoding="utf-8")
+    text = _MATH_BLOCK_RE.sub(lambda m: _flatten_block(m.group(0)), text)
+    path.write_text(text, encoding="utf-8")
+
+
 # The `matlines` helper in content/_site.typ wraps a matrix equation in
 # <div class="matlines" data-columnlines="..." data-rowlines="..."> so we can
 # recover, from the flat MathML, which block dividers the author wanted. Typst's
@@ -375,6 +446,7 @@ def main(changed=None):
             encoding="utf-8",
         )
         normalize_mathml_accents(built)
+        fix_script_fences(built)
         apply_matrix_lines(built)
 
     # Everything in migrate/static/ is published as-is: to add a site asset
