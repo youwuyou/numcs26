@@ -13,12 +13,27 @@ SECTION_META_RE = re.compile(r'#let meta = \(id: "([^"]+)", title: "([^"]+)"')
 # A section may carry `draft: true` in its meta tuple: self-study / further
 # reading, not lectured. It has no panel on the page, so the sidebar lists it
 # numbered but greyed and unclickable (see build_nav + site.js).
-SECTION_DRAFT_RE = re.compile(r'#let meta = \([^)]*\bdraft: true\b')
+# `.*?` (not `[^)]*`) so a `)` inside the quoted title, e.g. "(nur für d=1)",
+# does not terminate the scan before we reach the draft flag. meta is one line,
+# so `.` (no DOTALL) keeps the match from spilling into the next statement.
+SECTION_DRAFT_RE = re.compile(r'#let meta = \(.*?\bdraft: true\b')
 RELEASED_RE = re.compile(r"^\s*(\w+): (true|false),", re.MULTILINE)
 
 
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
+
+# Pre-rendered CeTZ figures. Laying out a canvas is the dominant per-page
+# compile cost, yet the drawings change far less often than the prose. Each
+# `cetz-figure("name", ...)` (see content/_site.typ) is rendered once to
+# FIGCACHE/<name>.svg, keyed by the source hash in FIGCACHE/manifest.json, and
+# the HTML build embeds that SVG instead of re-laying-out the canvas. Purely a
+# build input (the SVG is inlined into the page as a data URI), so it is not
+# published and is safe to gitignore. The directory is referenced from Typst as
+# a project-root path, hence the leading slash and `--root .` on compile_page.
+FIGCACHE = ROOT / ".figcache"
+FIGCACHE_INPUT = "/.figcache"
+_CETZ_FIGURE_RE = re.compile(r'cetz-figure\(\s*"([a-zA-Z0-9_-]+)"')
 
 # Where the "Edit this page on GitHub" link points. Each page's shell carries the
 # `EDIT_URL_PLACEHOLDER` token, rewritten per page to that page's own source.
@@ -69,16 +84,79 @@ def read_manifest():
         return json.load(handle)
 
 
+def ensure_figure_cache():
+    """Render every `cetz-figure` whose source changed to FIGCACHE/<name>.svg.
+
+    Scans the content tree for `cetz-figure("<name>", ...)` definitions, hashes
+    each owning module together with _site.typ (which supplies the rendering
+    helpers), and re-renders only the figures whose hash moved or whose SVG is
+    missing. Cheap when nothing changed -- just a few file hashes -- so it runs
+    on every build; a figure is rebuilt exactly when its drawing does.
+    """
+    FIGCACHE.mkdir(exist_ok=True)
+    manifest_path = FIGCACHE / "manifest.json"
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        manifest = {}
+
+    site_hash = hashlib.sha256((ROOT / "content" / "_site.typ").read_bytes()).hexdigest()
+    figures = {}  # name -> module path (relative, posix)
+    for src in (ROOT / "content").rglob("*.typ"):
+        text = src.read_text(encoding="utf-8")
+        for name in _CETZ_FIGURE_RE.findall(text):
+            figures[name] = src.relative_to(ROOT).as_posix()
+
+    rendered = []
+    for name, rel in sorted(figures.items()):
+        module_bytes = (ROOT / rel).read_bytes()
+        # `v1` lets us invalidate every cached figure if the render path itself
+        # changes in a way the source hashes can't capture.
+        key = hashlib.sha256(module_bytes + site_hash.encode() + b"v1").hexdigest()
+        svg = FIGCACHE / f"{name}.svg"
+        if manifest.get(name) == key and svg.exists():
+            continue
+        wrapper = FIGCACHE / "_wrapper.typ"
+        wrapper.write_text(
+            "#set page(width: auto, height: auto, margin: 0pt)\n"
+            f'#import "/{rel}": {name}\n'
+            f"#{name}\n",
+            encoding="utf-8",
+        )
+        subprocess.run(
+            ["typst", "compile", "--root", ".", "--input", f"figrender={name}",
+             str(wrapper), str(svg)],
+            cwd=ROOT,
+            check=True,
+        )
+        manifest[name] = key
+        rendered.append(name)
+
+    # Drop figures that no longer exist so the cache cannot go stale.
+    for stale in set(manifest) - set(figures):
+        del manifest[stale]
+        (FIGCACHE / f"{stale}.svg").unlink(missing_ok=True)
+
+    (FIGCACHE / "_wrapper.typ").unlink(missing_ok=True)
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    if rendered:
+        print(f"  figures rendered: {', '.join(rendered)}", flush=True)
+
+
 def compile_page(page):
     output = DIST / page["href"]
     subprocess.run(
         [
             "typst",
             "compile",
+            "--root",
+            ".",
             "--features",
             "html",
             "--format",
             "html",
+            "--input",
+            f"figcache={FIGCACHE_INPUT}",
             "--pretty",
             page["source"],
             str(output),
@@ -433,6 +511,16 @@ def affected_pages(changed, manifest):
     if any(r.startswith("content/_") and r.endswith(".typ") for r in rels):
         return None
 
+    # Files a chapter page pulls in beyond its listed sections (CeTZ figure
+    # modules, local includes) live in the chapter's own directory, e.g.
+    # content/ch5/ for the page whose source is content/ch5.typ. Map that
+    # directory to the page so a figure-module edit rebuilds just its chapter.
+    dir_owner = {}
+    for page in manifest["pages"]:
+        src = page["source"]
+        if src.startswith("content/") and "/" not in src[len("content/"):]:
+            dir_owner[f"content/{Path(src).stem}/"] = page["id"]
+
     ids = set()
     for page in manifest["pages"]:
         owned = {page["source"], *page.get("sections", [])}
@@ -443,9 +531,13 @@ def affected_pages(changed, manifest):
     for r in rels:
         if not r.endswith(".typ"):
             continue  # non-Typst assets never force a page recompile
-        if not any(r == p["source"] or r in p.get("sections", [])
-                   for p in manifest["pages"]):
+        if any(r == p["source"] or r in p.get("sections", [])
+               for p in manifest["pages"]):
+            continue
+        owner = next((pid for prefix, pid in dir_owner.items() if r.startswith(prefix)), None)
+        if owner is None:
             return None
+        ids.add(owner)
     return ids
 
 
@@ -474,6 +566,10 @@ def main(changed=None):
         (DIST / page["href"]).unlink(missing_ok=True)
         for suffix in (".typ", ".md", ".pdf"):
             (DIST / "_sources" / f"{stem}{suffix}").unlink(missing_ok=True)
+
+    # Refresh any CeTZ figure whose drawing changed before compiling pages, so
+    # the HTML build embeds up-to-date cached SVGs.
+    ensure_figure_cache()
 
     # Incremental builds recompile only the pages whose source changed; the
     # rest keep the HTML a previous build already wrote to dist/.
