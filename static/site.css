@@ -2212,6 +2212,7 @@ body.presenting {
   font-size: 0.92rem;
   line-height: 1.5;
   text-align: center;
+  margin-top: 0.75rem;
 }
 
 /* Typst `html.frame` emits an inline SVG sized to its natural point width
