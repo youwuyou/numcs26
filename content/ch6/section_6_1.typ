@@ -124,7 +124,7 @@ The "blueprint" of such algorithms can be summarized as follows:#sidenote[Note t
       + $bold(x)^((k+1)) <- phi.alt_(bold(F))(bold(x)^((k)))$
       + $k <- k + 1$
     + *until* stopping criterion is met
-    + *return* $bold(x)^((k)) approx bold(x)^(star)$
+    + *return* $bold(x)^((k))$ as an approximate solution of $bold(x)^(star)$
   ])#v(12pt)],
   kind: "algorithm",
   supplement: [Algorithm],
