@@ -126,6 +126,16 @@ _MATH_BLOCK_RE = re.compile(r"<math\b.*?</math>", re.DOTALL)
 _TAG_RE = re.compile(r"<(/?)([a-zA-Z][\w-]*)([^>]*?)(/?)>")
 _MO_RE = re.compile(r"<mo( [^>]*)?>(.)</mo>", re.DOTALL)
 
+# A delimited group is genuinely tall -- its fences *should* stretch -- when it
+# contains any of these, directly or nested: a fraction, matrix/cases, radical,
+# under/over script, or a large operator (sum, product, integral, ...). Anything
+# else (plain symbols, sub/superscripts) stays single-line, so parens around it
+# like `F(x^(k))` must stay glyph-sized instead of growing to the script height.
+_TALL_TAGS = {"mfrac", "mtable", "msqrt", "mroot", "munder", "mover", "munderover"}
+_BIG_OPS = set("∑∏∐∫∬∭∮∯∰⋀⋁⋂⋃⨀⨁⨂⨃⨄⨅⨆")
+_OPEN_FENCES = set("([{") | set("‖|⌈⌊⟨")
+_CLOSE_FENCES = set(")]}") | set("‖|⌉⌋⟩")
+
 
 def _script_fence_spans(block):
     """Byte ranges, within one <math> block, that sit in a sub/superscript slot.
@@ -160,24 +170,73 @@ def _script_fence_spans(block):
     return spans
 
 
-def _flatten_block(block):
-    spans = _script_fence_spans(block)
-    if not spans:
-        return block
-    edits = []
-    for mo in _MO_RE.finditer(block):
-        attrs, ch = mo.group(1) or "", mo.group(2)
-        if ch not in _FENCE_CHARS or "stretchy" in attrs:
+def _delim_fence_mos(block):
+    """Fence `<mo>` spans, within one <math> block, that open/close a *short*
+    delimited group -- an `<mrow>` fenced on both ends whose interior has no
+    tall construct (see `_TALL_TAGS`/`_BIG_OPS`). These are function-call style
+    parens like `F(x^(k))` that MathML would otherwise stretch to script height.
+
+    Builds a shallow element tree from the tag stream, marking a node `tall` when
+    it (or any descendant) is tall and propagating that up to parents; an mrow is
+    flattenable only if its first/last element children are matching fences and
+    it carries no tall descendant. Yields `(start, end, attrs, char)` per fence.
+    """
+    stack = []  # open elements, innermost last
+    out = []
+    for m in _TAG_RE.finditer(block):
+        if m.group(1):  # closing tag: finalise the node
+            if not stack:
+                continue
+            node = stack.pop()
+            tall = node["tall"] or node["tag"] in _TALL_TAGS
+            if node["tag"] == "mo":
+                node["char"] = block[node["open_end"]:m.start()]
+                if node["char"] in _BIG_OPS:
+                    tall = True
+            if node["tag"] == "mrow" and not node["tall"]:
+                ch = node["children"]
+                if len(ch) >= 2 and ch[0]["tag"] == "mo" and ch[-1]["tag"] == "mo" \
+                        and ch[0]["char"] in _OPEN_FENCES and ch[-1]["char"] in _CLOSE_FENCES:
+                    for fn in (ch[0], ch[-1]):
+                        seg = block[fn["open_start"]:m.end()]
+                        mo = _MO_RE.match(seg)  # re-read the fence's own markup
+                        if mo and "stretchy" not in (mo.group(1) or ""):
+                            start = fn["open_start"]
+                            out.append((start, start + mo.end(), mo.group(1) or "", mo.group(2)))
+            if stack and tall:
+                stack[-1]["tall"] = True
             continue
-        if any(s <= mo.start() < e for s, e in spans):
-            edits.append((mo.start(), mo.end(), f'<mo{attrs} stretchy="false">{ch}</mo>'))
-    for start, end, new in sorted(edits, reverse=True):
-        block = block[:start] + new + block[end:]
+        node = {"tag": m.group(2), "open_start": m.start(), "open_end": m.end(),
+                "children": [], "tall": False, "char": None}
+        if stack:
+            stack[-1]["children"].append(node)
+            if m.group(2) in _TALL_TAGS:
+                stack[-1]["tall"] = True
+        if not m.group(4):  # not self-closing -> it has a matching close tag
+            stack.append(node)
+    return out
+
+
+def _flatten_block(block):
+    # Collect fence `<mo>`s to pin to `stretchy="false"` from both strategies:
+    # those sitting inside a script slot, and those delimiting a short group.
+    flat = {}  # start -> (start, end, attrs, char)
+    spans = _script_fence_spans(block)
+    if spans:
+        for mo in _MO_RE.finditer(block):
+            attrs, ch = mo.group(1) or "", mo.group(2)
+            if ch in _FENCE_CHARS and "stretchy" not in attrs \
+                    and any(s <= mo.start() < e for s, e in spans):
+                flat[mo.start()] = (mo.start(), mo.end(), attrs, ch)
+    for start, end, attrs, ch in _delim_fence_mos(block):
+        flat.setdefault(start, (start, end, attrs, ch))
+    for start, (s, e, attrs, ch) in sorted(flat.items(), reverse=True):
+        block = block[:s] + f'<mo{attrs} stretchy="false">{ch}</mo>' + block[e:]
     return block
 
 
 def fix_script_fences(path):
-    """Keep sub/superscript fences glyph-sized (see `_script_fence_spans`)."""
+    """Keep script-slot and short function-call fences glyph-sized in MathML."""
     text = path.read_text(encoding="utf-8")
     text = _MATH_BLOCK_RE.sub(lambda m: _flatten_block(m.group(0)), text)
     path.write_text(text, encoding="utf-8")
