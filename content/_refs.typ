@@ -29,6 +29,7 @@
 #import "ch6/section_6_1.typ" as c6_1
 #import "ch6/section_6_2.typ" as c6_2
 #import "ch6/section_6_3.typ" as c6_3
+#import "ch6/section_6_4.typ" as c6_4
 #import "ch6/section_6_5.typ" as c6_5
 #import "ch6/section_6_7.typ" as c6_7
 #import "ch7/section_7_2.typ" as c7_2
@@ -46,7 +47,7 @@
   (href: "ch3.html", modules: (c3_1, c3_2, c3_3, c3_5, c3_6)),
   (href: "ch4.html", modules: (c4_1, c4_2, c4_3, c4_4)),
   (href: "ch5.html", modules: (c5_1, c5_3, c5_4, c5_5, c5_6, c5_7, c5_8, c5_9)),
-  (href: "ch6.html", modules: (c6_1, c6_2, c6_3, c6_5, c6_7)),
+  (href: "ch6.html", modules: (c6_1, c6_2, c6_3, c6_4, c6_5, c6_7)),
   (href: "ch7.html", modules: (c7_2, c7_3, c7_4, c7_5)),
   (href: "ch8.html", modules: (c8_1, c8_2, c8_3)),
 )
