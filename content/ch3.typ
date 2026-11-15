@@ -18,9 +18,12 @@
     icon: code-expert,
     href: "https://expert.ethz.ch/print/NumINFK/AS26/tie22AjoBpsBPjcD8",
   )
-  #divider()
 
-  #include "ch3/section_3_6.typ"
+  // 3.6 is flagged `draft: true` in its meta: self-study / further reading, not
+  // lectured. It is intentionally NOT included here, so no panel renders on the
+  // page -- but it stays in site.json's section list, where build.py / site.js
+  // show it greyed out and unclickable in the sidebar (📖, "Self-study & further
+  // reading in the script"). Add the `#include` (and drop the flag) to promote it.
 
   #page-heading(
     "serie-04",
