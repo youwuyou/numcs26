@@ -97,3 +97,17 @@ Ideally, when such an algorithm terminates at some step $k in NN_(0)$, the obtai
 $
 bold(x)^((k)) -> bold(x)^(star) in Omega
 $
+
+Beyond asking *whether* the iterates converge, we are interested in *how fast* they approach $xv^(star)$. This is captured by the notion of *order of convergence*. #sidenote[The case $p = 1$ is called *linear convergence*. We will encounter it shortly as a direct consequence of contractivity in section 6.3.]
+
+#definition("Order of convergence.")[
+
+A sequence $xit(k)$ converges to $xv^(star)$ with *order* $p >= 1$ if there exists $C > 0$ such that
+
+$
+norm(xit(k+1) - xv^(star)) <= C norm(xit(k) - xv^(star))^(p), quad forall k in NN,
+$
+
+where we additionally require $C < 1$ in the case $p = 1$.
+
+]

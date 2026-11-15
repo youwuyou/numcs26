@@ -7,7 +7,7 @@
 
 == #meta.title
 
-In the abstract algorithm above, we mentioned the need to use a particular stopping criterion. Moreover, it would be desirable if an iterative method terminates, when the desired solution $bold(x)^(star)$, or an approximate solution that is "close enough" to $bold(x)^(star)$ is found. In the following, we distinguish between two types of stopping criteria.
+Moreover, it would be desirable if an iterative method terminates, when the desired solution $bold(x)^(star)$, or an approximate solution that is "close enough" to $bold(x)^(star)$ is found. In the following, we distinguish between two types of stopping criteria.
 
 *1. A priori criterion:*  With an "a priori" criterion, we meant that the stopping criterion does not taken into account of information obtained during the iterative procedure. For example, we may fix a maximally allowed iteration count $k_(0) in NN$, and force the algorithm to terminate if this threshold is exceeded.
 
