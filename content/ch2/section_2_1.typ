@@ -34,9 +34,6 @@ where the coefficients $a_(i)$ belong to a field $KK$.#sidenote[We usually consi
 of real numbers $KK := RR$, or the set of complex numbers $KK := CC$.]
 ]
 
-// - [TODO]: Mention smoothness: $cal(P)_(n) subset C^infinity(RR)$ and relate this to the spaces $C^0, C^1, C^infinity$.
-// - [TODO]: Compare $f$ in an infinite-dimensional function space with $p_n in cal(P)_(n)$ finite-dimensional.
-
 It is important to note that $cal(P)_(n)$ is a linear vector space with dimension $dim cal(P)_(n) = n + 1$. In particular, any polynomial $p_(n) in cal(P)_(n)$ of degree at most $n$ can be expressed as a linear combination in a suitable basis as follows,
 
 #boxeq[

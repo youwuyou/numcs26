@@ -129,9 +129,3 @@ $
 this contradicts our assumption. Thus, we know Lagrange polynomials are linearly independent and indeed form a basis of $cal(P)_(n)$.
 
 ]
-
-#stage[Evaluation]
-- [TODO] derivatives of Lagrange polynomials
-- [TODO] error estimate, Lesbegue constant, Runge phenomenon
-
-#divider()

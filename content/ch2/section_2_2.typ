@@ -78,12 +78,3 @@ here it is helpful to see $beta_(n)N_(n)(x)$ as the "correction" term to ensure 
 )[
   Iterative construction of a Newton's polynomial of degree $n = 3$.
 ]
-
-- [TODO]: construction: divided difference
-
-
-#stage[Evaluation]
-- [TODO]: evaluation: horner's scheme for newton, error in relation with differentiability
-
-
-#divider()
