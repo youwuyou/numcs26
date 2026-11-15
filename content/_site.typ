@@ -559,12 +559,14 @@
       html.div(class: "boxeq")[#body]
     }
   } else {
-    let boxed = align(center, box(stroke: 0.5pt, inset: 10pt, radius: 4pt, body))
+    let boxed = box(stroke: 0.5pt, inset: 10pt, radius: 4pt, body)
     if title != none {
       let title-color = if muted { luma(130) } else { black }
-      block(stack(spacing: 4pt, text(weight: "bold", size: 0.85em, fill: title-color, title), boxed))
+      // Shrink-wrap the title+box group in a `box` so `align(center)` has a
+      // finite width to centre; a bare `stack` fills the line and defeats it.
+      align(center, box(stack(spacing: 4pt, text(weight: "bold", size: 0.85em, fill: title-color, title), boxed)))
     } else {
-      boxed
+      align(center, boxed)
     }
   }
 }
