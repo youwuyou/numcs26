@@ -1,4 +1,4 @@
-#import "../_site.typ": section, definition, theorem, warning, sidenote, boxeq, proof, example, divider
+#import "../_site.typ": section, definition, theorem, warning, sidenote, boxeq, proof, example, divider, anchor
 #import "_ch6.typ": xv, xit
 #import "section_6_1_figures.typ": fig-cubic
 
@@ -65,9 +65,9 @@ In this chapter, we are interested in solving such systems numerically. But in o
 
 By moving each right-hand side to the left in the above equations, we collect the two expressions into a single vector-valued map $bold(F) : RR^(2) -> RR^(2)$,
 
-$
+#anchor("eq-intersection")[$
 bold(F)(bold(x)) := bold(F)(x, y) = vec(x^(3) + x - y, 2 y - x - 3).
-$
+$]
 
 Finding the intersection point is then precisely finding a root of $bold(F)$,
 

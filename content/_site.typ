@@ -534,7 +534,7 @@
   let n = _anchor-numbers.final().at(id, default: none)
   let shown = if n == none { lbl } else { [#lbl (#n)] }
   if target() == "html" {
-    html.a(class: "sec-ref", href: "#" + id)[#shown]
+    html.a(class: "anchor-ref", href: "#" + id)[#shown]
   } else {
     link(label(id))[#shown]
   }
