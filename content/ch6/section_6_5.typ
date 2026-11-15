@@ -1,7 +1,7 @@
 #import "../_site.typ": section, boxeq, proof, figure-img
 #import "_ch6.typ": xv, xit, scalar
 
-#let meta = (id: "newton-verfahren-in-1-dimension", title: "6.5 Newton-Verfahren in 1 Dimension")
+#let meta = (id: "newton-verfahren-in-1-dimension", title: "6.5 & 6.6 Newton- & Sekantenverfahren in 1 Dimension")
 
 #show: section.with(meta)
 
