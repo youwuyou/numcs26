@@ -1167,6 +1167,21 @@ math {
   background: var(--table-hover-bg);
 }
 
+/* Scheme-comparison table (content/ch4 section 4.3): every column is centred
+   except the third (the ➊➋➌ constraint list), which stays left-aligned so the
+   bullet items read as a column. Short cells centre vertically against the
+   taller list cell. */
+.scheme-compare th,
+.scheme-compare td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.scheme-compare th:nth-child(3),
+.scheme-compare td:nth-child(3) {
+  text-align: left;
+}
+
 /* Tutorial Focus cell (see `serie()` in content/index.typ): the sheet and its
    themes are always visible, the Skript section titles appear on hover or
    keyboard focus. `cursor: help` is the only hint that there is something to
@@ -2188,6 +2203,17 @@ body.presenting {
   text-align: center;
 }
 
+/* Frame-based figures (CeTZ drawings, lovelace algorithms) use Typst's native
+   `figure(...)` and so emit a bare <figure> rather than .content-figure. Give
+   their captions the same centered, muted styling so the label follows the
+   (centered) figure body. */
+.panel figure figcaption {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* Typst `html.frame` emits an inline SVG sized to its natural point width
    (often far wider than the text column). Constrain it to the column and let
    the height follow the viewBox so the aspect ratio is preserved. The `height`
@@ -3118,4 +3144,309 @@ main h3:target,
 main h4:target {
   border-radius: 4px;
   animation: eq-target-flash 1.4s ease-out;
+}
+
+/* --- Interactive interpolation demo (static/interp-demo.js) ------------------ */
+
+.interp-demo {
+  margin: 1.5rem 0;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  box-shadow: 0 0.15rem 0.5rem var(--pst-color-shadow);
+}
+
+.interp-demo .interp-title {
+  margin: 0 0 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--ink);
+}
+
+/* Collapsed variant (`#interp-demo(collapsed: true)`): the title becomes a
+   Notion-style toggle, closed by default. Matches `.course-example` mechanics. */
+.interp-demo summary.interp-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.interp-demo details.interp-details:not([open]) > summary.interp-title {
+  margin-bottom: 0;
+}
+
+.interp-demo summary.interp-title::-webkit-details-marker {
+  display: none;
+}
+
+.interp-demo summary.interp-title::before {
+  content: "▸";
+  display: inline-block;
+  flex: none;
+  color: var(--muted);
+  font-size: 0.8em;
+  transition: transform 0.15s ease;
+}
+
+.interp-demo details.interp-details[open] > summary.interp-title::before {
+  transform: rotate(90deg);
+}
+
+.interp-demo summary.interp-title:hover::before,
+.interp-demo summary.interp-title:focus-visible::before {
+  color: var(--ink);
+}
+
+/* A "playground" pill after the title, so it reads as an interactive widget. */
+.interp-demo summary.interp-title::after {
+  content: "▶ Playground";
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.interp-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.3rem;
+  align-items: flex-end;
+  margin-bottom: 0.8rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--bg);
+}
+
+.interp-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.interp-group-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.interp-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--line);
+}
+
+.interp-subgroup-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.interp-methods {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.interp-picks {
+  margin-left: auto;
+}
+
+.interp-method {
+  padding: 0.38rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease,
+    background 0.15s ease, box-shadow 0.15s ease, transform 0.06s ease;
+}
+
+.interp-method:hover,
+.interp-method:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.interp-method:active {
+  transform: translateY(1px);
+}
+
+.interp-method.is-active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.interp-method.is-active:hover,
+.interp-method.is-active:focus-visible {
+  color: #fff;
+}
+
+.interp-method:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.interp-method:disabled:hover {
+  border-color: var(--line);
+  color: var(--muted);
+  transform: none;
+  box-shadow: none;
+}
+
+.interp-picks {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.interp-pick {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.interp-pick select {
+  padding: 0.28rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.interp-pick select:hover,
+.interp-pick select:focus-visible {
+  border-color: var(--accent);
+}
+
+.interp-pick input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.interp-formula {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.interp-degree {
+  margin: 0 0 0.7rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.interp-degree strong {
+  color: var(--ink);
+}
+
+.interp-degree.is-global {
+  color: #e5484d;
+}
+
+.interp-degree.is-global strong {
+  color: #e5484d;
+}
+
+.interp-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.interp-frame {
+  fill: var(--bg);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.interp-axis {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.interp-true {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 4;
+  opacity: 0.8;
+}
+
+.interp-curve {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Global interpolants (chapters 2-3) are drawn red to set them apart from the
+   piecewise ones. The red reads on both light and dark backgrounds. */
+.interp-curve.is-global {
+  stroke: #e5484d;
+}
+
+.interp-node {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.2;
+}
+
+.interp-node.is-global {
+  fill: #e5484d;
+}
+
+.interp-legend {
+  margin: 0.6rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.interp-legend .interp-swatch {
+  display: inline-block;
+  width: 1.1rem;
+  height: 0;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.interp-legend .swatch-curve {
+  border-top: 2.4px solid var(--accent);
+}
+
+.interp-legend .swatch-curve.is-global {
+  border-top-color: #e5484d;
+}
+
+.interp-legend .swatch-true {
+  border-top: 1.4px dashed var(--muted);
 }

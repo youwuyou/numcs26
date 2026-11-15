@@ -1,6 +1,21 @@
-#import "../_site.typ": section, definition, theorem, warning, sidenote, boxeq, proof, example, divider
+#import "../_site.typ": section, definition, theorem, warning, sidenote, boxeq, proof, example, divider, framed
 #import "_ch6.typ": xv, xit
 #import "section_6_1_figures.typ": fig-cubic
+
+// algorithms
+#import "@preview/lovelace:0.3.0": *
+
+// Center a (layout) algorithm block in both targets: a flex div in HTML (where
+// `framed` rasterizes the pseudocode to inline SVG), `align(center)` when paged.
+#let centered-algorithm(body) = context {
+  if target() == "html" {
+    html.elem("div", attrs: (style: "display: flex; justify-content: center;"))[#framed(body)]
+  } else {
+    // `box` shrink-wraps the full-width pseudocode block so `align(center)`
+    // actually centers it (and its caption follows).
+    align(center)[#box(framed(body))]
+  }
+}
 
 #let meta = (id: "iterative-verfahren-und-abbruchkriterien", title: "6.1-6.2 Iterative Verfahren und Abbruchkriterien")
 
@@ -83,3 +98,48 @@ We will soon see how such a root-finding problem can be solved numerically in a 
 
 
 Note that in general, such $bold(x)^(star)$ is often not unique. But for the discussions in this chapter, we have the simplest scenario in mind, assuming the above root-finding problem is uniquely solvable by a single solution $bold(x)^(star)$.
+
+
+=== Iterative Methods for Solving $bold(F)(bold(x)) = bold(0)$
+
+
+#underline[Iterative method for root-finding]
+
+An algorithm for $bold(F): Omega subset.eq RR^(d) -> RR^(d)$ finding the root, i.e. $bold(F)(bold(x)) = bold(0)$
+
+#boxeq[
+$
+phi.alt_(F) "generates" {bold(x)^((k))}_(k in NN_(0))
+$
+]
+
+$->$ The sequence of approximate solution in the form
+
+$
+bold(x)^((0)), bold(x)^((1)), dots
+$
+
+$->$ Stop when we get _close enough_ to the solution $bold(x)^(star)$
+
+$
+bold(x)^((k)) -> bold(x)^(star) in Omega
+$
+
+
+#figure(
+  [#centered-algorithm(pseudocode-list(booktabs: true, numbered-title: [Algorithm Name])[
+    + *Function* `AlgorithmName`(inputs):
+      + result $←$ {}
+      + *for* item *in* inputs:
+        + *if* condition *then*
+          + ActionA(item)
+        + *else*
+          + ActionB(item)
+        + *end*
+      + *end*
+      + *return* result
+  ])#v(3pt)],
+  kind: "algorithm",
+  supplement: [Algorithm],
+  caption: [\nGeneric algorithm template.],
+)<alg-generic>
