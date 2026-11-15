@@ -10,9 +10,9 @@
 #let _blue = rgb("#1e88e5")
 #let _green = rgb("#00a651")
 
-// The cubic is tall relative to its x-extent, so we compress the vertical axis
-// by `sy` to keep a readable aspect ratio and relabel the y tick accordingly.
-#let sy = 0.5
+// Vertical scale factor. Kept at 1 so the drawing is isometric: one unit along
+// x has the same length as one unit along y, and the slopes read truthfully.
+#let sy = 1.0
 
 // Centers the drawing in both targets: a flex div in HTML, align(center) when
 // paged. Mirrors the helper the other figure modules use so the live HTML path
@@ -33,14 +33,15 @@
     // Axes (y-axis is drawn in compressed canvas units)
     let ax = (mark: (end: "stealth", size: 0.28, fill: black), stroke: black + 0.8pt)
     line((-2, 0), (2, 0), ..ax)
-    line((0, -3), (0, 3), ..ax)
+    line((0, -4), (0, 4), ..ax)
     content((2, 0), $x$, anchor: "west", padding: 0.12)
-    content((0, 3), $y$, anchor: "south", padding: 0.12)
+    content((0, 4), $y$, anchor: "south", padding: 0.12)
 
-    // Cubic curve y = x^3 + x, sampled as a polyline over [-1.5, 1.5]
+    // Cubic curve y = x^3 + x, sampled as a polyline over [-1.4, 1.4]. The range
+    // is kept modest so the steep cubic stays within the visible y-extent.
     let n = 60
     let pts = range(0, n + 1).map(i => {
-      let x = -1.5 + 3.0 * i / n
+      let x = -1.4 + 2.8 * i / n
       let y = x * x * x + x
       (x, y * sy)
     })
@@ -50,8 +51,8 @@
     let line-y(x) = (0.5 * x + 1.5) * sy
     line((-2, line-y(-2)), (2, line-y(2)), stroke: _blue + 1.8pt)
 
-    content((-1.5, -1.5 * sy), text(_green.darken(10%))[$y = x^3 + x$],
-      anchor: "north-east", padding: 0.2)
+    content((-1.2, (-1.2 * 1.2 * 1.2 - 1.2) * sy), text(_green.darken(10%))[$y = x^3 + x$],
+      anchor: "east", padding: 0.2)
     content((-0.9, line-y(-0.9)), text(_blue)[$2 y - x = 3$],
       anchor: "south-east", padding: 0.18)
 
