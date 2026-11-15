@@ -17,7 +17,7 @@
   }
 }
 
-#let meta = (id: "iterative-verfahren-und-abbruchkriterien", title: "6.1-6.2 Iterative Verfahren und Abbruchkriterien")
+#let meta = (id: "iterative-verfahren", title: "6.1 Iterative Verfahren")
 
 #show: section.with(meta)
 
@@ -33,8 +33,6 @@ bold(g)(bold(x)) = bold(b)
 $
 
 where $g : Omega subset RR^(d) -> RR^(d)$, $d in NN_(0)$, and $bold(x), bold(b) in RR^(d)$.
-
-#divider()
 
 We can convert the above problem to an equivalent *root-finding problem* by introducing the function $bold(F)$,
 
@@ -100,46 +98,35 @@ We will soon see how such a root-finding problem can be solved numerically in a 
 Note that in general, such $bold(x)^(star)$ is often not unique. But for the discussions in this chapter, we have the simplest scenario in mind, assuming the above root-finding problem is uniquely solvable by a single solution $bold(x)^(star)$.
 
 
-=== Iterative Methods for Solving $bold(F)(bold(x)) = bold(0)$
+=== Iterative Methods for Root-Finding
 
-
-#underline[Iterative method for root-finding]
-
-An algorithm for $bold(F): Omega subset.eq RR^(d) -> RR^(d)$ finding the root, i.e. $bold(F)(bold(x)) = bold(0)$
-
-#boxeq[
-$
-phi.alt_(F) "generates" {bold(x)^((k))}_(k in NN_(0))
-$
-]
-
-$->$ The sequence of approximate solution in the form
+An iterative method for solving the nonlinear equation, or re-casted as the root-finding problem in the form $bold(F)(bold(x)) = bold(0)$, where $bold(F): Omega subset.eq RR^(d) -> RR^(d)$, is an algorithm generating a sequence of approximate solutions. We further assume the generation of such a sequence is given by a function $phi.alt_(bold(F))$ that takes into account the problem structure, i.e. the properties of $bold(F)$, to generate such a sequence $\{ bold(x)^((k)) \}_(k in NN_(0))$.
 
 $
 bold(x)^((0)), bold(x)^((1)), dots
 $
 
-$->$ Stop when we get _close enough_ to the solution $bold(x)^(star)$
+
+Ideally, when such an algorithm terminates at some step $k in NN_(0)$, the obtained approximate solution $bold(x)^((k))$ should be "close enough" to the true solution, denoted as $bold(x)^(star)$.
 
 $
 bold(x)^((k)) -> bold(x)^(star) in Omega
 $
 
 
+The "blueprint" of such algorithms can be summarized as follows:#sidenote[Note that, here we assume a 1-point iteration. This means the iteration map $phi.alt$ requires only one previous iterate $bold(x)^((k))$ as input. In general, we may compute the updated iterate at $bold(x)^((k+1))$ reuse multiple previous iterates, $bold(x)^((k)), bold(x)^((k-1)), bold(x)^((k-2)), dots$. ]
+
+
 #figure(
-  [#centered-algorithm(pseudocode-list(booktabs: true, numbered-title: [Algorithm Name])[
-    + *Function* `AlgorithmName`(inputs):
-      + result $←$ {}
-      + *for* item *in* inputs:
-        + *if* condition *then*
-          + ActionA(item)
-        + *else*
-          + ActionB(item)
-        + *end*
-      + *end*
-      + *return* result
-  ])#v(3pt)],
+  [#centered-algorithm(pseudocode-list(booktabs: true, numbered-title: [Iterative root-finding])[
+    + *Input:* iteration map $phi.alt_(bold(F))$, initial guess $bold(x)^((0))$ at $k <- 0$
+    + *repeat*
+      + $bold(x)^((k+1)) <- phi.alt_(bold(F))(bold(x)^((k)))$
+      + $k <- k + 1$
+    + *until* stopping criterion is met
+    + *return* $bold(x)^((k)) approx bold(x)^(star)$
+  ])#v(12pt)],
   kind: "algorithm",
   supplement: [Algorithm],
-  caption: [\nGeneric algorithm template.],
-)<alg-generic>
+  caption: [An abstract blueprint of an iterative root-finding procedure.],
+)<alg-iterative>

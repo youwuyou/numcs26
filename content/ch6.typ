@@ -4,6 +4,7 @@
   #chapter-hero("Chapter 6", "Nullstellensuche")
 
   #include "ch6/section_6_1.typ"
+  #include "ch6/section_6_2.typ"
   #include "ch6/section_6_3.typ"
   #include "ch6/section_6_5.typ"
   #include "ch6/section_6_7.typ"
