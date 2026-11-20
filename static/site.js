@@ -248,7 +248,12 @@ function renderPageToc() {
     if (!id) return;
     const link = document.createElement("a");
     link.href = `#${id}`;
-    link.textContent = heading.textContent;
+    // Read the label from a clone with sidenotes (and the hover `#` anchor)
+    // stripped, so a sidenote attached to a heading title does not leak its
+    // body text into the Contents rail.
+    const label = heading.cloneNode(true);
+    label.querySelectorAll(".sidenote-ref, .heading-anchor").forEach((el) => el.remove());
+    link.textContent = label.textContent;
     toc.append(link);
   });
 
