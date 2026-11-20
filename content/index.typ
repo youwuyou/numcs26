@@ -224,12 +224,12 @@
         )
         #week-row(
           [10],
-          [16.11.2026],
-          [19.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/BZciQnIIbb4")[16.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/PgY7Y3A3d2J")[19.11.2026],
           "10",
           [Lineare Ausgleichsrechnung],
           [23.11.2026],
-          "7.5", "8.1", focus: [-],
+          "7.5", "8.1",
         )
         #week-row(
           [11],
