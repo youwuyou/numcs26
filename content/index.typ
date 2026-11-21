@@ -45,6 +45,18 @@
   #html.elem("span", attrs: (class: "serie-sections", role: "tooltip"))[#titles(..keys)]
 ]
 
+// Like `custom-focus`, but the tooltip body is spelled out explicitly instead of
+// derived from the keys -- used when a section needs an inline annotation (e.g.
+// "(cont.)" on a chapter carried over from the previous week) that should only
+// show on hover, never in the cell label.
+#let custom-focus-tooltip(label, tooltip) = html.elem("span", attrs: (
+  class: "serie-focus",
+  tabindex: "0",
+))[
+  #html.span(class: "serie-label")[#label]
+  #html.elem("span", attrs: (class: "serie-sections", role: "tooltip"))[#tooltip]
+]
+
 // A week whose chapter pages are not published yet (see content/_status.typ):
 // the dates stay -- they are the lecture plan, not ours -- but the sheet, the
 // section links and the clickable ticket are still provisional, so they show as
@@ -221,6 +233,10 @@
           [Intermezzo in LA],
           [16.11.2026],
           "7.2", "7.3", "7.4",
+          focus: custom-focus-tooltip(
+            [Serie 09: Intermezzo in LA],
+            [#titles("7.2", "7.3"), QR-Zerlegung (Householder-Verspiegelung, Givens-Rotation)],
+          ),
         )
         #week-row(
           [10],
@@ -229,7 +245,11 @@
           "10",
           [Lineare Ausgleichsrechnung],
           [23.11.2026],
-          "7.5", "8.1",
+          "7.4", "7.5", "8.1",
+          focus: custom-focus-tooltip(
+            [Serie 10: Lineare Ausgleichsrechnung],
+            [QR-Zerlegung (Gram-Schmidt, modifizierter Gram-Schmidt, cont.), #titles("7.5", "8.1")],
+          ),
         )
         #week-row(
           [11],
