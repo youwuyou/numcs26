@@ -2249,6 +2249,19 @@ figure svg {
   max-width: none;
 }
 
+/* Dark mode: inline `html.frame` SVGs (e.g. lovelace pseudocode) bake their
+   glyphs and rules in as black presentation attributes, which vanish on the
+   dark background. A CSS property beats a presentation attribute, so map pure
+   black to the surrounding text colour; other colours (grey booktabs rules,
+   accents) are left alone. */
+:root[data-theme="dark"] figure svg [fill="#000000"] {
+  fill: currentColor;
+}
+
+:root[data-theme="dark"] figure svg [stroke="#000000"] {
+  stroke: currentColor;
+}
+
 .figure-credit {
   display: block;
   margin-top: 0.3rem;
