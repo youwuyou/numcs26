@@ -253,8 +253,8 @@
         )
         #week-row(
           [11],
-          [23.11.2026],
-          [26.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/NuMZVce7VQ6")[23.11.2026],
+          link("https://video.ethz.ch/lectures/d-math/2026/autumn/401-0663-00L/v/IKjpR5RqJ6m")[26.11.2026],
           "11",
           [Ausgleichsrechnung mit Nebenbedingung],
           [30.11.2026],
