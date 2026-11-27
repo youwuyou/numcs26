@@ -258,16 +258,17 @@
           "11",
           [Ausgleichsrechnung mit Nebenbedingung],
           [30.11.2026],
-          "8.2", focus: [-],
+          "8.2",
+          focus: custom-focus([Serie 11: Nichtlineare Ausgleichsrechnung], "8.2"),
         )
         #week-row(
           [12],
           [30.11.2026],
           [03.12.2026],
           "12",
-          [Nichtlineare Ausgleichsrechnung],
+          [Gewöhnliche Differentialgleichungen],
           [07.12.2026],
-          "8.3", focus: [-],
+          "9.1", "9.2", "9.3", "9.4", "9.5", focus: [-],
         )
         #row(
           [13],
