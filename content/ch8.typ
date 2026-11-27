@@ -18,5 +18,15 @@
   #divider()
 
   #include "ch8/section_8_2.typ"
+
+  #page-heading(
+    "serie-11",
+    [Serie11: Nichtlineare Ausgleichsrechnung],
+    icon: code-expert,
+    href: "https://expert.ethz.ch/print/NumINFK/AS26/9reaA5PGimjRyNeww",
+  )
+
+  #divider()
+
   #include "ch8/section_8_3.typ"
 ])
