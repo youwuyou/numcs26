@@ -39,6 +39,11 @@
 #import "ch8/section_8_1.typ" as c8_1
 #import "ch8/section_8_2.typ" as c8_2
 #import "ch8/section_8_3.typ" as c8_3
+#import "ch9/section_9_1.typ" as c9_1
+#import "ch9/section_9_2.typ" as c9_2
+#import "ch9/section_9_3.typ" as c9_3
+#import "ch9/section_9_4.typ" as c9_4
+#import "ch9/section_9_5.typ" as c9_5
 
 // One entry per chapter page: its href, and the section modules it hosts.
 #let chapters = (
@@ -50,6 +55,7 @@
   (href: "ch6.html", modules: (c6_1, c6_2, c6_3, c6_4, c6_5, c6_7)),
   (href: "ch7.html", modules: (c7_2, c7_3, c7_4, c7_5)),
   (href: "ch8.html", modules: (c8_1, c8_2, c8_3)),
+  (href: "ch9.html", modules: (c9_1, c9_2, c9_3, c9_4, c9_5)),
 )
 
 // The Skript number is the first token of the title, e.g. "7.1.2 Wichtige..." -> "7.1.2".

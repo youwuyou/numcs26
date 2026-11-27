@@ -38,6 +38,10 @@
       "page": "ch8"
     },
     {
+      "group": "9 Gewöhnliche Differentialgleichungen",
+      "page": "ch9"
+    },
+    {
       "group": "Extra Materials",
       "collapsible": false,
       "links": [
@@ -174,6 +178,20 @@
         "content/ch8/section_8_1.typ",
         "content/ch8/section_8_2.typ",
         "content/ch8/section_8_3.typ"
+      ]
+    },
+    {
+      "id": "ch9",
+      "title": "Chapter 9: Gewöhnliche Differentialgleichungen",
+      "group": "9 Gewöhnliche Differentialgleichungen",
+      "href": "ch9.html",
+      "source": "content/ch9.typ",
+      "sections": [
+        "content/ch9/section_9_1.typ",
+        "content/ch9/section_9_2.typ",
+        "content/ch9/section_9_3.typ",
+        "content/ch9/section_9_4.typ",
+        "content/ch9/section_9_5.typ"
       ]
     },
     {

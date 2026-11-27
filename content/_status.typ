@@ -21,6 +21,7 @@
   ch6: true,
   ch7: true,
   ch8: true,
+  ch9: true,
 )
 
 // Chapter key of a Skript section number, e.g. "7.1.2" -> "ch7".
